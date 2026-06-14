@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$VER Dashboard — Your Tasks</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/dashboard.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-logo">$VER</div>
+    <div class="nav-right">
+      <div class="nav-balance">
+        <span id="nav-points">0</span> $VER
+      </div>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="auth-screen">
+    <div class="auth-box">
+      <div class="auth-logo">$VER</div>
+      <h2>Access Your Dashboard</h2>
+      <p>Enter your registered email to receive a magic login link</p>
+      <div id="login-error" class="error-msg" style="display:none;"></div>
+      <div id="login-success" class="success-msg" style="display:none;"></div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="login-email" placeholder="your@email.com"/>
+      </div>
+      <button class="btn-primary full-width" onclick="sendMagicLink()">
+        <span id="login-btn-text">Send Magic Link</span>
+      </button>
+      <p class="auth-note">Don't have an account? <a href="index.html">Register here</a></p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD SCREEN -->
+  <div id="dashboard-screen" style="display:none;">
+
+    <!-- HERO STATS -->
+    <div class="dash-hero">
+      <div class="dash-welcome">
+        <h1>Welcome, <span id="user-name" class="highlight">—</span></h1>
+        <p>Complete tasks to earn $VER before listing!</p>
+      </div>
+      <div class="dash-stats">
+        <div class="dash-stat">
+          <span class="dash-stat-num" id="total-points">0</span>
+          <span class="dash-stat-label">$VER Earned</span>
+        </div>
+        <div class="dash-stat">
+          <span class="dash-stat-num" id="tasks-done">0</span>
+          <span class="dash-stat-label">Tasks Done</span>
+        </div>
+        <div class="dash-stat">
+          <span class="dash-stat-num" id="user-tier">Bronze</span>
+          <span class="dash-stat-label">Your Tier</span>
+        </div>
+        <div class="dash-stat">
+          <span class="dash-stat-num" id="referral-count">0</span>
+          <span class="dash-stat-label">Referrals</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-section">
+      <div class="container">
+        <div class="progress-label">
+          <span>Progress to next tier</span>
+          <span id="progress-text">0 / 3 referrals to Silver</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TASKS -->
+    <div class="tasks-section container">
+      <h2>Your Tasks</h2>
+      <p class="section-sub">Click a task to complete it and earn $VER instantly</p>
+
+      <div class="task-grid" id="task-grid">
+
+        <div class="task-card" id="task-twitter-follow" data-task="twitter_follow" data-points="100" data-url="https://twitter.com/intent/follow?screen_name=VERToken">
+          <div class="task-card-icon">🐦</div>
+          <div class="task-card-info">
+            <strong>Follow $VER on Twitter/X</strong>
+            <span class="task-reward">+100 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('twitter_follow', 100, 'https://twitter.com/intent/follow?screen_name=VERToken')">Go</button>
+        </div>
+
+        <div class="task-card" id="task-twitter-retweet" data-task="twitter_retweet" data-points="100">
+          <div class="task-card-icon">🔁</div>
+          <div class="task-card-info">
+            <strong>Like & Retweet Pinned Post</strong>
+            <span class="task-reward">+100 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('twitter_retweet', 100, 'https://twitter.com/VERToken')">Go</button>
+        </div>
+
+        <div class="task-card" id="task-telegram-group" data-task="telegram_group" data-points="100">
+          <div class="task-card-icon">💬</div>
+          <div class="task-card-info">
+            <strong>Join $VER Telegram Group</strong>
+            <span class="task-reward">+100 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('telegram_group', 100, 'https://t.me/VERToken')">Go</button>
+        </div>
+
+        <div class="task-card" id="task-telegram-channel" data-task="telegram_channel" data-points="100">
+          <div class="task-card-icon">📢</div>
+          <div class="task-card-info">
+            <strong>Join $VER Telegram Channel</strong>
+            <span class="task-reward">+100 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('telegram_channel', 100, 'https://t.me/VERTokenChannel')">Go</button>
+        </div>
+
+        <div class="task-card" id="task-instagram" data-task="instagram_follow" data-points="50">
+          <div class="task-card-icon">📸</div>
+          <div class="task-card-info">
+            <strong>Follow on Instagram</strong>
+            <span class="task-reward">+50 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('instagram_follow', 50, 'https://instagram.com/VERToken')">Go</button>
+        </div>
+
+        <div class="task-card" id="task-youtube" data-task="youtube_subscribe" data-points="50">
+          <div class="task-card-icon">▶️</div>
+          <div class="task-card-info">
+            <strong>Subscribe on YouTube</strong>
+            <span class="task-reward">+50 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('youtube_subscribe', 50, 'https://youtube.com/@VERToken')">Go</button>
+        </div>
+
+        <div class="task-card" id="task-post" data-task="twitter_post" data-points="200">
+          <div class="task-card-icon">📣</div>
+          <div class="task-card-info">
+            <strong>Post About $VER on Twitter</strong>
+            <span class="task-reward">+200 $VER</span>
+          </div>
+          <button class="task-btn" onclick="doTask('twitter_post', 200, 'https://twitter.com/intent/tweet?text=I%20just%20joined%20the%20%24VER%20airdrop!%20Earn%20free%20%24VER%20tokens%20before%20listing%20%F0%9F%9A%80%20Join%20here%3A%20https%3A%2F%2Fabdulhakeemkhalid19-spec.github.io%2Fver')">Go</button>
+        </div>
+
+        <!-- REFERRAL TASK -->
+        <div class="task-card referral-task">
+          <div class="task-card-icon">👥</div>
+          <div class="task-card-info">
+            <strong>Your Referral Link</strong>
+            <span class="task-reward">+200 $VER per friend</span>
+          </div>
+          <button class="task-btn" onclick="copyReferral()">Copy</button>
+        </div>
+
+      </div>
+
+      <!-- REFERRAL LINK BOX -->
+      <div class="referral-display">
+        <p>🔗 Your referral link:</p>
+        <div class="referral-box" id="referral-link-display">Loading...</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
