@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$VER Admin Panel</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/admin.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- PASSWORD SCREEN -->
+  <div id="password-screen" class="auth-screen">
+    <div class="auth-box">
+      <div class="auth-logo">$VER</div>
+      <h2>Admin Access</h2>
+      <p>Enter your admin password to continue</p>
+      <div id="pass-error" class="error-msg" style="display:none;">❌ Wrong password. Try again.</div>
+      <div class="form-group">
+        <label>Admin Password</label>
+        <input type="password" id="admin-password" placeholder="Enter password"/>
+      </div>
+      <button class="btn-primary full-width" onclick="checkPassword()">Login</button>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD -->
+  <div id="admin-dashboard" style="display:none;">
+
+    <nav class="navbar">
+      <div class="nav-logo">$VER <span class="admin-badge">Admin</span></div>
+      <button class="btn-logout" onclick="adminLogout()">Logout</button>
+    </nav>
+
+    <div class="admin-container">
+
+      <!-- STATS ROW -->
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <span class="dash-stat-num" id="stat-participants">0</span>
+          <span class="dash-stat-label">Total Participants</span>
+        </div>
+        <div class="admin-stat">
+          <span class="dash-stat-num" id="stat-tasks">0</span>
+          <span class="dash-stat-label">Active Tasks</span>
+        </div>
+        <div class="admin-stat">
+          <span class="dash-stat-num" id="stat-ver">0</span>
+          <span class="dash-stat-label">Total $VER Distributed</span>
+        </div>
+      </div>
+
+      <!-- ADD TASK FORM -->
+      <div class="admin-card">
+        <h2>➕ Add New Task</h2>
+        <div id="task-form-error" class="error-msg" style="display:none;"></div>
+        <div id="task-form-success" class="success-msg" style="display:none;"></div>
+        <div class="admin-form">
+          <div class="form-group">
+            <label>Task Name</label>
+            <input type="text" id="task-name" placeholder="e.g. Follow $VER on Twitter"/>
+          </div>
+          <div class="form-group">
+            <label>Task Icon (emoji)</label>
+            <input type="text" id="task-icon" placeholder="e.g. 🐦"/>
+          </div>
+          <div class="form-group">
+            <label>Task URL (where user goes to complete it)</label>
+            <input type="text" id="task-url" placeholder="https://twitter.com/VERToken"/>
+          </div>
+          <div class="form-group">
+            <label>$VER Reward</label>
+            <input type="number" id="task-points" placeholder="e.g. 100"/>
+          </div>
+          <div class="form-group">
+            <label>Task ID (unique, no spaces)</label>
+            <input type="text" id="task-id" placeholder="e.g. twitter_follow"/>
+          </div>
+          <button class="btn-primary" onclick="addTask()">Add Task</button>
+        </div>
+      </div>
+
+      <!-- TASK LIST -->
+      <div class="admin-card">
+        <h2>📋 Current Tasks</h2>
+        <div id="tasks-list">
+          <p class="loading-text">Loading tasks...</p>
+        </div>
+      </div>
+
+      <!-- PARTICIPANTS -->
+      <div class="admin-card">
+        <h2>👥 Registered Participants</h2>
+        <div class="table-wrap">
+          <table id="participants-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Telegram</th>
+                <th>Wallet</th>
+                <th>$VER</th>
+                <th>Tier</th>
+                <th>Referrals</th>
+                <th>Joined</th>
+              </tr>
+            </thead>
+            <tbody id="participants-body">
+              <tr><td colspan="8" class="loading-text">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
