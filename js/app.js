@@ -1,7 +1,18 @@
-// ===== SUPABASE CONFIG =====
-// Replace these with your actual Supabase project details
-const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+// ===== FIREBASE CONFIG =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAnrHeyZzd2OucQw2yAKAUBzBwot76Koh0",
+  authDomain: "ver-airdrop.firebaseapp.com",
+  projectId: "ver-airdrop",
+  storageBucket: "ver-airdrop.firebasestorage.app",
+  messagingSenderId: "864554971852",
+  appId: "1:864554971852:web:9afd806aa3be38669f0869"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // ===== GENERATE REFERRAL CODE =====
 function generateReferralCode(name) {
@@ -10,22 +21,17 @@ function generateReferralCode(name) {
   return `VER-${clean}-${rand}`;
 }
 
-// ===== GET REFERRAL CODE FROM URL =====
-function getReferralFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('ref') || '';
-}
-
-// ===== AUTO FILL REFERRAL CODE IF IN URL =====
+// ===== AUTO FILL REFERRAL CODE FROM URL =====
 window.addEventListener('DOMContentLoaded', () => {
-  const refCode = getReferralFromURL();
-  if (refCode) {
-    document.getElementById('referral_code').value = refCode;
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  if (ref) {
+    document.getElementById('referral_code').value = ref;
   }
 });
 
 // ===== REGISTER USER =====
-async function registerUser() {
+window.registerUser = async function () {
   const fullname = document.getElementById('fullname').value.trim();
   const email = document.getElementById('email').value.trim();
   const telegram = document.getElementById('telegram').value.trim();
@@ -35,9 +41,9 @@ async function registerUser() {
 
   const errorBox = document.getElementById('form-error');
   const successBox = document.getElementById('form-success');
+  const btn = document.querySelector('.btn-primary.full-width');
   const btnText = document.getElementById('btn-text');
 
-  // Reset messages
   errorBox.style.display = 'none';
   successBox.style.display = 'none';
 
@@ -60,80 +66,61 @@ async function registerUser() {
     return;
   }
 
-  // ===== LOADING STATE =====
   btnText.textContent = 'Registering...';
-  document.querySelector('.btn-primary.full-width').disabled = true;
+  btn.disabled = true;
 
   try {
-    // ===== CHECK FOR DUPLICATE EMAIL OR WALLET =====
-    const checkRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/airdrop_participants?or=(email.eq.${encodeURIComponent(email)},wallet.eq.${encodeURIComponent(wallet)})`,
-      {
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        }
-      }
-    );
+    const participantsRef = collection(db, 'airdrop_participants');
 
-    const existing = await checkRes.json();
-
-    if (existing.length > 0) {
-      errorBox.textContent = '⚠️ This email or wallet address is already registered.';
+    // ===== CHECK DUPLICATE EMAIL =====
+    const emailQuery = query(participantsRef, where('email', '==', email));
+    const emailSnap = await getDocs(emailQuery);
+    if (!emailSnap.empty) {
+      errorBox.textContent = '⚠️ This email is already registered.';
       errorBox.style.display = 'block';
       btnText.textContent = 'Register & Claim $VER';
-      document.querySelector('.btn-primary.full-width').disabled = false;
+      btn.disabled = false;
       return;
     }
 
-    // ===== GENERATE UNIQUE REFERRAL CODE =====
-    const my_referral_code = generateReferralCode(fullname);
-
-    // ===== CALCULATE INITIAL VER POINTS =====
-    // Base reward for registering
-    let ver_points = 0;
-
-    // ===== INSERT INTO SUPABASE =====
-    const insertRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/airdrop_participants`,
-      {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=representation'
-        },
-        body: JSON.stringify({
-          fullname,
-          email,
-          telegram,
-          twitter,
-          wallet,
-          referral_code_used: referral_code_used || null,
-          my_referral_code,
-          ver_points,
-          tier: 'Bronze',
-          tasks_completed: [],
-          registered_at: new Date().toISOString()
-        })
-      }
-    );
-
-    if (!insertRes.ok) {
-      throw new Error('Registration failed. Please try again.');
+    // ===== CHECK DUPLICATE WALLET =====
+    const walletQuery = query(participantsRef, where('wallet', '==', wallet));
+    const walletSnap = await getDocs(walletQuery);
+    if (!walletSnap.empty) {
+      errorBox.textContent = '⚠️ This wallet address is already registered.';
+      errorBox.style.display = 'block';
+      btnText.textContent = 'Register & Claim $VER';
+      btn.disabled = false;
+      return;
     }
 
-    // ===== IF REFERRAL CODE USED — CREDIT REFERRER =====
+    // ===== GENERATE REFERRAL CODE =====
+    const my_referral_code = generateReferralCode(fullname);
+
+    // ===== SAVE TO FIRESTORE =====
+    await addDoc(participantsRef, {
+      fullname,
+      email,
+      telegram,
+      twitter,
+      wallet,
+      referral_code_used: referral_code_used || null,
+      my_referral_code,
+      referral_count: 0,
+      ver_points: 0,
+      tier: 'Bronze',
+      registered_at: new Date().toISOString()
+    });
+
+    // ===== CREDIT REFERRER =====
     if (referral_code_used) {
       await creditReferrer(referral_code_used);
     }
 
-    // ===== SHOW SUCCESS + REFERRAL LINK =====
+    // ===== SHOW SUCCESS =====
     const referralLink = `${window.location.origin}${window.location.pathname}?ref=${my_referral_code}`;
-
     successBox.innerHTML = `
-      ✅ You're registered! Share your referral link to earn more $VER:<br/>
+      ✅ You're registered! Share your referral link to earn more $VER:
       <div class="referral-box">
         🔗 ${referralLink}
         <br/>
@@ -154,65 +141,44 @@ async function registerUser() {
     document.getElementById('airdrop-form').style.display = 'none';
 
   } catch (err) {
-    errorBox.textContent = `❌ ${err.message}`;
+    errorBox.textContent = `❌ Error: ${err.message}`;
     errorBox.style.display = 'block';
     btnText.textContent = 'Register & Claim $VER';
-    document.querySelector('.btn-primary.full-width').disabled = false;
+    btn.disabled = false;
   }
 }
 
-// ===== CREDIT REFERRER IN SUPABASE =====
+// ===== CREDIT REFERRER =====
 async function creditReferrer(referral_code_used) {
   try {
-    // Find the referrer
-    const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/airdrop_participants?my_referral_code=eq.${encodeURIComponent(referral_code_used)}`,
-      {
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        }
-      }
-    );
+    const participantsRef = collection(db, 'airdrop_participants');
+    const q = query(participantsRef, where('my_referral_code', '==', referral_code_used));
+    const snap = await getDocs(q);
+    if (snap.empty) return;
 
-    const referrers = await res.json();
-    if (referrers.length === 0) return;
-
-    const referrer = referrers[0];
+    const referrerDoc = snap.docs[0];
+    const referrer = referrerDoc.data();
+    const newCount = (referrer.referral_count || 0) + 1;
     const newPoints = (referrer.ver_points || 0) + 200;
-    const newReferralCount = (referrer.referral_count || 0) + 1;
 
-    // Determine new tier
     let newTier = 'Bronze';
-    if (newReferralCount >= 20) newTier = 'Diamond';
-    else if (newReferralCount >= 10) newTier = 'Gold';
-    else if (newReferralCount >= 3) newTier = 'Silver';
+    if (newCount >= 20) newTier = 'Diamond';
+    else if (newCount >= 10) newTier = 'Gold';
+    else if (newCount >= 3) newTier = 'Silver';
 
-    // Update referrer's points and tier
-    await fetch(
-      `${SUPABASE_URL}/rest/v1/airdrop_participants?my_referral_code=eq.${encodeURIComponent(referral_code_used)}`,
-      {
-        method: 'PATCH',
-        headers: {
-          'apikey': SUPABASE_ANON_KEY,
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ver_points: newPoints,
-          referral_count: newReferralCount,
-          tier: newTier
-        })
-      }
-    );
+    await updateDoc(referrerDoc.ref, {
+      ver_points: newPoints,
+      referral_count: newCount,
+      tier: newTier
+    });
   } catch (err) {
-    console.error('Could not credit referrer:', err);
+    console.error('Referrer credit error:', err);
   }
 }
 
-// ===== COPY REFERRAL LINK =====
-function copyLink(link) {
+// ===== COPY LINK =====
+window.copyLink = function(link) {
   navigator.clipboard.writeText(link).then(() => {
-    alert('✅ Referral link copied to clipboard!');
+    alert('✅ Referral link copied!');
   });
-          }
+}
