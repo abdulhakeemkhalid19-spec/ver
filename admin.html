@@ -11,23 +11,24 @@
 <body>
 
   <!-- PASSWORD SCREEN -->
-  <div id="password-screen" class="auth-screen">
+  <div id="password-screen" class="auth-page">
     <div class="auth-box">
       <div class="auth-logo">$VER</div>
-      <h2>Admin Access</h2>
-      <p>Enter your admin password to continue</p>
+      <h2 class="auth-title">Admin Panel</h2>
+      <p class="auth-sub">Enter your secret password to access the admin dashboard</p>
       <div id="pass-error" class="error-msg" style="display:none;">❌ Wrong password. Try again.</div>
       <div class="form-group">
         <label>Admin Password</label>
         <input type="password" id="admin-password" placeholder="Enter password"/>
       </div>
-      <button class="btn-primary full-width" onclick="checkPassword()">Login</button>
+      <button class="btn-primary full-width" onclick="checkPassword()">Access Dashboard</button>
     </div>
   </div>
 
   <!-- ADMIN DASHBOARD -->
   <div id="admin-dashboard" style="display:none;">
 
+    <!-- NAVBAR -->
     <nav class="navbar">
       <div class="nav-logo">$VER <span class="admin-badge">Admin</span></div>
       <button class="btn-logout" onclick="adminLogout()">Logout</button>
@@ -35,11 +36,11 @@
 
     <div class="admin-container">
 
-      <!-- STATS ROW -->
+      <!-- STATS -->
       <div class="admin-stats">
         <div class="admin-stat">
           <span class="dash-stat-num" id="stat-participants">0</span>
-          <span class="dash-stat-label">Total Participants</span>
+          <span class="dash-stat-label">Participants</span>
         </div>
         <div class="admin-stat">
           <span class="dash-stat-num" id="stat-tasks">0</span>
@@ -47,11 +48,30 @@
         </div>
         <div class="admin-stat">
           <span class="dash-stat-num" id="stat-ver">0</span>
-          <span class="dash-stat-label">Total $VER Distributed</span>
+          <span class="dash-stat-label">$VER Distributed</span>
+        </div>
+        <div class="admin-stat">
+          <span class="dash-stat-num" id="stat-news">0</span>
+          <span class="dash-stat-label">News Posts</span>
         </div>
       </div>
 
-      <!-- ADD TASK FORM -->
+      <!-- PHASE TOGGLE -->
+      <div class="phase-toggle-card">
+        <div class="phase-toggle-info">
+          <strong>⛏️ Mining Phase Control</strong>
+          <p>Toggle to activate or deactivate mining for all users. When ON users can mine $VER daily.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span id="mining-status-text" style="font-size:0.85rem;color:var(--text-muted);">OFF</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="mining-toggle" onchange="toggleMining()"/>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ADD TASK -->
       <div class="admin-card">
         <h2>➕ Add New Task</h2>
         <div id="task-form-error" class="error-msg" style="display:none;"></div>
@@ -61,17 +81,19 @@
             <label>Task Name</label>
             <input type="text" id="task-name" placeholder="e.g. Follow $VER on Twitter"/>
           </div>
-          <div class="form-group">
-            <label>Task Icon (emoji)</label>
-            <input type="text" id="task-icon" placeholder="e.g. 🐦"/>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Icon (emoji)</label>
+              <input type="text" id="task-icon" placeholder="e.g. 🐦"/>
+            </div>
+            <div class="form-group">
+              <label>$VER Reward</label>
+              <input type="number" id="task-points" placeholder="e.g. 100"/>
+            </div>
           </div>
           <div class="form-group">
-            <label>Task URL (where user goes to complete it)</label>
+            <label>Task URL</label>
             <input type="text" id="task-url" placeholder="https://twitter.com/VERToken"/>
-          </div>
-          <div class="form-group">
-            <label>$VER Reward</label>
-            <input type="number" id="task-points" placeholder="e.g. 100"/>
           </div>
           <div class="form-group">
             <label>Task ID (unique, no spaces)</label>
@@ -89,16 +111,53 @@
         </div>
       </div>
 
+      <!-- POST NEWS -->
+      <div class="admin-card">
+        <h2>📢 Post News / Announcement</h2>
+        <div id="news-form-error" class="error-msg" style="display:none;"></div>
+        <div id="news-form-success" class="success-msg" style="display:none;"></div>
+        <div class="news-form">
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="news-title" placeholder="e.g. Mining Phase Launching Soon!"/>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="news-body" placeholder="Write your announcement here..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Tag</label>
+            <select id="news-tag">
+              <option value="announcement">📢 Announcement</option>
+              <option value="update">🔄 Update</option>
+              <option value="mining">⛏️ Mining</option>
+              <option value="listing">🚀 Listing</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="postNews()">Post News</button>
+        </div>
+      </div>
+
+      <!-- NEWS LIST -->
+      <div class="admin-card">
+        <h2>📰 Posted News</h2>
+        <div id="news-list">
+          <p class="loading-text">Loading news...</p>
+        </div>
+      </div>
+
       <!-- PARTICIPANTS -->
       <div class="admin-card">
         <h2>👥 Registered Participants</h2>
         <div class="table-wrap">
-          <table id="participants-table">
+          <table>
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Username</th>
                 <th>Telegram</th>
+                <th>Twitter</th>
                 <th>Wallet</th>
                 <th>$VER</th>
                 <th>Tier</th>
@@ -107,7 +166,7 @@
               </tr>
             </thead>
             <tbody id="participants-body">
-              <tr><td colspan="8" class="loading-text">Loading...</td></tr>
+              <tr><td colspan="10" class="loading-text">Loading...</td></tr>
             </tbody>
           </table>
         </div>
