@@ -1,6 +1,6 @@
 // ===== FIREBASE CONFIG =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, updateDoc, doc, orderBy } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut, isSignInWithEmailLink, signInWithEmailLink } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -20,10 +20,10 @@ let userData = null;
 let userDocRef = null;
 let allTasks = [];
 let miningActive = false;
+let currentUser = null;
 
 // ===== INIT =====
 window.addEventListener('DOMContentLoaded', async () => {
-  // Handle magic link
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = window.localStorage.getItem('verEmailForSignIn');
     if (!email) email = window.prompt('Enter your email to confirm login:');
@@ -48,8 +48,6 @@ onAuthStateChanged(auth, async (user) => {
     if (userData) {
       renderDashboard();
     } else {
-      // User authenticated but no Firestore record found
-      // Save basic profile and redirect to complete registration
       window.location.href = 'register.html';
     }
   } else {
@@ -59,16 +57,18 @@ onAuthStateChanged(auth, async (user) => {
 
 // ===== LOAD USER DATA =====
 async function loadUserData(email) {
-  const q = query(
-    collection(db, 'airdrop_participants'),
-    where('email', '==', email)
-  );
-  const snap = await getDocs(q);
-  if (!snap.empty) {
-    userDocRef = snap.docs[0].ref;
-    userData = snap.docs[0].data();
-  } else {
-    window.location.href = 'register.html';
+  try {
+    const q = query(
+      collection(db, 'airdrop_participants'),
+      where('email', '==', email)
+    );
+    const snap = await getDocs(q);
+    if (!snap.empty) {
+      userDocRef = snap.docs[0].ref;
+      userData = snap.docs[0].data();
+    }
+  } catch (err) {
+    console.error('Load user error:', err);
   }
 }
 
@@ -93,7 +93,7 @@ async function loadMiningStatus() {
       }
     });
   } catch (err) {
-    console.error('Mining status error:', err);
+    console.error('Mining error:', err);
   }
 }
 
@@ -103,18 +103,12 @@ async function loadNews() {
     const snap = await getDocs(collection(db, 'news'));
     const newsList = document.getElementById('news-list');
     if (snap.empty) {
-      newsList.innerHTML = `
-        <div class="task-loading">
-          📭 No announcements yet. Check back soon!
-        </div>`;
+      newsList.innerHTML = `<div class="task-loading">📭 No announcements yet. Check back soon!</div>`;
       return;
     }
-
-    // Sort by date newest first
     const news = [];
     snap.forEach(d => news.push({ id: d.id, ...d.data() }));
     news.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
     newsList.innerHTML = '';
     news.forEach(item => {
       const date = new Date(item.createdAt).toLocaleDateString('en-US', {
@@ -159,11 +153,11 @@ function renderDashboard() {
   const wallet = userData.wallet || 'Not set';
   const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${refCode}`;
 
-  // ===== TOP NAVBAR =====
+  // TOP NAVBAR
   document.getElementById('dash-username').textContent = `@${userData.username || firstName}`;
   document.getElementById('nav-bal-num').textContent = points.toLocaleString();
 
-  // ===== HOME TAB =====
+  // HOME TAB
   document.getElementById('profile-avatar').textContent = firstName.charAt(0).toUpperCase();
   document.getElementById('profile-name').textContent = name;
   document.getElementById('profile-username').textContent = `@${userData.username || firstName}`;
@@ -175,28 +169,21 @@ function renderDashboard() {
   document.getElementById('home-wallet').textContent = wallet;
   document.getElementById('home-ref-code').textContent = refCode;
 
-  // Progress bar
   updateProgress(referralCount, tier);
 
-  // Phase banner
   if (miningActive) {
     document.getElementById('phase-banner').style.display = 'none';
-  }
-
-  // ===== TASKS TAB =====
-  renderTasks();
-
-  // Mining section
-  if (miningActive) {
     document.getElementById('mining-section').style.display = 'block';
     checkMiningTimer();
   }
 
-  // ===== REFERRAL TAB =====
+  // REFERRAL TAB
   document.getElementById('ref-count').textContent = referralCount;
   document.getElementById('ref-earned').textContent = referralEarnings.toLocaleString();
   document.getElementById('ref-link-box').textContent = refLink;
   document.getElementById('ref-code-display').textContent = refCode;
+
+  renderTasks();
 }
 
 // ===== RENDER TASKS =====
@@ -206,10 +193,7 @@ function renderTasks() {
   const activeTasks = allTasks.filter(t => t.active);
 
   if (activeTasks.length === 0) {
-    grid.innerHTML = `
-      <div class="task-loading">
-        🔜 New tasks coming soon! Check back later.
-      </div>`;
+    grid.innerHTML = `<div class="task-loading">🔜 New tasks coming soon!</div>`;
     return;
   }
 
@@ -231,7 +215,6 @@ function renderTasks() {
     `;
   });
 
-  // Referral task always at bottom
   grid.innerHTML += `
     <div class="task-card" style="border-color:rgba(0,245,160,0.3);">
       <div class="task-card-icon">👥</div>
@@ -263,42 +246,38 @@ window.doTask = async function (taskId, points, url) {
     const newCompleted = [...completed, taskId];
     const newPoints = (userData.ver_points || 0) + points;
 
-    await updateDoc(userDocRef, {
-      tasks_completed: newCompleted,
-      ver_points: newPoints
-    });
+    try {
+      await updateDoc(userDocRef, {
+        tasks_completed: newCompleted,
+        ver_points: newPoints
+      });
 
-    userData.tasks_completed = newCompleted;
-    userData.ver_points = newPoints;
+      userData.tasks_completed = newCompleted;
+      userData.ver_points = newPoints;
 
-    document.getElementById('home-balance').textContent = newPoints.toLocaleString();
-    document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
-    document.getElementById('home-tasks-done').textContent = newCompleted.length;
-    document.getElementById('total-points') && (document.getElementById('total-points').textContent = newPoints.toLocaleString());
-    updateProgress(userData.referral_count || 0, userData.tier || 'Bronze');
-    renderTasks();
+      document.getElementById('home-balance').textContent = newPoints.toLocaleString();
+      document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
+      document.getElementById('home-tasks-done').textContent = newCompleted.length;
+      updateProgress(userData.referral_count || 0, userData.tier || 'Bronze');
+      renderTasks();
 
-// Force reload user data from Firebase
-await loadUserData(currentUser.email);
-renderDashboard();
-
-    alert(`🎉 +${points} $VER added to your account!`);
+      alert(`🎉 +${points} $VER added to your account!`);
+    } catch (err) {
+      alert('Error saving task: ' + err.message);
+    }
   }, 5000);
 }
 
 // ===== MINING =====
 window.doMining = async function () {
   if (!userData || !userDocRef) return;
-
   const lastMined = userData.last_mined;
   const now = new Date();
 
   if (lastMined) {
-    const last = new Date(lastMined);
-    const diffHours = (now - last) / (1000 * 60 * 60);
+    const diffHours = (now - new Date(lastMined)) / (1000 * 60 * 60);
     if (diffHours < 24) {
-      const hoursLeft = Math.ceil(24 - diffHours);
-      alert(`⏳ You already mined today! Come back in ${hoursLeft} hour(s).`);
+      alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
       return;
     }
   }
@@ -317,32 +296,25 @@ window.doMining = async function () {
 
   document.getElementById('home-balance').textContent = newPoints.toLocaleString();
   document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
-  document.getElementById('mining-balance').textContent = `${miningReward} $VER mined today`;
 
   const btn = document.getElementById('mine-btn');
-  btn.disabled = true;
-  btn.textContent = '✅ Mined Today!';
-  document.getElementById('mining-timer').textContent = 'Come back in 24 hours to mine again!';
-
-  alert(`⛏️ You mined ${miningReward} $VER! Come back tomorrow for more.`);
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = '✅ Mined Today!';
+  }
+  document.getElementById('mining-timer').textContent = 'Come back in 24 hours!';
+  alert(`⛏️ You mined ${miningReward} $VER!`);
 }
 
 // ===== CHECK MINING TIMER =====
 function checkMiningTimer() {
   if (!userData?.last_mined) return;
-  const last = new Date(userData.last_mined);
-  const now = new Date();
-  const diffHours = (now - last) / (1000 * 60 * 60);
-
+  const diffHours = (new Date() - new Date(userData.last_mined)) / (1000 * 60 * 60);
   if (diffHours < 24) {
     const btn = document.getElementById('mine-btn');
-    if (btn) {
-      btn.disabled = true;
-      btn.textContent = '✅ Mined Today!';
-      const hoursLeft = Math.ceil(24 - diffHours);
-      document.getElementById('mining-timer').textContent =
-        `⏳ Next mining in ${hoursLeft} hour(s)`;
-    }
+    if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+    document.getElementById('mining-timer').textContent =
+      `⏳ Next mining in ${Math.ceil(24 - diffHours)} hour(s)`;
   }
 }
 
@@ -366,25 +338,19 @@ function getTierEmoji(tier) {
   return emojis[tier] || '🥉';
 }
 
-// ===== COPY REFERRAL LINK =====
+// ===== COPY REFERRAL =====
 window.copyRefLink = function () {
   if (!userData) return;
   const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
-  navigator.clipboard.writeText(refLink).then(() => {
-    alert('✅ Referral link copied!');
-  });
+  navigator.clipboard.writeText(refLink).then(() => alert('✅ Referral link copied!'));
 }
 
-// ===== SHARE REFERRAL LINK =====
+// ===== SHARE REFERRAL =====
 window.shareRefLink = function () {
   if (!userData) return;
   const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
   if (navigator.share) {
-    navigator.share({
-      title: '$VER Airdrop',
-      text: `Join the $VER airdrop and earn free tokens before listing! Use my referral link:`,
-      url: refLink
-    });
+    navigator.share({ title: '$VER Airdrop', text: 'Join the $VER airdrop!', url: refLink });
   } else {
     copyRefLink();
   }
@@ -398,7 +364,7 @@ window.switchTab = function (tab) {
   document.getElementById(`tab-btn-${tab}`).classList.add('active');
 }
 
-// ===== HAMBURGER MENU =====
+// ===== HAMBURGER =====
 window.toggleDashMenu = function () {
   document.getElementById('dash-side-menu').classList.toggle('open');
   document.getElementById('dash-overlay').classList.toggle('open');
@@ -407,8 +373,7 @@ window.toggleDashMenu = function () {
 
 // ===== LOGOUT =====
 window.logoutUser = async function () {
-  const confirmed = confirm('Are you sure you want to logout?');
-  if (!confirmed) return;
+  if (!confirm('Are you sure you want to logout?')) return;
   await signOut(auth);
   window.location.href = 'login.html';
-    }
+        }
