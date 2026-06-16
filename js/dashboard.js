@@ -267,7 +267,13 @@ window.doTask = async function (taskId, points, url) {
     document.getElementById('home-balance').textContent = newPoints.toLocaleString();
     document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
     document.getElementById('home-tasks-done').textContent = newCompleted.length;
+    document.getElementById('total-points') && (document.getElementById('total-points').textContent = newPoints.toLocaleString());
+    updateProgress(userData.referral_count || 0, userData.tier || 'Bronze');
     renderTasks();
+
+// Force reload user data from Firebase
+await loadUserData(currentUser.email);
+renderDashboard();
 
     alert(`🎉 +${points} $VER added to your account!`);
   }, 5000);
