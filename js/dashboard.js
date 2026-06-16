@@ -58,11 +58,24 @@ onAuthStateChanged(auth, async (user) => {
 // ===== LOAD USER DATA =====
 async function loadUserData(email) {
   try {
-    const q = query(
+    const emailLower = email.toLowerCase().trim();
+
+    // Try exact email match first
+    let q = query(
       collection(db, 'airdrop_participants'),
-      where('email', '==', email)
+      where('email', '==', emailLower)
     );
-    const snap = await getDocs(q);
+    let snap = await getDocs(q);
+
+    // If not found try original case
+    if (snap.empty) {
+      q = query(
+        collection(db, 'airdrop_participants'),
+        where('email', '==', email.trim())
+      );
+      snap = await getDocs(q);
+    }
+
     if (!snap.empty) {
       userDocRef = snap.docs[0].ref;
       userData = snap.docs[0].data();
@@ -271,11 +284,10 @@ window.doTask = async function (taskId, points, url) {
 // ===== MINING =====
 window.doMining = async function () {
   if (!userData || !userDocRef) return;
-  const lastMined = userData.last_mined;
   const now = new Date();
 
-  if (lastMined) {
-    const diffHours = (now - new Date(lastMined)) / (1000 * 60 * 60);
+  if (userData.last_mined) {
+    const diffHours = (now - new Date(userData.last_mined)) / (1000 * 60 * 60);
     if (diffHours < 24) {
       alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
       return;
@@ -298,10 +310,7 @@ window.doMining = async function () {
   document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
 
   const btn = document.getElementById('mine-btn');
-  if (btn) {
-    btn.disabled = true;
-    btn.textContent = '✅ Mined Today!';
-  }
+  if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
   document.getElementById('mining-timer').textContent = 'Come back in 24 hours!';
   alert(`⛏️ You mined ${miningReward} $VER!`);
 }
