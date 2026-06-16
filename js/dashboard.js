@@ -40,6 +40,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 // ===== AUTH STATE =====
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    currentUser = user;
     await loadUserData(user.email);
     await loadTasks();
     await loadMiningStatus();
