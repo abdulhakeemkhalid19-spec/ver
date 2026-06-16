@@ -45,7 +45,13 @@ onAuthStateChanged(auth, async (user) => {
     await loadTasks();
     await loadMiningStatus();
     await loadNews();
-    renderDashboard();
+    if (userData) {
+      renderDashboard();
+    } else {
+      // User authenticated but no Firestore record found
+      // Save basic profile and redirect to complete registration
+      window.location.href = 'register.html';
+    }
   } else {
     window.location.href = 'login.html';
   }
