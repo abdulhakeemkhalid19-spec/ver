@@ -22,7 +22,6 @@ let userDocRef = null;
 let allTasks = [];
 let miningActive = false;
 let currentUser = null;
-// Track tasks opened but not yet claimed
 const pendingClaim = {};
 
 // ===== INIT =====
@@ -39,7 +38,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Telegram auth callback
   window.onTelegramAuth = async function (user) {
     await handleTelegramConnect(user);
   };
@@ -67,17 +65,36 @@ onAuthStateChanged(auth, async (user) => {
 // ===== LOAD USER DATA =====
 async function loadUserData(email) {
   try {
-    const emailLower = email.toLowerCase().trim();
-    let q = query(collection(db, 'airdrop_participants'), where('email', '==', emailLower));
-    let snap = await getDocs(q);
-    if (snap.empty) {
-      q = query(collection(db, 'airdrop_participants'), where('email', '==', email.trim()));
-      snap = await getDocs(q);
+    // Try all possible email formats
+    const emails = [
+      email.toLowerCase().trim(),
+      email.trim(),
+      email
+    ];
+
+    for (const e of emails) {
+      const q = query(
+        collection(db, 'airdrop_participants'),
+        where('email', '==', e)
+      );
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        userDocRef = snap.docs[0].ref;
+        userData = snap.docs[0].data();
+        return;
+      }
     }
-    if (!snap.empty) {
-      userDocRef = snap.docs[0].ref;
-      userData = snap.docs[0].data();
-    }
+
+    // Last resort — get all and find manually
+    const allSnap = await getDocs(collection(db, 'airdrop_participants'));
+    allSnap.forEach(d => {
+      const data = d.data();
+      if (data.email?.toLowerCase().trim() === email.toLowerCase().trim()) {
+        userDocRef = d.ref;
+        userData = data;
+      }
+    });
+
   } catch (err) {
     console.error('Load user error:', err);
   }
@@ -269,14 +286,13 @@ async function handleTelegramConnect(telegramUser) {
 
   const telegramUsername = '@' + (telegramUser.username || telegramUser.id);
 
-  // Check if telegram already used by another account
   const q = query(
     collection(db, 'airdrop_participants'),
     where('telegram', '==', telegramUsername)
   );
   const snap = await getDocs(q);
 
-  if (!snap.empty && snap.docs[0].id !== userDocRef.id) {
+  if (!snap.empty && snap.docs[0].ref.id !== userDocRef.id) {
     alert('⚠️ This Telegram account is already connected to another $VER account. This action has been flagged.');
     await updateDoc(userDocRef, { flagged: true, flag_reason: 'Duplicate Telegram account' });
     return;
@@ -311,7 +327,6 @@ window.connectTwitter = async function () {
     const result = await signInWithPopup(auth, twitterProvider);
     const twitterUsername = '@' + (result._tokenResponse?.screenName || '');
 
-    // Check if twitter already used by another account
     const q = query(
       collection(db, 'airdrop_participants'),
       where('twitter', '==', twitterUsername)
@@ -394,7 +409,7 @@ function renderTasks() {
   `;
 }
 
-// ===== GO TASK — Opens link then shows Claim =====
+// ===== GO TASK =====
 window.goTask = async function (taskId, points) {
   if (!userData || !userDocRef) return;
   const completed = userData.tasks_completed || [];
@@ -406,17 +421,15 @@ window.goTask = async function (taskId, points) {
   const task = allTasks.find(t => t.taskId === taskId);
   if (!task) return;
 
-  // Open the task URL
   window.open(task.url, '_blank');
 
-  // Mark as pending claim after 8 seconds
   setTimeout(() => {
     pendingClaim[taskId] = true;
     renderTasks();
   }, 8000);
 }
 
-// ===== CLAIM TASK — Credits $VER =====
+// ===== CLAIM TASK =====
 window.claimTask = async function (taskId, points) {
   if (!userData || !userDocRef) return;
   const completed = userData.tasks_completed || [];
@@ -457,18 +470,12 @@ window.toggleEditUsername = function () {
 
 window.saveUsername = async function () {
   const newUsername = document.getElementById('edit-username-input').value.trim();
-  if (!newUsername) {
-    alert('⚠️ Username cannot be empty!');
-    return;
-  }
-
-  if (newUsername.length < 3) {
+  if (!newUsername || newUsername.length < 3) {
     alert('⚠️ Username must be at least 3 characters!');
     return;
   }
 
   try {
-    // Generate new referral code from username
     const newRefCode = newUsername.toUpperCase().replace(/\s+/g, '').slice(0, 3) +
       Math.random().toString(36).substring(2, 5).toUpperCase();
 
@@ -493,7 +500,7 @@ window.saveUsername = async function () {
     document.getElementById('ref-link-box').textContent = refLink;
 
     toggleEditUsername();
-    alert(`✅ Username updated to @${newUsername}!\nYour new referral code: ${newRefCode}`);
+    alert(`✅ Username updated to @${newUsername}!\nNew referral code: ${newRefCode}`);
 
   } catch (err) {
     alert('❌ Error: ' + err.message);
@@ -510,11 +517,10 @@ window.saveWallet = async function () {
   const newWallet = document.getElementById('edit-wallet-input').value.trim();
 
   if (!newWallet.startsWith('0x') || newWallet.length !== 42) {
-    alert('⚠️ Please enter a valid BEP-20 wallet address (starts with 0x, 42 characters).');
+    alert('⚠️ Please enter a valid BEP-20 wallet address.');
     return;
   }
 
-  // Check if wallet already used
   const q = query(
     collection(db, 'airdrop_participants'),
     where('wallet', '==', newWallet)
@@ -547,18 +553,15 @@ window.changePicture = function () {
   input.onchange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
     const reader = new FileReader();
     reader.onload = async (ev) => {
       const dataUrl = ev.target.result;
-
       await updateDoc(userDocRef, { photoURL: dataUrl });
       userData.photoURL = dataUrl;
 
       document.getElementById('profile-pic').src = dataUrl;
       document.getElementById('profile-pic').style.display = 'block';
       document.getElementById('profile-initial-big').style.display = 'none';
-
       document.getElementById('nav-profile-img').src = dataUrl;
       document.getElementById('nav-profile-img').style.display = 'block';
       document.getElementById('nav-profile-initial').style.display = 'none';
@@ -576,4 +579,6 @@ window.doMining = async function () {
   const now = new Date();
 
   if (userData.last_mined) {
-    const diffHours = (now - new Date(userData.last
+    const diffHours = (now - new Date(userData.last_mined)) / (1000 * 60 * 60);
+    if (diffHours < 24) {
+      alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
