@@ -60,14 +60,12 @@ async function loadUserData(email) {
   try {
     const emailLower = email.toLowerCase().trim();
 
-    // Try exact email match first
     let q = query(
       collection(db, 'airdrop_participants'),
       where('email', '==', emailLower)
     );
     let snap = await getDocs(q);
 
-    // If not found try original case
     if (snap.empty) {
       q = query(
         collection(db, 'airdrop_participants'),
@@ -166,11 +164,8 @@ function renderDashboard() {
   const wallet = userData.wallet || 'Not set';
   const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${refCode}`;
 
-  // TOP NAVBAR
   document.getElementById('dash-username').textContent = `@${userData.username || firstName}`;
   document.getElementById('nav-bal-num').textContent = points.toLocaleString();
-
-  // HOME TAB
   document.getElementById('profile-avatar').textContent = firstName.charAt(0).toUpperCase();
   document.getElementById('profile-name').textContent = name;
   document.getElementById('profile-username').textContent = `@${userData.username || firstName}`;
@@ -190,7 +185,6 @@ function renderDashboard() {
     checkMiningTimer();
   }
 
-  // REFERRAL TAB
   document.getElementById('ref-count').textContent = referralCount;
   document.getElementById('ref-earned').textContent = referralEarnings.toLocaleString();
   document.getElementById('ref-link-box').textContent = refLink;
@@ -222,7 +216,7 @@ function renderTasks() {
         </div>
         ${isDone
           ? `<button class="task-btn done" disabled>✅ Done</button>`
-          : `<button class="task-btn" onclick="doTask('${task.taskId}', ${task.points}, '${task.url}')">Go</button>`
+          : `<button class="task-btn" onclick="doTask('${task.taskId}', ${task.points})">Go</button>`
         }
       </div>
     `;
@@ -241,17 +235,23 @@ function renderTasks() {
 }
 
 // ===== DO TASK =====
-window.doTask = async function (taskId, points, url) {
+window.doTask = async function (taskId, points) {
   if (!userData || !userDocRef) return;
-  const completed = userData.tasks_completed || [];
 
+  const completed = userData.tasks_completed || [];
   if (completed.includes(taskId)) {
     alert('✅ You already completed this task!');
     return;
   }
 
+  // Find task URL from allTasks
+  const task = allTasks.find(t => t.taskId === taskId);
+  const url = task ? task.url : '#';
+
+  // Open task link
   window.open(url, '_blank');
 
+  // Wait 8 seconds then ask for confirmation
   setTimeout(async () => {
     const confirmed = confirm(`Did you complete the task? Click OK to claim your ${points} $VER!`);
     if (!confirmed) return;
@@ -276,9 +276,9 @@ window.doTask = async function (taskId, points, url) {
 
       alert(`🎉 +${points} $VER added to your account!`);
     } catch (err) {
-      alert('Error saving task: ' + err.message);
+      alert('❌ Error saving task: ' + err.message);
     }
-  }, 5000);
+  }, 8000);
 }
 
 // ===== MINING =====
@@ -385,4 +385,4 @@ window.logoutUser = async function () {
   if (!confirm('Are you sure you want to logout?')) return;
   await signOut(auth);
   window.location.href = 'login.html';
-        }
+  }
