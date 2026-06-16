@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/dashboard.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="VERAirdropBot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
 </head>
 <body class="dash-body">
 
@@ -18,6 +19,11 @@
       <div class="nav-bal">
         <span id="nav-bal-num">0</span>
         <span>$VER</span>
+      </div>
+      <!-- PROFILE AVATAR TOP RIGHT -->
+      <div class="nav-profile" onclick="switchTab('profile')">
+        <img id="nav-profile-img" src="" alt="" style="display:none;"/>
+        <div id="nav-profile-initial">V</div>
       </div>
       <button class="dash-menu-btn" onclick="toggleDashMenu()">
         <span></span><span></span><span></span>
@@ -34,7 +40,7 @@
     </div>
     <ul class="side-links">
       <li><a href="index.html">🏠 Home Page</a></li>
-      <li><a href="#" onclick="switchTab('home');toggleDashMenu()">👤 My Profile</a></li>
+      <li><a href="#" onclick="switchTab('profile');toggleDashMenu()">👤 My Profile</a></li>
       <li><a href="#" onclick="switchTab('tasks');toggleDashMenu()">✅ Tasks</a></li>
       <li><a href="#" onclick="switchTab('referral');toggleDashMenu()">👥 Referral</a></li>
       <li><a href="#" onclick="switchTab('news');toggleDashMenu()">🆕 News</a></li>
@@ -46,20 +52,114 @@
   <!-- MAIN CONTENT -->
   <main class="dash-main">
 
+    <!-- ===== PROFILE TAB ===== -->
+    <div id="tab-profile" class="tab-content">
+
+      <!-- PROFILE CARD -->
+      <div class="profile-hero">
+        <div class="profile-pic-wrap">
+          <img id="profile-pic" src="" alt="" class="profile-pic" style="display:none;"/>
+          <div id="profile-initial-big" class="profile-initial-big">V</div>
+          <button class="change-pic-btn" onclick="changePicture()">📷</button>
+        </div>
+        <div class="profile-details">
+          <div class="profile-name-row">
+            <span id="profile-name-display">Loading...</span>
+            <button class="edit-btn" onclick="toggleEditUsername()">✏️</button>
+          </div>
+          <div id="edit-username-form" style="display:none;" class="edit-form">
+            <input type="text" id="edit-username-input" placeholder="New username"/>
+            <button class="btn-save-small" onclick="saveUsername()">Save</button>
+            <button class="btn-cancel-small" onclick="toggleEditUsername()">Cancel</button>
+          </div>
+          <div class="profile-tag-row">
+            <span id="profile-username-display" class="profile-tag">@username</span>
+            <span class="profile-tier-tag" id="profile-tier-tag">🥉 Bronze</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="home-stats">
+        <div class="home-stat">
+          <span class="home-stat-num" id="profile-points">0</span>
+          <span class="home-stat-label">$VER Earned</span>
+        </div>
+        <div class="home-stat">
+          <span class="home-stat-num" id="profile-tasks">0</span>
+          <span class="home-stat-label">Tasks Done</span>
+        </div>
+        <div class="home-stat">
+          <span class="home-stat-num" id="profile-refs">0</span>
+          <span class="home-stat-label">Referrals</span>
+        </div>
+      </div>
+
+      <!-- WALLET -->
+      <div class="info-card">
+        <div class="info-card-title">💳 Wallet Address</div>
+        <div class="wallet-row">
+          <span id="profile-wallet-display" class="info-card-value">Not set</span>
+          <button class="edit-btn" onclick="toggleEditWallet()">✏️</button>
+        </div>
+        <div id="edit-wallet-form" style="display:none;" class="edit-form">
+          <input type="text" id="edit-wallet-input" placeholder="0x... BEP-20 address"/>
+          <button class="btn-save-small" onclick="saveWallet()">Save</button>
+          <button class="btn-cancel-small" onclick="toggleEditWallet()">Cancel</button>
+        </div>
+      </div>
+
+      <!-- REFERRAL CODE -->
+      <div class="info-card">
+        <div class="info-card-title">🔗 Your Referral Code</div>
+        <div class="ref-code-display" id="profile-ref-code">------</div>
+      </div>
+
+      <!-- CONNECT X -->
+      <div class="connect-card" id="connect-x-card">
+        <div class="connect-info">
+          <div class="connect-icon">𝕏</div>
+          <div>
+            <strong>Connect Twitter/X</strong>
+            <p id="x-status-text">Not connected</p>
+          </div>
+        </div>
+        <button class="btn-connect-x" id="connect-x-btn" onclick="connectTwitter()">
+          Connect X
+        </button>
+      </div>
+
+      <!-- CONNECT TELEGRAM -->
+      <div class="connect-card" id="connect-telegram-card">
+        <div class="connect-info">
+          <div class="connect-icon">✈️</div>
+          <div>
+            <strong>Connect Telegram</strong>
+            <p id="telegram-status-text">Not connected</p>
+          </div>
+        </div>
+        <div id="telegram-widget-wrap">
+          <div id="telegram-login-btn"></div>
+        </div>
+      </div>
+
+      <!-- PHASE BANNER -->
+      <div class="phase-banner" id="phase-banner">
+        <div class="phase-icon">⛏️</div>
+        <div class="phase-info">
+          <strong>Mining Coming Soon!</strong>
+          <p>Phase 2 mining will be activated by admin. Keep completing tasks!</p>
+        </div>
+      </div>
+
+      <!-- LOGOUT -->
+      <button class="btn-logout-full" onclick="logoutUser()">🚪 Logout</button>
+
+    </div>
+
     <!-- ===== HOME TAB ===== -->
     <div id="tab-home" class="tab-content active">
 
-      <!-- PROFILE CARD -->
-      <div class="profile-card">
-        <div class="profile-avatar" id="profile-avatar">V</div>
-        <div class="profile-info">
-          <h2 id="profile-name">Loading...</h2>
-          <span class="profile-tag" id="profile-username">@username</span>
-        </div>
-        <div class="profile-tier" id="profile-tier-badge">🥉 Bronze</div>
-      </div>
-
-      <!-- BALANCE CARD -->
       <div class="balance-card">
         <div class="balance-label">Total $VER Earned</div>
         <div class="balance-amount">
@@ -69,7 +169,6 @@
         <div class="balance-sub">Tokens will be sent to your wallet after listing</div>
       </div>
 
-      <!-- STATS ROW -->
       <div class="home-stats">
         <div class="home-stat">
           <span class="home-stat-num" id="home-tasks-done">0</span>
@@ -85,7 +184,6 @@
         </div>
       </div>
 
-      <!-- PROGRESS -->
       <div class="progress-card">
         <div class="progress-header">
           <span>Tier Progress</span>
@@ -96,7 +194,6 @@
         </div>
       </div>
 
-      <!-- WALLET INFO -->
       <div class="info-card">
         <div class="info-card-title">💳 Wallet Address</div>
         <div class="info-card-value" id="home-wallet">Not set</div>
@@ -105,15 +202,6 @@
       <div class="info-card">
         <div class="info-card-title">🔗 Your Referral Code</div>
         <div class="info-card-value highlight" id="home-ref-code">Loading...</div>
-      </div>
-
-      <!-- PHASE BANNER -->
-      <div class="phase-banner" id="phase-banner">
-        <div class="phase-icon">⛏️</div>
-        <div class="phase-info">
-          <strong>Mining Coming Soon!</strong>
-          <p>Phase 2 mining will be activated by admin. Keep completing tasks to maximize your earnings!</p>
-        </div>
       </div>
 
     </div>
@@ -125,20 +213,16 @@
         <p>Earn $VER by completing tasks below</p>
       </div>
 
-      <!-- MINING SECTION (hidden until admin activates) -->
       <div id="mining-section" style="display:none;">
         <div class="mining-card">
           <div class="mining-icon">⛏️</div>
           <div class="mining-title">Daily Mining</div>
           <div class="mining-balance" id="mining-balance">0 $VER mined today</div>
-          <button class="btn-mine" id="mine-btn" onclick="doMining()">
-            Mine $VER Now
-          </button>
+          <button class="btn-mine" id="mine-btn" onclick="doMining()">Mine $VER Now</button>
           <div class="mining-timer" id="mining-timer"></div>
         </div>
       </div>
 
-      <!-- TASKS LIST -->
       <div id="task-grid">
         <div class="task-loading">Loading tasks...</div>
       </div>
@@ -151,7 +235,6 @@
         <p>Invite friends and earn $VER for every signup</p>
       </div>
 
-      <!-- REFERRAL STATS -->
       <div class="ref-stats">
         <div class="ref-stat">
           <span class="ref-stat-num" id="ref-count">0</span>
@@ -159,29 +242,22 @@
         </div>
         <div class="ref-stat">
           <span class="ref-stat-num" id="ref-earned">0</span>
-          <span class="ref-stat-label">$VER from Referrals</span>
+          <span class="ref-stat-label">$VER Earned</span>
         </div>
       </div>
 
-      <!-- REFERRAL LINK -->
       <div class="ref-link-card">
         <div class="ref-link-label">🔗 Your Referral Link</div>
         <div class="ref-link-box" id="ref-link-box">Loading...</div>
-        <button class="btn-primary full-width" onclick="copyRefLink()" style="margin-top:12px;">
-          Copy Referral Link
-        </button>
-        <button class="btn-secondary full-width" onclick="shareRefLink()" style="margin-top:10px;">
-          Share Link
-        </button>
+        <button class="btn-primary full-width" onclick="copyRefLink()" style="margin-top:12px;">Copy Referral Link</button>
+        <button class="btn-secondary full-width" onclick="shareRefLink()" style="margin-top:10px;">Share Link</button>
       </div>
 
-      <!-- YOUR CODE -->
       <div class="ref-code-card">
         <div class="ref-code-label">Your Referral Code</div>
         <div class="ref-code" id="ref-code-display">------</div>
       </div>
 
-      <!-- TIERS -->
       <div class="tier-section">
         <h3>Referral Tiers</h3>
         <div class="tier-list">
@@ -189,25 +265,25 @@
             <span class="tier-icon">🥉</span>
             <span class="tier-name">Bronze</span>
             <span class="tier-req">0–2 referrals</span>
-            <span class="tier-reward">+200 $VER each</span>
+            <span class="tier-reward">+200 $VER</span>
           </div>
           <div class="tier-row silver">
             <span class="tier-icon">🥈</span>
             <span class="tier-name">Silver</span>
             <span class="tier-req">3–9 referrals</span>
-            <span class="tier-reward">+300 $VER each</span>
+            <span class="tier-reward">+300 $VER</span>
           </div>
           <div class="tier-row gold">
             <span class="tier-icon">🥇</span>
             <span class="tier-name">Gold</span>
             <span class="tier-req">10–19 referrals</span>
-            <span class="tier-reward">+400 $VER each</span>
+            <span class="tier-reward">+400 $VER</span>
           </div>
           <div class="tier-row diamond">
             <span class="tier-icon">💎</span>
             <span class="tier-name">Diamond</span>
             <span class="tier-req">20+ referrals</span>
-            <span class="tier-reward">+500 $VER each</span>
+            <span class="tier-reward">+500 $VER</span>
           </div>
         </div>
       </div>
@@ -243,6 +319,10 @@
     <button class="tab-btn" id="tab-btn-news" onclick="switchTab('news')">
       <span class="tab-icon">🆕</span>
       <span class="tab-label">News</span>
+    </button>
+    <button class="tab-btn" id="tab-btn-profile" onclick="switchTab('profile')">
+      <span class="tab-icon">👤</span>
+      <span class="tab-label">Profile</span>
     </button>
   </nav>
 
