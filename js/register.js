@@ -1,7 +1,7 @@
 // ===== FIREBASE CONFIG =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, GoogleAuthProvider, TwitterAuthProvider, signInWithPopup, sendSignInLinkToEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, addDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, GoogleAuthProvider, TwitterAuthProvider, signInWithPopup, sendSignInLinkToEmail, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnrHeyZzd2OucQw2yAKAUBzBwot76Koh0",
@@ -48,7 +48,7 @@ let pendingEmail = '';
 let pendingUsername = '';
 let pendingProvider = '';
 
-// ===== AUTO FILL REFERRAL FROM URL =====
+// ===== ON PAGE LOAD =====
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const ref = params.get('ref');
@@ -57,12 +57,11 @@ window.addEventListener('DOMContentLoaded', () => {
     if (refInput) refInput.value = ref;
   }
 
-  // Check if already logged in
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       const q = query(
         collection(db, 'airdrop_participants'),
-        where('email', '==', user.email)
+        where('email', '==', user.email.toLowerCase().trim())
       );
       const snap = await getDocs(q);
       if (!snap.empty) {
@@ -80,11 +79,11 @@ window.signUpWithGoogle = async function () {
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
+    const emailLower = user.email.toLowerCase().trim();
 
-    // Check if already registered
     const q = query(
       collection(db, 'airdrop_participants'),
-      where('email', '==', user.email)
+      where('email', '==', emailLower)
     );
     const snap = await getDocs(q);
 
@@ -93,8 +92,7 @@ window.signUpWithGoogle = async function () {
       return;
     }
 
-    // Pre-fill details and go to step 2
-    pendingEmail = user.email;
+    pendingEmail = emailLower;
     pendingUsername = user.displayName || '';
     pendingProvider = 'google';
 
@@ -117,11 +115,11 @@ window.signUpWithTwitter = async function () {
     const result = await signInWithPopup(auth, twitterProvider);
     const user = result.user;
     const twitterUsername = result._tokenResponse?.screenName || '';
+    const emailLower = (user.email || '').toLowerCase().trim();
 
-    // Check if already registered
     const q = query(
       collection(db, 'airdrop_participants'),
-      where('email', '==', user.email)
+      where('email', '==', emailLower)
     );
     const snap = await getDocs(q);
 
@@ -130,15 +128,13 @@ window.signUpWithTwitter = async function () {
       return;
     }
 
-    // Pre-fill details
-    pendingEmail = user.email || '';
+    pendingEmail = emailLower;
     pendingUsername = twitterUsername || user.displayName || '';
     pendingProvider = 'twitter';
 
     document.getElementById('reg-email').value = pendingEmail;
     document.getElementById('reg-username').value = pendingUsername;
 
-    // Auto fill twitter username
     if (twitterUsername) {
       document.getElementById('reg-twitter').value = '@' + twitterUsername;
     }
@@ -151,11 +147,10 @@ window.signUpWithTwitter = async function () {
   }
 }
 
-// ===== PROCEED TO STEP 2 (MANUAL EMAIL) =====
+// ===== PROCEED TO STEP 2 =====
 window.proceedToStep2 = function () {
   const email = document.getElementById('reg-email').value.trim();
   const errorBox = document.getElementById('reg-error');
-
   errorBox.style.display = 'none';
 
   if (!email || !email.includes('@')) {
@@ -164,7 +159,7 @@ window.proceedToStep2 = function () {
     return;
   }
 
-  pendingEmail = email;
+  pendingEmail = email.toLowerCase().trim();
   pendingProvider = 'email';
   goToStep2();
 }
@@ -175,7 +170,7 @@ function goToStep2() {
   document.getElementById('step-2').style.display = 'block';
 }
 
-// ===== GO BACK TO STEP 1 =====
+// ===== GO BACK =====
 window.goBackStep1 = function () {
   document.getElementById('step-1').style.display = 'block';
   document.getElementById('step-2').style.display = 'none';
@@ -197,33 +192,28 @@ window.completeRegistration = async function () {
   errorBox.style.display = 'none';
   successBox.style.display = 'none';
 
-  // ===== VALIDATION =====
   if (!username) {
     errorBox.textContent = '⚠️ Please enter a username.';
     errorBox.style.display = 'block';
     return;
   }
-
   if (!telegram) {
     errorBox.textContent = '⚠️ Please enter your Telegram username.';
     errorBox.style.display = 'block';
     return;
   }
-
   if (!twitter) {
     errorBox.textContent = '⚠️ Please enter your Twitter/X username.';
     errorBox.style.display = 'block';
     return;
   }
-
   if (!wallet || !wallet.startsWith('0x') || wallet.length !== 42) {
-    errorBox.textContent = '⚠️ Please enter a valid BEP-20 wallet address (starts with 0x, 42 characters).';
+    errorBox.textContent = '⚠️ Please enter a valid BEP-20 wallet address.';
     errorBox.style.display = 'block';
     return;
   }
-
   if (!pendingEmail) {
-    errorBox.textContent = '⚠️ Email is missing. Please go back and try again.';
+    errorBox.textContent = '⚠️ Email missing. Please go back and try again.';
     errorBox.style.display = 'block';
     return;
   }
@@ -232,7 +222,7 @@ window.completeRegistration = async function () {
   document.querySelector('.btn-primary.full-width').disabled = true;
 
   try {
-    // ===== CHECK DUPLICATE EMAIL =====
+    // CHECK DUPLICATE EMAIL
     const emailQ = query(
       collection(db, 'airdrop_participants'),
       where('email', '==', pendingEmail)
@@ -246,7 +236,7 @@ window.completeRegistration = async function () {
       return;
     }
 
-    // ===== CHECK DUPLICATE WALLET =====
+    // CHECK DUPLICATE WALLET
     const walletQ = query(
       collection(db, 'airdrop_participants'),
       where('wallet', '==', wallet)
@@ -260,10 +250,10 @@ window.completeRegistration = async function () {
       return;
     }
 
-    // ===== GENERATE UNIQUE REFERRAL CODE =====
+    // GENERATE REFERRAL CODE
     const myReferralCode = await getUniqueReferralCode();
 
-    // ===== SAVE TO FIRESTORE =====
+    // SAVE TO FIRESTORE
     await addDoc(collection(db, 'airdrop_participants'), {
       fullname: username,
       username: username,
@@ -283,12 +273,12 @@ window.completeRegistration = async function () {
       registered_at: new Date().toISOString()
     });
 
-    // ===== CREDIT REFERRER =====
+    // CREDIT REFERRER
     if (referralUsed) {
       await creditReferrer(referralUsed);
     }
 
-    // ===== SEND VERIFICATION EMAIL (email signups only) =====
+    // SEND VERIFICATION EMAIL
     if (pendingProvider === 'email') {
       const actionCodeSettings = {
         url: 'https://abdulhakeemkhalid19-spec.github.io/ver/dashboard.html',
@@ -343,7 +333,6 @@ async function creditReferrer(code) {
     else if (newCount >= 10) { bonus = 400; newTier = 'Gold'; }
     else if (newCount >= 3) { bonus = 300; newTier = 'Silver'; }
 
-    const { updateDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
     await updateDoc(ref.ref, {
       referral_count: newCount,
       referral_earnings: (data.referral_earnings || 0) + bonus,
@@ -353,4 +342,4 @@ async function creditReferrer(code) {
   } catch (err) {
     console.error('Referrer credit error:', err);
   }
-        }
+}
