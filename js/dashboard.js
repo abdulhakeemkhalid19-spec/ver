@@ -582,3 +582,8 @@ window.doMining = async function () {
     const diffHours = (now - new Date(userData.last_mined)) / (1000 * 60 * 60);
     if (diffHours < 24) {
       alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
+   window.logoutUser = async function () {
+  if (!confirm('Are you sure you want to logout?')) return;
+  await signOut(auth);
+  window.location.href = 'login.html';
+   }   
