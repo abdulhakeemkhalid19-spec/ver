@@ -65,18 +65,10 @@ onAuthStateChanged(auth, async (user) => {
 // ===== LOAD USER DATA =====
 async function loadUserData(email) {
   try {
-    // Try all possible email formats
-    const emails = [
-      email.toLowerCase().trim(),
-      email.trim(),
-      email
-    ];
+    const emails = [email.toLowerCase().trim(), email.trim(), email];
 
     for (const e of emails) {
-      const q = query(
-        collection(db, 'airdrop_participants'),
-        where('email', '==', e)
-      );
+      const q = query(collection(db, 'airdrop_participants'), where('email', '==', e));
       const snap = await getDocs(q);
       if (!snap.empty) {
         userDocRef = snap.docs[0].ref;
@@ -85,7 +77,6 @@ async function loadUserData(email) {
       }
     }
 
-    // Last resort — get all and find manually
     const allSnap = await getDocs(collection(db, 'airdrop_participants'));
     allSnap.forEach(d => {
       const data = d.data();
@@ -180,11 +171,9 @@ function renderDashboard() {
   const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${refCode}`;
   const photoURL = userData.photoURL || currentUser?.photoURL || '';
 
-  // TOP NAVBAR
   document.getElementById('dash-username').textContent = `@${userData.username || firstName}`;
   document.getElementById('nav-bal-num').textContent = points.toLocaleString();
 
-  // NAV PROFILE PIC
   if (photoURL) {
     const navImg = document.getElementById('nav-profile-img');
     navImg.src = photoURL;
@@ -194,7 +183,6 @@ function renderDashboard() {
     document.getElementById('nav-profile-initial').textContent = firstName.charAt(0).toUpperCase();
   }
 
-  // PROFILE TAB
   if (photoURL) {
     const profilePic = document.getElementById('profile-pic');
     profilePic.src = photoURL;
@@ -215,7 +203,6 @@ function renderDashboard() {
   document.getElementById('edit-username-input').value = userData.username || name;
   document.getElementById('edit-wallet-input').value = userData.wallet || '';
 
-  // X CONNECTION STATUS
   if (userData.twitter_connected) {
     document.getElementById('x-status-text').textContent = `✅ Connected: ${userData.twitter || ''}`;
     document.getElementById('connect-x-btn').textContent = '✅ Connected';
@@ -223,7 +210,6 @@ function renderDashboard() {
     document.getElementById('connect-x-card').classList.add('connected');
   }
 
-  // TELEGRAM CONNECTION STATUS
   if (userData.telegram_connected) {
     document.getElementById('telegram-status-text').textContent = `✅ Connected: ${userData.telegram || ''}`;
     document.getElementById('connect-telegram-card').classList.add('connected');
@@ -231,7 +217,6 @@ function renderDashboard() {
       `<span style="color:var(--primary);font-size:0.82rem;font-weight:700;">✅ Connected</span>`;
   }
 
-  // HOME TAB
   document.getElementById('home-balance').textContent = points.toLocaleString();
   document.getElementById('home-tasks-done').textContent = tasksDone;
   document.getElementById('home-referrals').textContent = referralCount;
@@ -247,7 +232,6 @@ function renderDashboard() {
     checkMiningTimer();
   }
 
-  // REFERRAL TAB
   document.getElementById('ref-count').textContent = referralCount;
   document.getElementById('ref-earned').textContent = referralEarnings.toLocaleString();
   document.getElementById('ref-link-box').textContent = refLink;
@@ -261,11 +245,7 @@ function renderTelegramWidget() {
   if (userData?.telegram_connected) return;
   const wrap = document.getElementById('telegram-login-btn');
   if (!wrap) return;
-  wrap.innerHTML = `
-    <button class="btn-connect-telegram" onclick="showTelegramWidget()">
-      Connect Telegram
-    </button>
-  `;
+  wrap.innerHTML = `<button class="btn-connect-telegram" onclick="showTelegramWidget()">Connect Telegram</button>`;
 }
 
 window.showTelegramWidget = function () {
@@ -286,10 +266,7 @@ async function handleTelegramConnect(telegramUser) {
 
   const telegramUsername = '@' + (telegramUser.username || telegramUser.id);
 
-  const q = query(
-    collection(db, 'airdrop_participants'),
-    where('telegram', '==', telegramUsername)
-  );
+  const q = query(collection(db, 'airdrop_participants'), where('telegram', '==', telegramUsername));
   const snap = await getDocs(q);
 
   if (!snap.empty && snap.docs[0].ref.id !== userDocRef.id) {
@@ -327,10 +304,7 @@ window.connectTwitter = async function () {
     const result = await signInWithPopup(auth, twitterProvider);
     const twitterUsername = '@' + (result._tokenResponse?.screenName || '');
 
-    const q = query(
-      collection(db, 'airdrop_participants'),
-      where('twitter', '==', twitterUsername)
-    );
+    const q = query(collection(db, 'airdrop_participants'), where('twitter', '==', twitterUsername));
     const snap = await getDocs(q);
 
     if (!snap.empty && snap.docs[0].ref.id !== userDocRef.id) {
@@ -521,10 +495,7 @@ window.saveWallet = async function () {
     return;
   }
 
-  const q = query(
-    collection(db, 'airdrop_participants'),
-    where('wallet', '==', newWallet)
-  );
+  const q = query(collection(db, 'airdrop_participants'), where('wallet', '==', newWallet));
   const snap = await getDocs(q);
   if (!snap.empty && snap.docs[0].ref.id !== userDocRef.id) {
     alert('⚠️ This wallet is already registered to another account!');
@@ -582,8 +553,101 @@ window.doMining = async function () {
     const diffHours = (now - new Date(userData.last_mined)) / (1000 * 60 * 60);
     if (diffHours < 24) {
       alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
-   window.logoutUser = async function () {
+      return;
+    }
+  }
+
+  const miningReward = 50;
+  const newPoints = (userData.ver_points || 0) + miningReward;
+
+  await updateDoc(userDocRef, {
+    ver_points: newPoints,
+    last_mined: now.toISOString(),
+    mining_total: (userData.mining_total || 0) + miningReward
+  });
+
+  userData.ver_points = newPoints;
+  userData.last_mined = now.toISOString();
+
+  document.getElementById('home-balance').textContent = newPoints.toLocaleString();
+  document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
+  document.getElementById('profile-points').textContent = newPoints.toLocaleString();
+
+  const btn = document.getElementById('mine-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+  document.getElementById('mining-timer').textContent = 'Come back in 24 hours!';
+  alert(`⛏️ You mined ${miningReward} $VER!`);
+}
+
+// ===== CHECK MINING TIMER =====
+function checkMiningTimer() {
+  if (!userData?.last_mined) return;
+  const diffHours = (new Date() - new Date(userData.last_mined)) / (1000 * 60 * 60);
+  if (diffHours < 24) {
+    const btn = document.getElementById('mine-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+    document.getElementById('mining-timer').textContent =
+      `⏳ Next mining in ${Math.ceil(24 - diffHours)} hour(s)`;
+  }
+}
+
+// ===== UPDATE PROGRESS =====
+function updateProgress(referralCount, tier) {
+  let target, current, nextTier;
+  if (tier === 'Bronze') { target = 3; current = referralCount; nextTier = 'Silver'; }
+  else if (tier === 'Silver') { target = 10; current = referralCount; nextTier = 'Gold'; }
+  else if (tier === 'Gold') { target = 20; current = referralCount; nextTier = 'Diamond'; }
+  else { target = 1; current = 1; nextTier = 'Diamond'; }
+
+  const percent = Math.min((current / target) * 100, 100);
+  document.getElementById('home-progress-fill').style.width = `${percent}%`;
+  document.getElementById('home-progress-text').textContent =
+    tier === 'Diamond' ? '💎 Max tier reached!' : `${current}/${target} to ${nextTier}`;
+}
+
+// ===== TIER EMOJI =====
+function getTierEmoji(tier) {
+  const emojis = { Bronze: '🥉', Silver: '🥈', Gold: '🥇', Diamond: '💎' };
+  return emojis[tier] || '🥉';
+}
+
+// ===== COPY REFERRAL =====
+window.copyRefLink = function () {
+  if (!userData) return;
+  const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
+  navigator.clipboard.writeText(refLink).then(() => alert('✅ Referral link copied!'));
+}
+
+// ===== SHARE REFERRAL =====
+window.shareRefLink = function () {
+  if (!userData) return;
+  const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
+  if (navigator.share) {
+    navigator.share({ title: '$VER Airdrop', text: 'Join the $VER airdrop!', url: refLink });
+  } else {
+    copyRefLink();
+  }
+}
+
+// ===== SWITCH TAB =====
+window.switchTab = function (tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  const btn = document.getElementById(`tab-btn-${tab}`);
+  if (btn) btn.classList.add('active');
+}
+
+// ===== HAMBURGER =====
+window.toggleDashMenu = function () {
+  document.getElementById('dash-side-menu').classList.toggle('open');
+  document.getElementById('dash-overlay').classList.toggle('open');
+  document.body.classList.toggle('no-scroll');
+}
+
+// ===== LOGOUT =====
+window.logoutUser = async function () {
   if (!confirm('Are you sure you want to logout?')) return;
   await signOut(auth);
   window.location.href = 'login.html';
-   }   
+}
