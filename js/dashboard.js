@@ -17,6 +17,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const twitterProvider = new TwitterAuthProvider();
 
+const CONNECT_REWARD = 150;
+
 let userData = null;
 let userDocRef = null;
 let allTasks = [];
@@ -66,7 +68,6 @@ onAuthStateChanged(auth, async (user) => {
 async function loadUserData(email) {
   try {
     const emails = [email.toLowerCase().trim(), email.trim(), email];
-
     for (const e of emails) {
       const q = query(collection(db, 'airdrop_participants'), where('email', '==', e));
       const snap = await getDocs(q);
@@ -76,7 +77,6 @@ async function loadUserData(email) {
         return;
       }
     }
-
     const allSnap = await getDocs(collection(db, 'airdrop_participants'));
     allSnap.forEach(d => {
       const data = d.data();
@@ -85,7 +85,6 @@ async function loadUserData(email) {
         userData = data;
       }
     });
-
   } catch (err) {
     console.error('Load user error:', err);
   }
@@ -203,19 +202,7 @@ function renderDashboard() {
   document.getElementById('edit-username-input').value = userData.username || name;
   document.getElementById('edit-wallet-input').value = userData.wallet || '';
 
-  if (userData.twitter_connected) {
-    document.getElementById('x-status-text').textContent = `✅ Connected: ${userData.twitter || ''}`;
-    document.getElementById('connect-x-btn').textContent = '✅ Connected';
-    document.getElementById('connect-x-btn').classList.add('connected');
-    document.getElementById('connect-x-card').classList.add('connected');
-  }
-
-  if (userData.telegram_connected) {
-    document.getElementById('telegram-status-text').textContent = `✅ Connected: ${userData.telegram || ''}`;
-    document.getElementById('connect-telegram-card').classList.add('connected');
-    document.getElementById('telegram-widget-wrap').innerHTML =
-      `<span style="color:var(--primary);font-size:0.82rem;font-weight:700;">✅ Connected</span>`;
-  }
+  updateConnectUI();
 
   document.getElementById('home-balance').textContent = points.toLocaleString();
   document.getElementById('home-tasks-done').textContent = tasksDone;
@@ -240,17 +227,60 @@ function renderDashboard() {
   renderTasks();
 }
 
-// ===== RENDER TELEGRAM WIDGET =====
+// ===== UPDATE CONNECT UI (both Profile tab AND Task tab) =====
+function updateConnectUI() {
+  // ----- TWITTER -----
+  if (userData.twitter_connected) {
+    // Profile tab
+    const xStatus = document.getElementById('x-status-text');
+    const xBtn = document.getElementById('connect-x-btn');
+    const xCard = document.getElementById('connect-x-card');
+    if (xStatus) xStatus.textContent = `✅ Connected: ${userData.twitter || ''}`;
+    if (xBtn) { xBtn.textContent = '✅ Connected'; xBtn.classList.add('connected'); xBtn.disabled = true; }
+    if (xCard) xCard.classList.add('connected');
+
+    // Task tab
+    const xTaskBtn = document.getElementById('connect-x-task-btn');
+    const xTaskReward = document.getElementById('x-task-reward');
+    if (xTaskBtn) {
+      xTaskBtn.textContent = '✅ Done';
+      xTaskBtn.classList.add('done');
+      xTaskBtn.disabled = true;
+      xTaskBtn.onclick = null;
+    }
+    if (xTaskReward) xTaskReward.textContent = `✅ ${userData.twitter || ''}`;
+  }
+
+  // ----- TELEGRAM -----
+  if (userData.telegram_connected) {
+    // Profile tab
+    const tgStatus = document.getElementById('telegram-status-text');
+    const tgCard = document.getElementById('connect-telegram-card');
+    const tgWidgetWrap = document.getElementById('telegram-widget-wrap');
+    if (tgStatus) tgStatus.textContent = `✅ Connected: ${userData.telegram || ''}`;
+    if (tgCard) tgCard.classList.add('connected');
+    if (tgWidgetWrap) tgWidgetWrap.innerHTML = `<span style="color:var(--primary);font-size:0.82rem;font-weight:700;">✅ Connected</span>`;
+
+    // Task tab
+    const tgTaskWrap = document.getElementById('telegram-task-widget-wrap');
+    const tgTaskReward = document.getElementById('telegram-task-reward');
+    if (tgTaskWrap) tgTaskWrap.innerHTML = `<button class="task-btn done" disabled>✅ Done</button>`;
+    if (tgTaskReward) tgTaskReward.textContent = `✅ ${userData.telegram || ''}`;
+  }
+}
+
+// ===== RENDER TELEGRAM WIDGET (profile tab fallback button) =====
 function renderTelegramWidget() {
   if (userData?.telegram_connected) return;
   const wrap = document.getElementById('telegram-login-btn');
-  if (!wrap) return;
-  wrap.innerHTML = `<button class="btn-connect-telegram" onclick="showTelegramWidget()">Connect Telegram</button>`;
+  if (wrap) {
+    wrap.innerHTML = `<button class="btn-connect-telegram" onclick="showTelegramWidget()">Connect Telegram</button>`;
+  }
 }
 
 window.showTelegramWidget = function () {
-  const wrap = document.getElementById('telegram-login-btn');
-  wrap.innerHTML = `
+  // Replace BOTH widget locations with the real Telegram widget
+  const widgetHtml = `
     <script async src="https://telegram.org/js/telegram-widget.js?22"
       data-telegram-login="VERAirdropBot"
       data-size="medium"
@@ -258,11 +288,16 @@ window.showTelegramWidget = function () {
       data-request-access="write">
     <\/script>
   `;
+  const wrap1 = document.getElementById('telegram-login-btn');
+  const wrap2 = document.getElementById('telegram-task-widget-wrap');
+  if (wrap1) wrap1.innerHTML = widgetHtml;
+  if (wrap2) wrap2.innerHTML = widgetHtml;
 }
 
 // ===== HANDLE TELEGRAM CONNECT =====
 async function handleTelegramConnect(telegramUser) {
   if (!userData || !userDocRef) return;
+  if (userData.telegram_connected) return;
 
   const telegramUsername = '@' + (telegramUser.username || telegramUser.id);
 
@@ -275,22 +310,24 @@ async function handleTelegramConnect(telegramUser) {
     return;
   }
 
+  const newPoints = (userData.ver_points || 0) + CONNECT_REWARD;
+
   await updateDoc(userDocRef, {
     telegram: telegramUsername,
     telegram_connected: true,
     telegram_id: telegramUser.id,
-    telegram_photo: telegramUser.photo_url || ''
+    telegram_photo: telegramUser.photo_url || '',
+    ver_points: newPoints
   });
 
   userData.telegram = telegramUsername;
   userData.telegram_connected = true;
+  userData.ver_points = newPoints;
 
-  document.getElementById('telegram-status-text').textContent = `✅ Connected: ${telegramUsername}`;
-  document.getElementById('connect-telegram-card').classList.add('connected');
-  document.getElementById('telegram-widget-wrap').innerHTML =
-    `<span style="color:var(--primary);font-size:0.82rem;font-weight:700;">✅ Connected</span>`;
+  updateConnectUI();
+  refreshBalanceDisplays();
 
-  alert(`✅ Telegram connected successfully as ${telegramUsername}!`);
+  alert(`✅ Telegram connected as ${telegramUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 }
 
 // ===== CONNECT TWITTER =====
@@ -313,25 +350,35 @@ window.connectTwitter = async function () {
       return;
     }
 
+    const newPoints = (userData.ver_points || 0) + CONNECT_REWARD;
+
     await updateDoc(userDocRef, {
       twitter: twitterUsername,
       twitter_connected: true,
-      twitter_id: result.user.uid
+      twitter_id: result.user.uid,
+      ver_points: newPoints
     });
 
     userData.twitter = twitterUsername;
     userData.twitter_connected = true;
+    userData.ver_points = newPoints;
 
-    document.getElementById('x-status-text').textContent = `✅ Connected: ${twitterUsername}`;
-    document.getElementById('connect-x-btn').textContent = '✅ Connected';
-    document.getElementById('connect-x-btn').classList.add('connected');
-    document.getElementById('connect-x-card').classList.add('connected');
+    updateConnectUI();
+    refreshBalanceDisplays();
 
-    alert(`✅ Twitter/X connected as ${twitterUsername}!`);
+    alert(`✅ Twitter/X connected as ${twitterUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 
   } catch (err) {
     alert('❌ Twitter connect failed: ' + err.message);
   }
+}
+
+// ===== REFRESH BALANCE DISPLAYS EVERYWHERE =====
+function refreshBalanceDisplays() {
+  const points = userData.ver_points || 0;
+  document.getElementById('home-balance').textContent = points.toLocaleString();
+  document.getElementById('nav-bal-num').textContent = points.toLocaleString();
+  document.getElementById('profile-points').textContent = points.toLocaleString();
 }
 
 // ===== RENDER TASKS =====
@@ -422,10 +469,8 @@ window.claimTask = async function (taskId, points) {
     userData.ver_points = newPoints;
     delete pendingClaim[taskId];
 
-    document.getElementById('home-balance').textContent = newPoints.toLocaleString();
-    document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
+    refreshBalanceDisplays();
     document.getElementById('home-tasks-done').textContent = newCompleted.length;
-    document.getElementById('profile-points').textContent = newPoints.toLocaleString();
     document.getElementById('profile-tasks').textContent = newCompleted.length;
     updateProgress(userData.referral_count || 0, userData.tier || 'Bronze');
     renderTasks();
@@ -569,9 +614,7 @@ window.doMining = async function () {
   userData.ver_points = newPoints;
   userData.last_mined = now.toISOString();
 
-  document.getElementById('home-balance').textContent = newPoints.toLocaleString();
-  document.getElementById('nav-bal-num').textContent = newPoints.toLocaleString();
-  document.getElementById('profile-points').textContent = newPoints.toLocaleString();
+  refreshBalanceDisplays();
 
   const btn = document.getElementById('mine-btn');
   if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
@@ -650,4 +693,4 @@ window.logoutUser = async function () {
   if (!confirm('Are you sure you want to logout?')) return;
   await signOut(auth);
   window.location.href = 'login.html';
-}
+  }
