@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="css/style.css"/>
   <link rel="stylesheet" href="css/dashboard.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
-  <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="VERAirdropBot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
 </head>
 <body class="dash-body">
 
@@ -20,7 +19,6 @@
         <span id="nav-bal-num">0</span>
         <span>$VER</span>
       </div>
-      <!-- PROFILE AVATAR TOP RIGHT -->
       <div class="nav-profile" onclick="switchTab('profile')">
         <img id="nav-profile-img" src="" alt="" style="display:none;"/>
         <div id="nav-profile-initial">V</div>
@@ -55,7 +53,6 @@
     <!-- ===== PROFILE TAB ===== -->
     <div id="tab-profile" class="tab-content">
 
-      <!-- PROFILE CARD -->
       <div class="profile-hero">
         <div class="profile-pic-wrap">
           <img id="profile-pic" src="" alt="" class="profile-pic" style="display:none;"/>
@@ -79,7 +76,6 @@
         </div>
       </div>
 
-      <!-- STATS -->
       <div class="home-stats">
         <div class="home-stat">
           <span class="home-stat-num" id="profile-points">0</span>
@@ -95,7 +91,6 @@
         </div>
       </div>
 
-      <!-- WALLET -->
       <div class="info-card">
         <div class="info-card-title">💳 Wallet Address</div>
         <div class="wallet-row">
@@ -109,13 +104,12 @@
         </div>
       </div>
 
-      <!-- REFERRAL CODE -->
       <div class="info-card">
         <div class="info-card-title">🔗 Your Referral Code</div>
         <div class="ref-code-display" id="profile-ref-code">------</div>
       </div>
 
-      <!-- CONNECT X -->
+      <!-- CONNECT X (profile tab status, syncs with tasks tab) -->
       <div class="connect-card" id="connect-x-card">
         <div class="connect-info">
           <div class="connect-icon">𝕏</div>
@@ -124,12 +118,10 @@
             <p id="x-status-text">Not connected</p>
           </div>
         </div>
-        <button class="btn-connect-x" id="connect-x-btn" onclick="connectTwitter()">
-          Connect X
-        </button>
+        <button class="btn-connect-x" id="connect-x-btn" onclick="connectTwitter()">Connect X</button>
       </div>
 
-      <!-- CONNECT TELEGRAM -->
+      <!-- CONNECT TELEGRAM (profile tab status, syncs with tasks tab) -->
       <div class="connect-card" id="connect-telegram-card">
         <div class="connect-info">
           <div class="connect-icon">✈️</div>
@@ -143,7 +135,6 @@
         </div>
       </div>
 
-      <!-- PHASE BANNER -->
       <div class="phase-banner" id="phase-banner">
         <div class="phase-icon">⛏️</div>
         <div class="phase-info">
@@ -152,7 +143,6 @@
         </div>
       </div>
 
-      <!-- LOGOUT -->
       <button class="btn-logout-full" onclick="logoutUser()">🚪 Logout</button>
 
     </div>
@@ -211,6 +201,28 @@
       <div class="tab-header">
         <h2>Complete Tasks</h2>
         <p>Earn $VER by completing tasks below</p>
+      </div>
+
+      <!-- CONNECT X TASK -->
+      <div class="task-card" id="task-connect-x">
+        <div class="task-card-icon">𝕏</div>
+        <div class="task-card-info">
+          <strong>Connect Twitter/X Account</strong>
+          <span class="task-reward" id="x-task-reward">+150 $VER</span>
+        </div>
+        <button class="task-btn" id="connect-x-task-btn" onclick="connectTwitter()">Connect</button>
+      </div>
+
+      <!-- CONNECT TELEGRAM TASK -->
+      <div class="task-card" id="task-connect-telegram">
+        <div class="task-card-icon">✈️</div>
+        <div class="task-card-info">
+          <strong>Connect Telegram Account</strong>
+          <span class="task-reward" id="telegram-task-reward">+150 $VER</span>
+        </div>
+        <div id="telegram-task-widget-wrap">
+          <button class="task-btn" onclick="showTelegramWidget()">Connect</button>
+        </div>
       </div>
 
       <div id="mining-section" style="display:none;">
@@ -328,4 +340,4 @@
 
   <script type="module" src="js/dashboard.js"></script>
 </body>
-</html>
+          </html>
