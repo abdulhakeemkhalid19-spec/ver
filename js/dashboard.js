@@ -1,7 +1,7 @@
 // ===== FIREBASE CONFIG =====
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged, signOut, isSignInWithEmailLink, signInWithEmailLink, TwitterAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, isSignInWithEmailLink, signInWithEmailLink, TwitterAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAnrHeyZzd2OucQw2yAKAUBzBwot76Koh0",
@@ -56,6 +56,7 @@ onAuthStateChanged(auth, async (user) => {
     if (userData) {
       renderDashboard();
       renderTelegramWidget();
+      await handleTwitterRedirectResult();
     } else {
       window.location.href = 'register.html';
     }
@@ -227,11 +228,9 @@ function renderDashboard() {
   renderTasks();
 }
 
-// ===== UPDATE CONNECT UI (both Profile tab AND Task tab) =====
+// ===== UPDATE CONNECT UI =====
 function updateConnectUI() {
-  // ----- TWITTER -----
   if (userData.twitter_connected) {
-    // Profile tab
     const xStatus = document.getElementById('x-status-text');
     const xBtn = document.getElementById('connect-x-btn');
     const xCard = document.getElementById('connect-x-card');
@@ -239,7 +238,6 @@ function updateConnectUI() {
     if (xBtn) { xBtn.textContent = '✅ Connected'; xBtn.classList.add('connected'); xBtn.disabled = true; }
     if (xCard) xCard.classList.add('connected');
 
-    // Task tab
     const xTaskBtn = document.getElementById('connect-x-task-btn');
     const xTaskReward = document.getElementById('x-task-reward');
     if (xTaskBtn) {
@@ -251,9 +249,7 @@ function updateConnectUI() {
     if (xTaskReward) xTaskReward.textContent = `✅ ${userData.twitter || ''}`;
   }
 
-  // ----- TELEGRAM -----
   if (userData.telegram_connected) {
-    // Profile tab
     const tgStatus = document.getElementById('telegram-status-text');
     const tgCard = document.getElementById('connect-telegram-card');
     const tgWidgetWrap = document.getElementById('telegram-widget-wrap');
@@ -261,7 +257,6 @@ function updateConnectUI() {
     if (tgCard) tgCard.classList.add('connected');
     if (tgWidgetWrap) tgWidgetWrap.innerHTML = `<span style="color:var(--primary);font-size:0.82rem;font-weight:700;">✅ Connected</span>`;
 
-    // Task tab
     const tgTaskWrap = document.getElementById('telegram-task-widget-wrap');
     const tgTaskReward = document.getElementById('telegram-task-reward');
     if (tgTaskWrap) tgTaskWrap.innerHTML = `<button class="task-btn done" disabled>✅ Done</button>`;
@@ -269,7 +264,7 @@ function updateConnectUI() {
   }
 }
 
-// ===== RENDER TELEGRAM WIDGET (profile tab fallback button) =====
+// ===== RENDER TELEGRAM WIDGET =====
 function renderTelegramWidget() {
   if (userData?.telegram_connected) return;
   const wrap = document.getElementById('telegram-login-btn');
@@ -279,7 +274,6 @@ function renderTelegramWidget() {
 }
 
 window.showTelegramWidget = function () {
-  // Replace BOTH widget locations with the real Telegram widget
   const widgetHtml = `
     <script async src="https://telegram.org/js/telegram-widget.js?22"
       data-telegram-login="VERAirdropBot"
@@ -330,15 +324,24 @@ async function handleTelegramConnect(telegramUser) {
   alert(`✅ Telegram connected as ${telegramUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 }
 
-// ===== CONNECT TWITTER =====
+// ===== CONNECT TWITTER (REDIRECT FLOW — mobile safe) =====
 window.connectTwitter = async function () {
   if (userData?.twitter_connected) {
     alert('✅ Twitter/X is already connected!');
     return;
   }
+  sessionStorage.setItem('connecting_twitter', 'true');
+  await signInWithRedirect(auth, twitterProvider);
+}
+
+async function handleTwitterRedirectResult() {
+  if (sessionStorage.getItem('connecting_twitter') !== 'true') return;
 
   try {
-    const result = await signInWithPopup(auth, twitterProvider);
+    const result = await getRedirectResult(auth);
+    sessionStorage.removeItem('connecting_twitter');
+    if (!result) return;
+
     const twitterUsername = '@' + (result._tokenResponse?.screenName || '');
 
     const q = query(collection(db, 'airdrop_participants'), where('twitter', '==', twitterUsername));
@@ -369,11 +372,14 @@ window.connectTwitter = async function () {
     alert(`✅ Twitter/X connected as ${twitterUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 
   } catch (err) {
-    alert('❌ Twitter connect failed: ' + err.message);
+    sessionStorage.removeItem('connecting_twitter');
+    if (err.code !== 'auth/no-auth-event') {
+      alert('❌ Twitter connect failed: ' + err.message);
+    }
   }
 }
 
-// ===== REFRESH BALANCE DISPLAYS EVERYWHERE =====
+// ===== REFRESH BALANCE DISPLAYS =====
 function refreshBalanceDisplays() {
   const points = userData.ver_points || 0;
   document.getElementById('home-balance').textContent = points.toLocaleString();
@@ -561,136 +567,4 @@ window.saveWallet = async function () {
   }
 }
 
-// ===== CHANGE PICTURE =====
-window.changePicture = function () {
-  const input = document.createElement('input');
-  input.type = 'file';
-  input.accept = 'image/*';
-  input.onchange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = async (ev) => {
-      const dataUrl = ev.target.result;
-      await updateDoc(userDocRef, { photoURL: dataUrl });
-      userData.photoURL = dataUrl;
-
-      document.getElementById('profile-pic').src = dataUrl;
-      document.getElementById('profile-pic').style.display = 'block';
-      document.getElementById('profile-initial-big').style.display = 'none';
-      document.getElementById('nav-profile-img').src = dataUrl;
-      document.getElementById('nav-profile-img').style.display = 'block';
-      document.getElementById('nav-profile-initial').style.display = 'none';
-
-      alert('✅ Profile picture updated!');
-    };
-    reader.readAsDataURL(file);
-  };
-  input.click();
-}
-
-// ===== MINING =====
-window.doMining = async function () {
-  if (!userData || !userDocRef) return;
-  const now = new Date();
-
-  if (userData.last_mined) {
-    const diffHours = (now - new Date(userData.last_mined)) / (1000 * 60 * 60);
-    if (diffHours < 24) {
-      alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
-      return;
-    }
-  }
-
-  const miningReward = 50;
-  const newPoints = (userData.ver_points || 0) + miningReward;
-
-  await updateDoc(userDocRef, {
-    ver_points: newPoints,
-    last_mined: now.toISOString(),
-    mining_total: (userData.mining_total || 0) + miningReward
-  });
-
-  userData.ver_points = newPoints;
-  userData.last_mined = now.toISOString();
-
-  refreshBalanceDisplays();
-
-  const btn = document.getElementById('mine-btn');
-  if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
-  document.getElementById('mining-timer').textContent = 'Come back in 24 hours!';
-  alert(`⛏️ You mined ${miningReward} $VER!`);
-}
-
-// ===== CHECK MINING TIMER =====
-function checkMiningTimer() {
-  if (!userData?.last_mined) return;
-  const diffHours = (new Date() - new Date(userData.last_mined)) / (1000 * 60 * 60);
-  if (diffHours < 24) {
-    const btn = document.getElementById('mine-btn');
-    if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
-    document.getElementById('mining-timer').textContent =
-      `⏳ Next mining in ${Math.ceil(24 - diffHours)} hour(s)`;
-  }
-}
-
-// ===== UPDATE PROGRESS =====
-function updateProgress(referralCount, tier) {
-  let target, current, nextTier;
-  if (tier === 'Bronze') { target = 3; current = referralCount; nextTier = 'Silver'; }
-  else if (tier === 'Silver') { target = 10; current = referralCount; nextTier = 'Gold'; }
-  else if (tier === 'Gold') { target = 20; current = referralCount; nextTier = 'Diamond'; }
-  else { target = 1; current = 1; nextTier = 'Diamond'; }
-
-  const percent = Math.min((current / target) * 100, 100);
-  document.getElementById('home-progress-fill').style.width = `${percent}%`;
-  document.getElementById('home-progress-text').textContent =
-    tier === 'Diamond' ? '💎 Max tier reached!' : `${current}/${target} to ${nextTier}`;
-}
-
-// ===== TIER EMOJI =====
-function getTierEmoji(tier) {
-  const emojis = { Bronze: '🥉', Silver: '🥈', Gold: '🥇', Diamond: '💎' };
-  return emojis[tier] || '🥉';
-}
-
-// ===== COPY REFERRAL =====
-window.copyRefLink = function () {
-  if (!userData) return;
-  const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
-  navigator.clipboard.writeText(refLink).then(() => alert('✅ Referral link copied!'));
-}
-
-// ===== SHARE REFERRAL =====
-window.shareRefLink = function () {
-  if (!userData) return;
-  const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
-  if (navigator.share) {
-    navigator.share({ title: '$VER Airdrop', text: 'Join the $VER airdrop!', url: refLink });
-  } else {
-    copyRefLink();
-  }
-}
-
-// ===== SWITCH TAB =====
-window.switchTab = function (tab) {
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`tab-${tab}`).classList.add('active');
-  const btn = document.getElementById(`tab-btn-${tab}`);
-  if (btn) btn.classList.add('active');
-}
-
-// ===== HAMBURGER =====
-window.toggleDashMenu = function () {
-  document.getElementById('dash-side-menu').classList.toggle('open');
-  document.getElementById('dash-overlay').classList.toggle('open');
-  document.body.classList.toggle('no-scroll');
-}
-
-// ===== LOGOUT =====
-window.logoutUser = async function () {
-  if (!confirm('Are you sure you want to logout?')) return;
-  await signOut(auth);
-  window.location.href = 'login.html';
-  }
+// ===== CHANGE PICTUR
