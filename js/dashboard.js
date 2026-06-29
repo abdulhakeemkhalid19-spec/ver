@@ -330,16 +330,12 @@ window.connectTwitter = async function () {
     alert('✅ Twitter/X is already connected!');
     return;
   }
-  sessionStorage.setItem('connecting_twitter', 'true');
   await signInWithRedirect(auth, twitterProvider);
 }
 
 async function handleTwitterRedirectResult() {
-  if (sessionStorage.getItem('connecting_twitter') !== 'true') return;
-
   try {
     const result = await getRedirectResult(auth);
-    sessionStorage.removeItem('connecting_twitter');
     if (!result) return;
 
     const twitterUsername = '@' + (result._tokenResponse?.screenName || '');
