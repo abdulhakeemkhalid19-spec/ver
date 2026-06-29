@@ -57,12 +57,16 @@
         <div class="profile-pic-wrap">
           <img id="profile-pic" src="" alt="" class="profile-pic" style="display:none;"/>
           <div id="profile-initial-big" class="profile-initial-big">V</div>
-          <button class="change-pic-btn" onclick="changePicture()">📷</button>
+          <button class="change-pic-btn" onclick="changePicture()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3Z"/><circle cx="12" cy="13" r="3"/></svg>
+          </button>
         </div>
         <div class="profile-details">
           <div class="profile-name-row">
             <span id="profile-name-display">Loading...</span>
-            <button class="edit-btn" onclick="toggleEditUsername()">✏️</button>
+            <button class="edit-btn" onclick="toggleEditUsername()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></svg>
+            </button>
           </div>
           <div id="edit-username-form" style="display:none;" class="edit-form">
             <input type="text" id="edit-username-input" placeholder="New username"/>
@@ -92,10 +96,15 @@
       </div>
 
       <div class="info-card">
-        <div class="info-card-title">💳 Wallet Address</div>
+        <div class="info-card-title">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          Wallet Address
+        </div>
         <div class="wallet-row">
           <span id="profile-wallet-display" class="info-card-value">Not set</span>
-          <button class="edit-btn" onclick="toggleEditWallet()">✏️</button>
+          <button class="edit-btn" onclick="toggleEditWallet()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"/></svg>
+          </button>
         </div>
         <div id="edit-wallet-form" style="display:none;" class="edit-form">
           <input type="text" id="edit-wallet-input" placeholder="0x... BEP-20 address"/>
@@ -105,26 +114,33 @@
       </div>
 
       <div class="info-card">
-        <div class="info-card-title">🔗 Your Referral Code</div>
+        <div class="info-card-title">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11 4.93"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L13 19.07"/></svg>
+          Your Referral Code
+        </div>
         <div class="ref-code-display" id="profile-ref-code">------</div>
       </div>
 
-      <!-- CONNECT X (profile tab status, syncs with tasks tab) -->
+      <!-- CONNECT X -->
       <div class="connect-card" id="connect-x-card">
         <div class="connect-info">
-          <div class="connect-icon">𝕏</div>
+          <div class="connect-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </div>
           <div>
             <strong>Connect Twitter/X</strong>
             <p id="x-status-text">Not connected</p>
           </div>
         </div>
-        <button class="btn-connect-x" id="connect-x-btn" onclick="connectTwitter()">Connect X</button>
+        <button class="btn-connect-x" id="connect-x-btn" onclick="connectTwitter()">Connect</button>
       </div>
 
-      <!-- CONNECT TELEGRAM (profile tab status, syncs with tasks tab) -->
+      <!-- CONNECT TELEGRAM -->
       <div class="connect-card" id="connect-telegram-card">
         <div class="connect-info">
-          <div class="connect-icon">✈️</div>
+          <div class="connect-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 12.1c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.8c.2.7.5.9 1.1.9.4 0 .6-.2.9-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.4-1.9-1.7-1.3zM8.3 14.8l9.4-8.5c.4-.4.8-.2.5.3l-7.9 9.5-.3 3.5z"/></svg>
+          </div>
           <div>
             <strong>Connect Telegram</strong>
             <p id="telegram-status-text">Not connected</p>
@@ -136,14 +152,16 @@
       </div>
 
       <div class="phase-banner" id="phase-banner">
-        <div class="phase-icon">⛏️</div>
+        <div class="phase-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 12.5 18 9l-5-5-3.5 3.5"/><path d="M9 9 4 14l3 3 5-5"/><path d="M3 21l4-4"/><path d="M14 14l7 7"/></svg>
+        </div>
         <div class="phase-info">
           <strong>Mining Coming Soon!</strong>
           <p>Phase 2 mining will be activated by admin. Keep completing tasks!</p>
         </div>
       </div>
 
-      <button class="btn-logout-full" onclick="logoutUser()">🚪 Logout</button>
+      <button class="btn-logout-full" onclick="logoutUser()">Logout</button>
 
     </div>
 
@@ -185,12 +203,18 @@
       </div>
 
       <div class="info-card">
-        <div class="info-card-title">💳 Wallet Address</div>
+        <div class="info-card-title">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+          Wallet Address
+        </div>
         <div class="info-card-value" id="home-wallet">Not set</div>
       </div>
 
       <div class="info-card">
-        <div class="info-card-title">🔗 Your Referral Code</div>
+        <div class="info-card-title">
+          <svg class="icon-inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11 4.93"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L13 19.07"/></svg>
+          Your Referral Code
+        </div>
         <div class="info-card-value highlight" id="home-ref-code">Loading...</div>
       </div>
 
@@ -205,7 +229,9 @@
 
       <!-- CONNECT X TASK -->
       <div class="task-card" id="task-connect-x">
-        <div class="task-card-icon">𝕏</div>
+        <div class="task-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </div>
         <div class="task-card-info">
           <strong>Connect Twitter/X Account</strong>
           <span class="task-reward" id="x-task-reward">+150 $VER</span>
@@ -215,7 +241,9 @@
 
       <!-- CONNECT TELEGRAM TASK -->
       <div class="task-card" id="task-connect-telegram">
-        <div class="task-card-icon">✈️</div>
+        <div class="task-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 4.5L2.7 12.1c-1.2.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.8c.2.7.5.9 1.1.9.4 0 .6-.2.9-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l3.1-14.5c.3-1.3-.4-1.9-1.7-1.3zM8.3 14.8l9.4-8.5c.4-.4.8-.2.5.3l-7.9 9.5-.3 3.5z"/></svg>
+        </div>
         <div class="task-card-info">
           <strong>Connect Telegram Account</strong>
           <span class="task-reward" id="telegram-task-reward">+150 $VER</span>
@@ -227,7 +255,9 @@
 
       <div id="mining-section" style="display:none;">
         <div class="mining-card">
-          <div class="mining-icon">⛏️</div>
+          <div class="mining-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 12.5 18 9l-5-5-3.5 3.5"/><path d="M9 9 4 14l3 3 5-5"/><path d="M3 21l4-4"/><path d="M14 14l7 7"/></svg>
+          </div>
           <div class="mining-title">Daily Mining</div>
           <div class="mining-balance" id="mining-balance">0 $VER mined today</div>
           <button class="btn-mine" id="mine-btn" onclick="doMining()">Mine $VER Now</button>
@@ -259,7 +289,7 @@
       </div>
 
       <div class="ref-link-card">
-        <div class="ref-link-label">🔗 Your Referral Link</div>
+        <div class="ref-link-label">Your Referral Link</div>
         <div class="ref-link-box" id="ref-link-box">Loading...</div>
         <button class="btn-primary full-width" onclick="copyRefLink()" style="margin-top:12px;">Copy Referral Link</button>
         <button class="btn-secondary full-width" onclick="shareRefLink()" style="margin-top:10px;">Share Link</button>
@@ -317,27 +347,27 @@
   <!-- BOTTOM TAB BAR -->
   <nav class="bottom-tabs">
     <button class="tab-btn active" id="tab-btn-home" onclick="switchTab('home')">
-      <span class="tab-icon">🏠</span>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5Z"/></svg>
       <span class="tab-label">Home</span>
     </button>
     <button class="tab-btn" id="tab-btn-tasks" onclick="switchTab('tasks')">
-      <span class="tab-icon">✅</span>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       <span class="tab-label">Tasks</span>
     </button>
     <button class="tab-btn" id="tab-btn-referral" onclick="switchTab('referral')">
-      <span class="tab-icon">👥</span>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       <span class="tab-label">Referral</span>
     </button>
     <button class="tab-btn" id="tab-btn-news" onclick="switchTab('news')">
-      <span class="tab-icon">🆕</span>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1 .6-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
       <span class="tab-label">News</span>
     </button>
     <button class="tab-btn" id="tab-btn-profile" onclick="switchTab('profile')">
-      <span class="tab-icon">👤</span>
+      <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       <span class="tab-label">Profile</span>
     </button>
   </nav>
 
   <script type="module" src="js/dashboard.js"></script>
 </body>
-          </html>
+            </html>
