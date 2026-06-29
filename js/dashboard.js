@@ -264,7 +264,7 @@ function updateConnectUI() {
   }
 }
 
-// ===== RENDER TELEGRAM WIDGET =====
+// ===== RENDER TELEGRAM WIDGET (initial button, profile tab fallback) =====
 function renderTelegramWidget() {
   if (userData?.telegram_connected) return;
   const wrap = document.getElementById('telegram-login-btn');
@@ -273,6 +273,7 @@ function renderTelegramWidget() {
   }
 }
 
+// ===== SHOW TELEGRAM WIDGET (called from both Profile and Task tab buttons) =====
 window.showTelegramWidget = function () {
   injectTelegramWidget('telegram-login-btn');
   injectTelegramWidget('telegram-task-widget-wrap');
@@ -281,7 +282,7 @@ window.showTelegramWidget = function () {
 function injectTelegramWidget(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
-  container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;">Loading Telegram login...</p>';
+  container.innerHTML = '<p style="color:var(--text-muted);font-size:0.78rem;">⏳ Loading Telegram login...</p>';
 
   const script = document.createElement('script');
   script.async = true;
@@ -293,18 +294,20 @@ function injectTelegramWidget(containerId) {
   script.setAttribute('data-request-access', 'write');
 
   script.onload = () => {
-    console.log('Telegram widget script loaded');
+    setTimeout(() => {
+      if (!container.querySelector('iframe')) {
+        container.innerHTML = '<p style="color:var(--danger);font-size:0.75rem;">⚠️ Widget did not render. Tap to retry: <a href="#" onclick="showTelegramWidget();return false;" style="color:var(--primary);text-decoration:underline;">Retry</a></p>';
+      }
+    }, 2500);
   };
   script.onerror = () => {
-    console.error('Telegram widget script FAILED to load');
-    container.innerHTML = '<p style="color:var(--danger);font-size:0.8rem;">Failed to load. Check connection.</p>';
+    container.innerHTML = '<p style="color:var(--danger);font-size:0.75rem;">❌ Failed to load Telegram script.</p>';
   };
 
-  setTimeout(() => {
-    container.innerHTML = '';
-    container.appendChild(script);
-  }, 100);
+  container.innerHTML = '';
+  container.appendChild(script);
 }
+
 // ===== HANDLE TELEGRAM CONNECT =====
 async function handleTelegramConnect(telegramUser) {
   if (!userData || !userDocRef) return;
@@ -341,7 +344,7 @@ async function handleTelegramConnect(telegramUser) {
   alert(`✅ Telegram connected as ${telegramUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 }
 
-// ===== CONNECT TWITTER (REDIRECT FLOW — mobile safe) =====
+// ===== CONNECT TWITTER (REDIRECT FLOW) =====
 window.connectTwitter = async function () {
   if (userData?.twitter_connected) {
     alert('✅ Twitter/X is already connected!');
@@ -385,7 +388,6 @@ async function handleTwitterRedirectResult() {
     alert(`✅ Twitter/X connected as ${twitterUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 
   } catch (err) {
-    sessionStorage.removeItem('connecting_twitter');
     if (err.code !== 'auth/no-auth-event') {
       alert('❌ Twitter connect failed: ' + err.message);
     }
@@ -418,7 +420,7 @@ function renderTasks() {
 
     let btnHtml = '';
     if (isDone) {
-      btnHtml = `<button class="task-btn done" disabled>✅ Done</button>`;
+      btnHtml = `<button class="task-btn done" disabled>Done</button>`;
     } else if (isPending) {
       btnHtml = `<button class="task-btn claim" onclick="claimTask('${task.taskId}', ${task.points})">Claim</button>`;
     } else {
@@ -636,7 +638,7 @@ window.doMining = async function () {
   refreshBalanceDisplays();
 
   const btn = document.getElementById('mine-btn');
-  if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Mined Today'; }
   document.getElementById('mining-timer').textContent = 'Come back in 24 hours!';
   alert(`⛏️ You mined ${miningReward} $VER!`);
 }
@@ -647,7 +649,7 @@ function checkMiningTimer() {
   const diffHours = (new Date() - new Date(userData.last_mined)) / (1000 * 60 * 60);
   if (diffHours < 24) {
     const btn = document.getElementById('mine-btn');
-    if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+    if (btn) { btn.disabled = true; btn.textContent = 'Mined Today'; }
     document.getElementById('mining-timer').textContent =
       `⏳ Next mining in ${Math.ceil(24 - diffHours)} hour(s)`;
   }
@@ -712,4 +714,4 @@ window.logoutUser = async function () {
   if (!confirm('Are you sure you want to logout?')) return;
   await signOut(auth);
   window.location.href = 'login.html';
-}
+  }
