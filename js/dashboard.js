@@ -567,4 +567,136 @@ window.saveWallet = async function () {
   }
 }
 
-// ===== CHANGE PICTUR
+// ===== CHANGE PICTURE =====
+window.changePicture = function () {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (ev) => {
+      const dataUrl = ev.target.result;
+      await updateDoc(userDocRef, { photoURL: dataUrl });
+      userData.photoURL = dataUrl;
+
+      document.getElementById('profile-pic').src = dataUrl;
+      document.getElementById('profile-pic').style.display = 'block';
+      document.getElementById('profile-initial-big').style.display = 'none';
+      document.getElementById('nav-profile-img').src = dataUrl;
+      document.getElementById('nav-profile-img').style.display = 'block';
+      document.getElementById('nav-profile-initial').style.display = 'none';
+
+      alert('✅ Profile picture updated!');
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+// ===== MINING =====
+window.doMining = async function () {
+  if (!userData || !userDocRef) return;
+  const now = new Date();
+
+  if (userData.last_mined) {
+    const diffHours = (now - new Date(userData.last_mined)) / (1000 * 60 * 60);
+    if (diffHours < 24) {
+      alert(`⏳ Come back in ${Math.ceil(24 - diffHours)} hour(s) to mine again!`);
+      return;
+    }
+  }
+
+  const miningReward = 50;
+  const newPoints = (userData.ver_points || 0) + miningReward;
+
+  await updateDoc(userDocRef, {
+    ver_points: newPoints,
+    last_mined: now.toISOString(),
+    mining_total: (userData.mining_total || 0) + miningReward
+  });
+
+  userData.ver_points = newPoints;
+  userData.last_mined = now.toISOString();
+
+  refreshBalanceDisplays();
+
+  const btn = document.getElementById('mine-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+  document.getElementById('mining-timer').textContent = 'Come back in 24 hours!';
+  alert(`⛏️ You mined ${miningReward} $VER!`);
+}
+
+// ===== CHECK MINING TIMER =====
+function checkMiningTimer() {
+  if (!userData?.last_mined) return;
+  const diffHours = (new Date() - new Date(userData.last_mined)) / (1000 * 60 * 60);
+  if (diffHours < 24) {
+    const btn = document.getElementById('mine-btn');
+    if (btn) { btn.disabled = true; btn.textContent = '✅ Mined Today!'; }
+    document.getElementById('mining-timer').textContent =
+      `⏳ Next mining in ${Math.ceil(24 - diffHours)} hour(s)`;
+  }
+}
+
+// ===== UPDATE PROGRESS =====
+function updateProgress(referralCount, tier) {
+  let target, current, nextTier;
+  if (tier === 'Bronze') { target = 3; current = referralCount; nextTier = 'Silver'; }
+  else if (tier === 'Silver') { target = 10; current = referralCount; nextTier = 'Gold'; }
+  else if (tier === 'Gold') { target = 20; current = referralCount; nextTier = 'Diamond'; }
+  else { target = 1; current = 1; nextTier = 'Diamond'; }
+
+  const percent = Math.min((current / target) * 100, 100);
+  document.getElementById('home-progress-fill').style.width = `${percent}%`;
+  document.getElementById('home-progress-text').textContent =
+    tier === 'Diamond' ? '💎 Max tier reached!' : `${current}/${target} to ${nextTier}`;
+}
+
+// ===== TIER EMOJI =====
+function getTierEmoji(tier) {
+  const emojis = { Bronze: '🥉', Silver: '🥈', Gold: '🥇', Diamond: '💎' };
+  return emojis[tier] || '🥉';
+}
+
+// ===== COPY REFERRAL =====
+window.copyRefLink = function () {
+  if (!userData) return;
+  const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
+  navigator.clipboard.writeText(refLink).then(() => alert('✅ Referral link copied!'));
+}
+
+// ===== SHARE REFERRAL =====
+window.shareRefLink = function () {
+  if (!userData) return;
+  const refLink = `https://abdulhakeemkhalid19-spec.github.io/ver/register.html?ref=${userData.my_referral_code}`;
+  if (navigator.share) {
+    navigator.share({ title: '$VER Airdrop', text: 'Join the $VER airdrop!', url: refLink });
+  } else {
+    copyRefLink();
+  }
+}
+
+// ===== SWITCH TAB =====
+window.switchTab = function (tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  const btn = document.getElementById(`tab-btn-${tab}`);
+  if (btn) btn.classList.add('active');
+}
+
+// ===== HAMBURGER =====
+window.toggleDashMenu = function () {
+  document.getElementById('dash-side-menu').classList.toggle('open');
+  document.getElementById('dash-overlay').classList.toggle('open');
+  document.body.classList.toggle('no-scroll');
+}
+
+// ===== LOGOUT =====
+window.logoutUser = async function () {
+  if (!confirm('Are you sure you want to logout?')) return;
+  await signOut(auth);
+  window.location.href = 'login.html';
+}
