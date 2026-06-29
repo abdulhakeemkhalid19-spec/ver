@@ -281,16 +281,29 @@ window.showTelegramWidget = function () {
 function injectTelegramWidget(containerId) {
   const container = document.getElementById(containerId);
   if (!container) return;
-  container.innerHTML = '';
+  container.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;">Loading Telegram login...</p>';
 
   const script = document.createElement('script');
   script.async = true;
   script.src = 'https://telegram.org/js/telegram-widget.js?22';
   script.setAttribute('data-telegram-login', 'VERAirdropBot');
   script.setAttribute('data-size', 'medium');
+  script.setAttribute('data-radius', '8');
   script.setAttribute('data-onauth', 'onTelegramAuth(user)');
   script.setAttribute('data-request-access', 'write');
-  container.appendChild(script);
+
+  script.onload = () => {
+    console.log('Telegram widget script loaded');
+  };
+  script.onerror = () => {
+    console.error('Telegram widget script FAILED to load');
+    container.innerHTML = '<p style="color:var(--danger);font-size:0.8rem;">Failed to load. Check connection.</p>';
+  };
+
+  setTimeout(() => {
+    container.innerHTML = '';
+    container.appendChild(script);
+  }, 100);
 }
 // ===== HANDLE TELEGRAM CONNECT =====
 async function handleTelegramConnect(telegramUser) {
