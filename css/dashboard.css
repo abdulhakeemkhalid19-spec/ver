@@ -877,3 +877,33 @@
   .profile-hero { flex-direction: column; align-items: flex-start; }
   .connect-card { flex-wrap: wrap; gap: 12px; }
 }
+/* ===== SVG ICON SIZING ===== */
+.tab-icon {
+  width: 22px;
+  height: 22px;
+  stroke-width: 2;
+}
+
+.icon-inline {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+.info-card-title {
+  display: flex;
+  align-items: center;
+}
+
+.btn-logout-full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.change-pic-btn svg, .edit-btn svg {
+  display: block;
+}
