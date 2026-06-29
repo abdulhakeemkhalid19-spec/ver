@@ -175,10 +175,16 @@
   background: var(--bg2);
   border: 1px solid var(--border);
   cursor: pointer;
-  font-size: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text);
+}
+
+.change-pic-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .profile-details { flex: 1; }
@@ -263,13 +269,21 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 0.9rem;
-  padding: 2px 6px;
+  padding: 4px 6px;
   border-radius: 6px;
   transition: background 0.2s;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
 }
 
-.edit-btn:hover { background: rgba(255,255,255,0.05); }
+.edit-btn:hover { background: rgba(255,255,255,0.05); color: var(--primary); }
+
+.edit-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
 
 /* ===== WALLET ROW ===== */
 .wallet-row {
@@ -321,7 +335,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  flex-shrink: 0;
+  color: var(--text);
+}
+
+.connect-icon svg {
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
@@ -387,6 +407,10 @@
   margin-top: 8px;
   font-family: 'Inter', sans-serif;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-logout-full:hover {
@@ -509,6 +533,8 @@
 }
 
 .info-card-title {
+  display: flex;
+  align-items: center;
   font-size: 0.78rem;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -520,6 +546,45 @@
   font-size: 0.9rem;
   font-weight: 600;
   word-break: break-all;
+}
+
+/* ===== SVG ICON SIZING (forced, overrides any inline width/height) ===== */
+svg.icon-inline {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+svg.tab-icon {
+  width: 22px !important;
+  height: 22px !important;
+  min-width: 22px;
+  flex-shrink: 0;
+}
+
+.info-card svg,
+.connect-card svg,
+.task-card svg,
+.phase-banner svg,
+.mining-card svg,
+.edit-btn svg,
+.change-pic-btn svg,
+.btn-logout-full svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.connect-icon svg,
+.task-card-icon svg,
+.mining-icon svg,
+.phase-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* ===== PHASE BANNER ===== */
@@ -534,7 +599,10 @@
   margin-bottom: 12px;
 }
 
-.phase-icon { font-size: 1.8rem; flex-shrink: 0; }
+.phase-icon {
+  flex-shrink: 0;
+  color: var(--warning);
+}
 
 .phase-info strong {
   display: block;
@@ -565,7 +633,16 @@
   border-color: rgba(0,245,160,0.2);
 }
 
-.task-card-icon { font-size: 1.5rem; min-width: 36px; text-align: center; }
+.task-card-icon {
+  min-width: 36px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  flex-shrink: 0;
+}
 
 .task-card-info { flex: 1; }
 
@@ -636,7 +713,14 @@
   margin-bottom: 20px;
 }
 
-.mining-icon { font-size: 2.5rem; margin-bottom: 8px; }
+.mining-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  color: var(--warning);
+}
+
 .mining-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.2rem;
@@ -830,9 +914,8 @@
   padding: 8px 2px;
   border-radius: 10px;
   transition: all 0.2s;
+  color: var(--text-muted);
 }
-
-.tab-icon { font-size: 1.2rem; line-height: 1; }
 
 .tab-label {
   font-size: 0.62rem;
@@ -842,8 +925,8 @@
   transition: color 0.2s;
 }
 
+.tab-btn.active { color: var(--primary); background: rgba(0,245,160,0.08); }
 .tab-btn.active .tab-label { color: var(--primary); }
-.tab-btn.active { background: rgba(0,245,160,0.08); }
 .tab-btn:hover { background: rgba(0,245,160,0.05); }
 
 .btn-logout {
@@ -876,34 +959,4 @@
   .dash-main { padding: 16px 12px; }
   .profile-hero { flex-direction: column; align-items: flex-start; }
   .connect-card { flex-wrap: wrap; gap: 12px; }
-}
-/* ===== SVG ICON SIZING ===== */
-.tab-icon {
-  width: 22px;
-  height: 22px;
-  stroke-width: 2;
-}
-
-.icon-inline {
-  width: 14px;
-  height: 14px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 6px;
-}
-
-.info-card-title {
-  display: flex;
-  align-items: center;
-}
-
-.btn-logout-full {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.change-pic-btn svg, .edit-btn svg {
-  display: block;
-}
+  }
