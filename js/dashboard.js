@@ -274,20 +274,24 @@ function renderTelegramWidget() {
 }
 
 window.showTelegramWidget = function () {
-  const widgetHtml = `
-    <script async src="https://telegram.org/js/telegram-widget.js?22"
-      data-telegram-login="VERAirdropBot"
-      data-size="medium"
-      data-onauth="onTelegramAuth(user)"
-      data-request-access="write">
-    <\/script>
-  `;
-  const wrap1 = document.getElementById('telegram-login-btn');
-  const wrap2 = document.getElementById('telegram-task-widget-wrap');
-  if (wrap1) wrap1.innerHTML = widgetHtml;
-  if (wrap2) wrap2.innerHTML = widgetHtml;
+  injectTelegramWidget('telegram-login-btn');
+  injectTelegramWidget('telegram-task-widget-wrap');
 }
 
+function injectTelegramWidget(containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.innerHTML = '';
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://telegram.org/js/telegram-widget.js?22';
+  script.setAttribute('data-telegram-login', 'VERAirdropBot');
+  script.setAttribute('data-size', 'medium');
+  script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+  script.setAttribute('data-request-access', 'write');
+  container.appendChild(script);
+}
 // ===== HANDLE TELEGRAM CONNECT =====
 async function handleTelegramConnect(telegramUser) {
   if (!userData || !userDocRef) return;
