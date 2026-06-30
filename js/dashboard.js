@@ -264,7 +264,7 @@ function updateConnectUI() {
   }
 }
 
-// ===== RENDER TELEGRAM WIDGET (initial button, profile tab fallback) =====
+// ===== RENDER TELEGRAM WIDGET =====
 function renderTelegramWidget() {
   if (userData?.telegram_connected) return;
   const wrap = document.getElementById('telegram-login-btn');
@@ -273,7 +273,6 @@ function renderTelegramWidget() {
   }
 }
 
-// ===== SHOW TELEGRAM WIDGET (called from both Profile and Task tab buttons) =====
 window.showTelegramWidget = function () {
   injectTelegramWidget('telegram-login-btn');
   injectTelegramWidget('telegram-task-widget-wrap');
@@ -296,7 +295,7 @@ function injectTelegramWidget(containerId) {
   script.onload = () => {
     setTimeout(() => {
       if (!container.querySelector('iframe')) {
-        container.innerHTML = '<p style="color:var(--danger);font-size:0.75rem;">⚠️ Widget did not render. Tap to retry: <a href="#" onclick="showTelegramWidget();return false;" style="color:var(--primary);text-decoration:underline;">Retry</a></p>';
+        container.innerHTML = '<p style="color:var(--danger);font-size:0.75rem;">⚠️ Widget did not render. <a href="#" onclick="showTelegramWidget();return false;" style="color:var(--primary);text-decoration:underline;">Retry</a></p>';
       }
     }, 2500);
   };
@@ -344,19 +343,25 @@ async function handleTelegramConnect(telegramUser) {
   alert(`✅ Telegram connected as ${telegramUsername}!\n🎉 +${CONNECT_REWARD} $VER added!`);
 }
 
-// ===== CONNECT TWITTER (REDIRECT FLOW) =====
+// ===== CONNECT TWITTER (REDIRECT FLOW with debug) =====
 window.connectTwitter = async function () {
   if (userData?.twitter_connected) {
     alert('✅ Twitter/X is already connected!');
     return;
   }
-  await signInWithRedirect(auth, twitterProvider);
+  try {
+    await signInWithRedirect(auth, twitterProvider);
+  } catch (err) {
+    alert(`❌ Could not start Twitter connect:\nCode: ${err.code}\nMessage: ${err.message}`);
+  }
 }
 
 async function handleTwitterRedirectResult() {
   try {
     const result = await getRedirectResult(auth);
-    if (!result) return;
+    if (!result) {
+      return;
+    }
 
     const twitterUsername = '@' + (result._tokenResponse?.screenName || '');
 
@@ -389,7 +394,7 @@ async function handleTwitterRedirectResult() {
 
   } catch (err) {
     if (err.code !== 'auth/no-auth-event') {
-      alert('❌ Twitter connect failed: ' + err.message);
+      alert(`❌ Twitter connect failed:\nCode: ${err.code}\nMessage: ${err.message}`);
     }
   }
 }
