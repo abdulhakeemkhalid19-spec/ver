@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>$VER Leaderboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:#19f7a5;
+--background:#07111d;
+--card:#10263d;
+--text:#ffffff;
+--muted:#aab7c5;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:var(--background);
+font-family:'Inter',sans-serif;
+color:var(--text);
+}
+
+.hero{
+
+padding:80px 20px;
+text-align:center;
+background:linear-gradient(180deg,#07111d,#10263d);
+
+}
+
+.hero h1{
+
+font-size:3rem;
+color:var(--primary);
+font-family:'Space Grotesk',sans-serif;
+margin-bottom:20px;
+
+}
+
+.hero p{
+
+max-width:700px;
+margin:auto;
+color:var(--muted);
+font-size:18px;
+
+}
+
+.container{
+
+width:90%;
+max-width:1200px;
+margin:auto;
+padding:70px 0;
+
+}
+
+.stats{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-bottom:70px;
+
+}
+
+.stat{
+
+background:var(--card);
+padding:30px;
+border-radius:15px;
+text-align:center;
+border:1px solid rgba(25,247,165,.2);
+
+}
+
+.stat h2{
+
+font-size:2.3rem;
+color:var(--primary);
+
+}
+
+.stat span{
+
+display:block;
+margin-top:10px;
+color:var(--muted);
+
+}
+
+.section-title{
+
+font-size:2rem;
+color:var(--primary);
+margin-bottom:35px;
+font-family:'Space Grotesk',sans-serif;
+
+}
+
+.podium{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-bottom:60px;
+
+}
+
+.rank-card{
+
+background:var(--card);
+padding:30px;
+border-radius:18px;
+text-align:center;
+transition:.3s;
+
+}
+
+.rank-card:hover{
+
+transform:translateY(-6px);
+
+}
+
+.rank-card h2{
+
+font-size:3rem;
+margin-bottom:15px;
+
+}
+
+.rank-card h3{
+
+margin-bottom:10px;
+
+}
+
+.rank-card p{
+
+color:var(--muted);
+
+}
+
+.gold{
+
+border:2px solid gold;
+
+}
+
+.silver{
+
+border:2px solid silver;
+
+}
+
+.bronze{
+
+border:2px solid #cd7f32;
+
+}
+
+table{
+
+width:100%;
+border-collapse:collapse;
+background:var(--card);
+border-radius:15px;
+overflow:hidden;
+
+}
+
+th{
+
+background:#13324e;
+padding:18px;
+text-align:left;
+
+}
+
+td{
+
+padding:18px;
+border-bottom:1px solid rgba(255,255,255,.05);
+
+}
+
+tr:hover{
+
+background:#14324d;
+
+}
+
+.badge{
+
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+font-weight:bold;
+
+}
+
+.badge-gold{
+
+background:gold;
+color:black;
+
+}
+
+.badge-silver{
+
+background:silver;
+color:black;
+
+}
+
+.badge-bronze{
+
+background:#cd7f32;
+color:white;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="hero">
+
+<h1>$VER Leaderboard</h1>
+
+<p>
+
+Celebrate our top-performing community members.
+Rankings are updated regularly based on referrals,
+community participation, ambassador activities, and completed tasks.
+
+</p>
+
+</section>
+
+<div class="container">
+
+<div class="stats">
+
+<div class="stat">
+
+<h2>12,450</h2>
+
+<span>Total Participants</span>
+
+</div>
+
+<div class="stat">
+
+<h2>4,980</h2>
+
+<span>Total Referrals</span>
+
+</div>
+
+<div class="stat">
+
+<h2>200M</h2>
+
+<span>$VER Allocated</span>
+
+</div>
+
+<div class="stat">
+
+<h2>150+</h2>
+
+<span>Active Ambassadors</span>
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+
+🏆 Top 3 Community Leaders
+
+</h2>
+
+<div class="podium">
+
+<div class="rank-card silver">
+
+<h2>🥈</h2>
+
+<h3>CryptoQueen</h3>
+
+<p>2,870 Referrals</p>
+
+<p>28,700 Points</p>
+
+</div>
+
+<div class="rank-card gold">
+
+<h2>🥇</h2>
+
+<h3>VERMaster</h3>
+
+<p>3,250 Referrals</p>
+
+<p>32,500 Points</p>
+
+</div>
+
+<div class="rank-card bronze">
+
+<h2>🥉</h2>
+
+<h3>BlockchainPro</h3>
+
+<p>2,430 Referrals</p>
+
+<p>24,300 Points</p>
+
+</div>
+
+</div>
+
+<h2 class="section-title">
+
+🌍 Global Rankings
+
+</h2>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Rank</th>
+
+<th>Username</th>
+
+<th>Country</th>
+
+<th>Referrals</th>
+
+<th>Points</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>1</td>
+
+<td>VERMaster</td>
+
+<td>🇺🇸 USA</td>
+
+<td>3250</td>
+
+<td>32500</td>
+
+<td><span class="badge badge-gold">Elite</span></td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+
+<td>CryptoQueen</td>
+
+<td>🇬🇧 UK</td>
+
+<td>2870</td>
+
+<td>28700</td>
+
+<td><span class="badge badge-silver">Gold</span></td>
+
+</tr>
+
+<tr>
+
+<td>3</td>
+
+<td>BlockchainPro</td>
+
+<td>🇨🇦 Canada</td>
+
+<td>2430</td>
+
+<td>24300</td>
+
+<td><span class="badge badge-bronze">Silver</span></td>
+
+</tr>
+
+<tr>
+
+<td>4</td>
+
+<td>CryptoKing</td>
+
+<td>🇳🇬 Nigeria</td>
+
+<td>2010</td>
+
+<td>20100</td>
+
+<td>Gold</td>
+
+</tr>
+
+<tr>
+
+<td>5</td>
+
+<td>Web3Guru</td>
+
+<td>🇰🇪 Kenya</td>
+
+<td>1840</td>
+
+<td>18400</td>
+
+<td>Silver</td>
+
+  </tr>
+  <tr>
+
+<td>6</td>
+
+<td>TokenHunter</td>
+
+<td>🇿🇦 South Africa</td>
+
+<td>1735</td>
+
+<td>17350</td>
+
+<td>Silver</td>
+
+</tr>
+
+<tr>
+
+<td>7</td>
+
+<td>AlphaWolf</td>
+
+<td>🇮🇳 India</td>
+
+<td>1650</td>
+
+<td>16500</td>
+
+<td>Bronze</td>
+
+</tr>
+
+<tr>
+
+<td>8</td>
+
+<td>CryptoLion</td>
+
+<td>🇧🇷 Brazil</td>
+
+<td>1542</td>
+
+<td>15420</td>
+
+<td>Bronze</td>
+
+</tr>
+
+<tr>
+
+<td>9</td>
+
+<td>MoonWalker</td>
+
+<td>🇵🇭 Philippines</td>
+
+<td>1498</td>
+
+<td>14980</td>
+
+<td>Bronze</td>
+
+</tr>
+
+<tr>
+
+<td>10</td>
+
+<td>Web3Legend</td>
+
+<td>🇬🇭 Ghana</td>
+
+<td>1420</td>
+
+<td>14200</td>
+
+<td>Bronze</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<section style="padding:80px 20px;">
+
+<div class="container">
+
+<h2 class="section-title">
+
+⭐ Ambassador of the Month
+
+</h2>
+
+<div class="rank-card gold">
+
+<h2>👑</h2>
+
+<h3>VERMaster</h3>
+
+<p>
+
+Outstanding community leadership, consistent content creation,
+and over <strong>3,250 successful referrals</strong>.
+
+</p>
+
+<p style="margin-top:15px;color:var(--primary);font-weight:bold;">
+
+Reward:
+50,000 $VER + Exclusive Ambassador Badge
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section style="padding:30px 20px 80px;">
+
+<div class="container">
+
+<h2 class="section-title">
+
+🎁 Monthly Rewards
+
+</h2>
+
+<div class="stats">
+
+<div class="stat">
+
+<h2>🥇</h2>
+
+<span>50,000 $VER</span>
+
+</div>
+
+<div class="stat">
+
+<h2>🥈</h2>
+
+<span>25,000 $VER</span>
+
+</div>
+
+<div class="stat">
+
+<h2>🥉</h2>
+
+<span>10,000 $VER</span>
+
+</div>
+
+<div class="stat">
+
+<h2>⭐</h2>
+
+<span>Top 10 receive bonus allocations</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer style="background:#081624;padding:40px 20px;text-align:center;">
+
+<h2 style="color:#19f7a5;margin-bottom:10px;">
+
+$VER Token
+
+</h2>
+
+<p style="color:#aab7c5;">
+
+Building the future of decentralized rewards through community participation.
+
+</p>
+
+<p style="margin-top:20px;color:#6f7d8a;">
+
+© 2025 $VER Token. All Rights Reserved.
+
+</p>
+
+</footer>
+
+</body>
+
+</html>
