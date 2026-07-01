@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$VER — Roadmap</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .inner-page {
+      min-height: 100vh;
+      padding: 32px 24px 60px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .inner-page h1 {
+      font-size: 2rem;
+      margin: 12px 0 8px;
+    }
+
+    .inner-page .lead {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--border));
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: -27px;
+      top: 6px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid var(--border);
+      z-index: 1;
+    }
+
+    .timeline-item.active .timeline-dot {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0,245,160,0.15);
+    }
+
+    .timeline-item.completed .timeline-dot {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .timeline-item.completed .timeline-dot::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.6rem;
+      color: var(--bg);
+      font-weight: 700;
+    }
+
+    .timeline-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+      transition: border-color 0.2s;
+    }
+
+    .timeline-item.active .timeline-card {
+      border-color: rgba(0,245,160,0.4);
+      background: rgba(0,245,160,0.03);
+    }
+
+    .timeline-phase {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .timeline-item:not(.active):not(.completed) .timeline-phase {
+      color: var(--text-muted);
+    }
+
+    .timeline-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .timeline-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .timeline-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .timeline-task {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .timeline-task.done {
+      color: var(--primary);
+    }
+
+    .timeline-task::before {
+      content: '○';
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    .timeline-task.done::before {
+      content: '✓';
+      color: var(--primary);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .status-badge.live {
+      background: rgba(0,245,160,0.1);
+      color: var(--primary);
+      border: 1px solid rgba(0,245,160,0.3);
+    }
+
+    .status-badge.soon {
+      background: rgba(255,159,67,0.1);
+      color: var(--warning);
+      border: 1px solid rgba(255,159,67,0.3);
+    }
+
+    .status-badge.upcoming {
+      background: var(--bg3);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">$VER</a>
+    <a href="index.html" class="btn-secondary" style="padding:8px 18px;font-size:0.88rem;">← Back</a>
+  </nav>
+
+  <div class="inner-page">
+    <div class="section-tag">🗺️ Roadmap</div>
+    <h1>$VER Project Roadmap</h1>
+    <p class="lead">Our journey from community airdrop to full exchange listing and beyond.</p>
+
+    <div class="timeline">
+
+      <!-- PHASE 1 -->
+      <div class="timeline-item active">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-phase">Phase 1 — Q2 2025</div>
+          <h3>🚀 Community & Airdrop Launch</h3>
+          <p>Building our community foundation through social media tasks and referral campaigns.</p>
+          <div class="timeline-tasks">
+            <div class="timeline-task done">Launch $VER airdrop platform</div>
+            <div class="timeline-task done">Social media task system</div>
+            <div class="timeline-task done">Referral program activation</div>
+            <div class="timeline-task done">Connect Twitter/X & Telegram</div>
+            <div class="timeline-task done">Community Telegram & Twitter launch</div>
+          </div>
+          <span class="status-badge live">🟢 Live Now</span>
+        </div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-phase">Phase 2 — Q3 2025</div>
+          <h3>⛏️ Mining Phase Activation</h3>
+          <p>Daily mining activated for all registered users. Earn additional $VER every 24 hours.</p>
+          <div class="timeline-tasks">
+            <div class="timeline-task">Daily mining system launch</div>
+            <div class="timeline-task">Mining rewards distribution</div>
+            <div class="timeline-task">Mining leaderboard</div>
+            <div class="timeline-task">Community milestone rewards</div>
+          </div>
+          <span class="status-badge soon">🟡 Coming Soon</span>
+        </div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-phase">Phase 3 — Q4 2025</div>
+          <h3>⚙️ Token Development</h3>
+          <p>Smart contract deployment, security audit, and liquidity pool creation on BNB Smart Chain.</p>
+          <div class="timeline-tasks">
+            <div class="timeline-task">BEP-20 smart contract deployment</div>
+            <div class="timeline-task">Third-party security audit</div>
+            <div class="timeline-task">Liquidity pool creation</div>
+            <div class="timeline-task">Token distribution snapshot</div>
+          </div>
+          <span class="status-badge upcoming">⚪ Upcoming</span>
+        </div>
+      </div>
+
+      <!-- PHASE 4 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-phase">Phase 4 — Q1 2026</div>
+          <h3>📈 Exchange Listing</h3>
+          <p>$VER listed on major DEX and CEX exchanges. Airdrop tokens distributed to all eligible participants.</p>
+          <div class="timeline-tasks">
+            <div class="timeline-task">DEX listing (PancakeSwap)</div>
+            <div class="timeline-task">CEX listing negotiations</div>
+            <div class="timeline-task">Airdrop token distribution</div>
+            <div class="timeline-task">$50M post-listing fund distribution</div>
+          </div>
+          <span class="status-badge upcoming">⚪ Upcoming</span>
+        </div>
+      </div>
+
+      <!-- PHASE 5 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-phase">Phase 5 — Q2 2026</div>
+          <h3>🌍 Ecosystem Expansion</h3>
+          <p>Building the $VER ecosystem with new products, partnerships, and global growth.</p>
+          <div class="timeline-tasks">
+            <div class="timeline-task">$VER mobile app launch</div>
+            <div class="timeline-task">Strategic partnerships</div>
+            <div class="timeline-task">NFT integration</div>
+            <div class="timeline-task">$VER DeFi platform</div>
+          </div>
+          <span class="status-badge upcoming">⚪ Upcoming</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo">$VER</div>
+    <p>© 2025 VER Token. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="register.html">Join Airdrop</a>
+      <a href="login.html">Login</a>
+    </div>
+  </footer>
+
+</body>
+</html>
