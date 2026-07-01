@@ -6,86 +6,274 @@
   <title>$VER — Tokenomics</title>
   <link rel="stylesheet" href="css/style.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .token-page {
+      min-height: 100vh;
+      background: var(--bg);
+      padding-bottom: 60px;
+    }
+
+    .token-hero {
+      padding: 32px 24px 0;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .token-hero h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .token-hero p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+    }
+
+    /* ===== DONUT CHART ===== */
+    .chart-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 40px;
+      position: relative;
+      width: 260px;
+      height: 260px;
+    }
+
+    .donut-svg {
+      width: 260px;
+      height: 260px;
+      transform: rotate(-90deg);
+    }
+
+    .donut-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .donut-center-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .donut-center-value {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .donut-center-ticker {
+      font-size: 0.78rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* ===== LEGEND LIST ===== */
+    .token-legend {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .legend-item:last-child {
+      border-bottom: none;
+    }
+
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .legend-info {
+      flex: 1;
+    }
+
+    .legend-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text);
+      display: block;
+    }
+
+    .legend-amount {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .legend-percent {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    /* ===== INFO TABLE ===== */
+    .info-section {
+      max-width: 500px;
+      margin: 40px auto 0;
+      padding: 0 24px;
+    }
+
+    .info-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .info-table {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .info-row:last-child { border-bottom: none; }
+    .info-row span { color: var(--text-muted); }
+    .info-row strong { color: var(--text); }
+  </style>
 </head>
 <body>
+
   <nav class="navbar">
     <a href="index.html" class="nav-logo">$VER</a>
     <a href="index.html" class="btn-secondary" style="padding:8px 18px;font-size:0.88rem;">← Back</a>
   </nav>
 
-  <div class="inner-page">
-    <div class="container">
+  <div class="token-page">
+    <div class="token-hero">
       <div class="section-tag">📊 Tokenomics</div>
-      <h1>$VER Token Distribution</h1>
-      <p class="section-sub">A fair and transparent token allocation designed for long-term growth and community ownership.</p>
+      <h1>$VER Tokenomics</h1>
+      <p>20% earned by the community — rewarding early supporters before listing.</p>
+    </div>
 
-      <div class="token-grid">
-        <div class="token-card">
-          <div class="token-percent" style="color:#00f5a0">20%</div>
-          <div class="token-label">Airdrop & Community</div>
-          <div class="token-amount">200,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#ffd700">25%</div>
-          <div class="token-label">Liquidity Pool</div>
-          <div class="token-amount">250,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#a8d8f0">20%</div>
-          <div class="token-label">Reserve & Treasury</div>
-          <div class="token-amount">200,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#ff9f43">15%</div>
-          <div class="token-label">Team & Founders</div>
-          <div class="token-amount">150,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#ee5a24">10%</div>
-          <div class="token-label">Marketing</div>
-          <div class="token-amount">100,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#c0c0c0">10%</div>
-          <div class="token-label">Advisors & Partners</div>
-          <div class="token-amount">100,000,000 $VER</div>
-        </div>
-      </div>
-
-      <div class="token-total">
-        Total Supply: <strong>1,000,000,000 $VER</strong> &nbsp;|&nbsp; Blockchain: <strong>BNB Smart Chain (BEP-20)</strong>
-      </div>
-
-      <div class="info-section">
-        <h2>Token Details</h2>
-        <div class="info-table">
-          <div class="info-row">
-            <span>Token Name</span><strong>VER</strong>
-          </div>
-          <div class="info-row">
-            <span>Ticker</span><strong>$VER</strong>
-          </div>
-          <div class="info-row">
-            <span>Blockchain</span><strong>BNB Smart Chain</strong>
-          </div>
-          <div class="info-row">
-            <span>Token Standard</span><strong>BEP-20</strong>
-          </div>
-          <div class="info-row">
-            <span>Total Supply</span><strong>1,000,000,000</strong>
-          </div>
-          <div class="info-row">
-            <span>Airdrop Allocation</span><strong>200,000,000 (20%)</strong>
-          </div>
-          <div class="info-row">
-            <span>Target Listing Price</span><strong>$0.001</strong>
-          </div>
-          <div class="info-row">
-            <span>Post-Listing Fund</span><strong>$50,000,000</strong>
-          </div>
-        </div>
+    <!-- DONUT CHART -->
+    <div class="chart-wrap">
+      <svg class="donut-svg" viewBox="0 0 100 100">
+        <!-- Community Airdrop 20% -->
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#00f5a0" stroke-width="16"
+          stroke-dasharray="23.88 119.38" stroke-dashoffset="0"/>
+        <!-- Liquidity Pool 25% -->
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#00c97a" stroke-width="16"
+          stroke-dasharray="29.85 113.41" stroke-dashoffset="-23.88"/>
+        <!-- Reserve & Treasury 20% -->
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#a8d8f0" stroke-width="16"
+          stroke-dasharray="23.88 119.38" stroke-dashoffset="-53.73"/>
+        <!-- Team & Founders 15% -->
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#ffd700" stroke-width="16"
+          stroke-dasharray="17.91 125.35" stroke-dashoffset="-77.61"/>
+        <!-- Marketing 10% -->
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#ff9f43" stroke-width="16"
+          stroke-dasharray="11.94 131.32" stroke-dashoffset="-95.52"/>
+        <!-- Advisors 10% -->
+        <circle cx="50" cy="50" r="38" fill="none" stroke="#ee5a24" stroke-width="16"
+          stroke-dasharray="11.94 131.32" stroke-dashoffset="-107.46"/>
+      </svg>
+      <div class="donut-center">
+        <div class="donut-center-label">Supply</div>
+        <div class="donut-center-value">1B</div>
+        <div class="donut-center-ticker">$VER</div>
       </div>
     </div>
+
+    <!-- LEGEND -->
+    <div class="token-legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#00f5a0;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Community Airdrop</span>
+          <span class="legend-amount">200,000,000 $VER</span>
+        </div>
+        <span class="legend-percent" style="color:#00f5a0;">20%</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#00c97a;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Liquidity Pool</span>
+          <span class="legend-amount">250,000,000 $VER</span>
+        </div>
+        <span class="legend-percent" style="color:#00c97a;">25%</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#a8d8f0;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Reserve & Treasury</span>
+          <span class="legend-amount">200,000,000 $VER</span>
+        </div>
+        <span class="legend-percent" style="color:#a8d8f0;">20%</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ffd700;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Team & Founders</span>
+          <span class="legend-amount">150,000,000 $VER</span>
+        </div>
+        <span class="legend-percent" style="color:#ffd700;">15%</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ff9f43;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Marketing</span>
+          <span class="legend-amount">100,000,000 $VER</span>
+        </div>
+        <span class="legend-percent" style="color:#ff9f43;">10%</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#ee5a24;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Advisors & Partners</span>
+          <span class="legend-amount">100,000,000 $VER</span>
+        </div>
+        <span class="legend-percent" style="color:#ee5a24;">10%</span>
+      </div>
+    </div>
+
+    <!-- INFO TABLE -->
+    <div class="info-section">
+      <h2>Token Details</h2>
+      <div class="info-table">
+        <div class="info-row"><span>Token Name</span><strong>VER</strong></div>
+        <div class="info-row"><span>Ticker</span><strong>$VER</strong></div>
+        <div class="info-row"><span>Blockchain</span><strong>BNB Smart Chain</strong></div>
+        <div class="info-row"><span>Standard</span><strong>BEP-20</strong></div>
+        <div class="info-row"><span>Total Supply</span><strong>1,000,000,000</strong></div>
+        <div class="info-row"><span>Listing Price</span><strong>$0.001</strong></div>
+        <div class="info-row"><span>Post-Listing Fund</span><strong>$50,000,000</strong></div>
+      </div>
+    </div>
+
   </div>
 
   <footer class="footer">
@@ -97,5 +285,6 @@
       <a href="login.html">Login</a>
     </div>
   </footer>
+
 </body>
-</html>
+  </html>
