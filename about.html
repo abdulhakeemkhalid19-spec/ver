@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$VER — About Us</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .inner-page {
+      min-height: 100vh;
+      padding: 32px 24px 60px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .inner-page h1 {
+      font-size: 2rem;
+      margin: 12px 0 8px;
+    }
+
+    .inner-page .lead {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .about-mission {
+      background: linear-gradient(135deg, rgba(0,245,160,0.08), rgba(0,201,122,0.04));
+      border: 1px solid rgba(0,245,160,0.2);
+      border-radius: 18px;
+      padding: 28px 24px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .about-mission h2 {
+      font-size: 1.4rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .about-mission p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    .about-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .about-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .about-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .about-card h3 {
+      font-size: 0.92rem;
+      margin-bottom: 6px;
+      color: var(--primary);
+    }
+
+    .about-card p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .about-section {
+      margin-bottom: 32px;
+    }
+
+    .about-section h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .about-section p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .values-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .value-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    .value-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .value-info strong {
+      display: block;
+      font-size: 0.92rem;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .value-info p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .stat-box {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 12px;
+      text-align: center;
+    }
+
+    .stat-box-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-box-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, var(--bg2), var(--bg3));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .cta-section p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">$VER</a>
+    <a href="index.html" class="btn-secondary" style="padding:8px 18px;font-size:0.88rem;">← Back</a>
+  </nav>
+
+  <div class="inner-page">
+    <div class="section-tag">ℹ️ About Us</div>
+    <h1>About $VER Token</h1>
+    <p class="lead">$VER is a community-first cryptocurrency built on BNB Smart Chain, designed to reward early supporters who help grow our ecosystem before our official exchange listing.</p>
+
+    <!-- MISSION -->
+    <div class="about-mission">
+      <h2>Our Mission</h2>
+      <p>To build a fair, transparent, and community-driven token that puts power in the hands of the people who helped build it — our early supporters.</p>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <span class="stat-box-num">1B</span>
+        <span class="stat-box-label">Total Supply</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-box-num">20%</span>
+        <span class="stat-box-label">For Community</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-box-num">$50M</span>
+        <span class="stat-box-label">Post-Listing Fund</span>
+      </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="about-cards">
+      <div class="about-card">
+        <div class="about-card-icon">🔗</div>
+        <h3>BNB Smart Chain</h3>
+        <p>Fast and low-cost transactions on a trusted blockchain</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🎯</div>
+        <h3>Community First</h3>
+        <p>20% of all tokens reserved for our community airdrop</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🔒</div>
+        <h3>Secure & Audited</h3>
+        <p>Smart contract will undergo third-party security audit</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">💎</div>
+        <h3>Real Value</h3>
+        <p>$50M post-listing fund distributed to top participants</p>
+      </div>
+    </div>
+
+    <!-- WHAT IS VER -->
+    <div class="about-section">
+      <h2>What is $VER?</h2>
+      <p>$VER is a BEP-20 token launching on BNB Smart Chain with a total supply of 1,000,000,000 tokens. We are building a community of early believers who will benefit most from the token's success.</p>
+      <p>Our airdrop campaign rewards users who complete social media tasks, refer friends, and connect their accounts — giving everyone a fair chance to earn tokens before listing.</p>
+    </div>
+
+    <!-- VALUES -->
+    <div class="about-section">
+      <h2>Our Values</h2>
+      <div class="values-list">
+        <div class="value-item">
+          <div class="value-icon">🌍</div>
+          <div class="value-info">
+            <strong>Transparency</strong>
+            <p>All tokenomics, roadmap, and plans are publicly available for anyone to verify.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🤝</div>
+          <div class="value-info">
+            <strong>Community</strong>
+            <p>Every decision we make puts our community first. Your support matters.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">⚡</div>
+          <div class="value-info">
+            <strong>Innovation</strong>
+            <p>We are constantly building new features to keep our ecosystem growing.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-icon">🔐</div>
+          <div class="value-info">
+            <strong>Security</strong>
+            <p>User safety and account security are our top priorities at all times.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h2>Join the $VER Community</h2>
+      <p>Be part of something big. Create your account today and start earning $VER tokens before listing.</p>
+      <a href="register.html" class="btn-primary">Create Account →</a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo">$VER</div>
+    <p>© 2025 VER Token. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="register.html">Join Airdrop</a>
+      <a href="login.html">Login</a>
+    </div>
+  </footer>
+
+</body>
+</html>
