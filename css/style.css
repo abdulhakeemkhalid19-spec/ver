@@ -832,3 +832,271 @@ a { text-decoration: none; }
   margin-bottom: 40px;
   line-height: 1.7;
 }
+/* ================================
+   🌐 EXTRA PAGES STYLES (NEW)
+   Ambassadors | Leaderboard | FAQ | Roadmap
+================================== */
+
+/* ===== PAGE WRAPPER ===== */
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 18px;
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-family: 'Space Grotesk', sans-serif;
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ================================
+   🤝 AMBASSADORS PAGE
+================================== */
+
+.ambassador-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.ambassador-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.ambassador-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+}
+
+.ambassador-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bg);
+  margin: 0 auto 10px;
+}
+
+.ambassador-name {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.ambassador-role {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ================================
+   🏆 LEADERBOARD PAGE
+================================== */
+
+.leaderboard {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.leader-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.leader-row:last-child {
+  border-bottom: none;
+}
+
+.leader-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rank {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.leader-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.leader-score {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* Top 3 highlight */
+.leader-row:nth-child(1) .rank { background: gold; color: #000; }
+.leader-row:nth-child(2) .rank { background: silver; color: #000; }
+.leader-row:nth-child(3) .rank { background: #cd7f32; color: #000; }
+
+/* ================================
+   ❓ FAQ PAGE (ACCORDION)
+================================== */
+
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.faq-question {
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  padding: 0 16px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 200px;
+  padding: 12px 16px 16px;
+}
+
+/* ================================
+   🗺️ ROADMAP PAGE
+================================== */
+
+.roadmap {
+  position: relative;
+  padding-left: 20px;
+  border-left: 2px solid var(--border);
+}
+
+.roadmap-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.roadmap-dot {
+  position: absolute;
+  left: -9px;
+  top: 5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.roadmap-content {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.roadmap-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.roadmap-text {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Phase tags */
+.phase-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(0,245,160,0.1);
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+/* ================================
+   📊 TOKENOMICS PAGE (extra polish)
+================================== */
+
+.token-chart {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+}
+
+.token-bar {
+  height: 10px;
+  border-radius: 99px;
+  background: var(--bg3);
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.token-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+}
+
+/* ================================
+   📱 RESPONSIVE FIXES
+================================== */
+
+@media (max-width: 600px) {
+  .ambassador-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .leader-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
