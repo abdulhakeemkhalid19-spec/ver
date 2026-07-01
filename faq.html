@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>$VER FAQ</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:#19f7a5;
+--bg:#07111d;
+--card:#10263d;
+--text:#fff;
+--muted:#aeb8c5;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:var(--bg);
+font-family:'Inter',sans-serif;
+color:var(--text);
+}
+
+.hero{
+padding:80px 20px;
+text-align:center;
+background:linear-gradient(180deg,#07111d,#10263d);
+}
+
+.hero h1{
+font-size:3rem;
+color:var(--primary);
+font-family:'Space Grotesk',sans-serif;
+margin-bottom:15px;
+}
+
+.hero p{
+max-width:700px;
+margin:auto;
+color:var(--muted);
+line-height:1.8;
+}
+
+.container{
+width:90%;
+max-width:900px;
+margin:auto;
+padding:70px 0;
+}
+
+.search{
+width:100%;
+padding:16px;
+border:none;
+outline:none;
+border-radius:12px;
+background:#0f2033;
+color:#fff;
+margin-bottom:40px;
+font-size:16px;
+}
+
+.faq-item{
+background:var(--card);
+margin-bottom:18px;
+border-radius:12px;
+overflow:hidden;
+}
+
+.faq-question{
+padding:20px;
+cursor:pointer;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:bold;
+}
+
+.faq-question:hover{
+background:#16324d;
+}
+
+.faq-answer{
+display:none;
+padding:20px;
+border-top:1px solid rgba(255,255,255,.08);
+color:var(--muted);
+line-height:1.8;
+}
+
+.active .faq-answer{
+display:block;
+}
+
+.plus{
+font-size:24px;
+color:var(--primary);
+}
+
+.support{
+margin-top:70px;
+text-align:center;
+}
+
+.support a{
+display:inline-block;
+padding:15px 35px;
+background:var(--primary);
+color:#07111d;
+font-weight:bold;
+text-decoration:none;
+border-radius:10px;
+}
+
+footer{
+margin-top:80px;
+padding:35px;
+background:#081624;
+text-align:center;
+color:#95a4b3;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="hero">
+
+<h1>Frequently Asked Questions</h1>
+
+<p>
+
+Find answers to the most common questions about the
+$VER Airdrop, Ambassador Program, referrals,
+rewards and future listings.
+
+</p>
+
+</section>
+
+<div class="container">
+
+<input
+type="text"
+class="search"
+id="searchInput"
+placeholder="Search a question..."
+onkeyup="searchFAQ()">
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+What is $VER?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+$VER is a community-driven Web3 ecosystem designed to reward users through airdrops, referrals, ambassador campaigns and future blockchain utilities.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+Is joining the airdrop free?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Yes. Participation in the $VER airdrop is completely free.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+When will rewards be distributed?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Rewards will be distributed according to the official roadmap after campaign verification and token listing.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+How do referrals work?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Invite friends using your unique referral link. Eligible referrals increase your points and reward allocation.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+How do I become an Ambassador?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Visit the Ambassador page, complete the application form, and wait for approval from the $VER team.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+Can I create multiple accounts?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+No. Multiple accounts are prohibited and may result in disqualification.
+
+</div>
+
+</div>
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+Which wallet should I use?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Use a supported wallet compatible with the network announced by the $VER team. Never share your private keys or seed phrase.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+When will $VER be listed?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+The listing date will be announced through our official website and social media channels after the roadmap milestones are completed.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+How are Ambassador rewards calculated?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Rewards are based on referrals, content quality, community engagement, consistency, and completed ambassador missions.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+How can I contact support?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Visit the Contact page on our website or reach out through our official Telegram community.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+Is KYC required?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+If required for compliance or reward distribution, the team will announce it before the token distribution phase.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+How can I avoid scams?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Only trust links published on the official $VER website and official social media accounts. Never send funds or reveal your recovery phrase to anyone.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+Can I change my wallet address later?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+If wallet updates are supported, instructions will be announced before token distribution.
+
+</div>
+
+</div>
+
+<div class="faq-item">
+
+<div class="faq-question" onclick="toggleFAQ(this)">
+
+Will there be more campaigns?
+
+<span class="plus">+</span>
+
+</div>
+
+<div class="faq-answer">
+
+Yes. Future campaigns may include staking, trading competitions, community events, and additional reward opportunities.
+
+</div>
+
+</div>
+
+<div class="support">
+
+<h2 style="margin-bottom:20px;color:#19f7a5;">
+
+Still Need Help?
+
+</h2>
+
+<p style="margin-bottom:30px;color:#aeb8c5;">
+
+If you couldn't find the answer you're looking for, our support team is here to help.
+
+</p>
+
+<a href="contact.html">
+
+Contact Support
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>© 2025 $VER Token. All Rights Reserved.</p>
+
+</footer>
+
+<script>
+
+function toggleFAQ(element){
+
+element.parentElement.classList.toggle("active");
+
+}
+
+function searchFAQ(){
+
+let input=document.getElementById("searchInput").value.toLowerCase();
+
+let items=document.querySelectorAll(".faq-item");
+
+items.forEach(function(item){
+
+let question=item.querySelector(".faq-question").innerText.toLowerCase();
+
+if(question.includes(input)){
+
+item.style.display="block";
+
+}else{
+
+item.style.display="none";
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
