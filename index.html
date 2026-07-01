@@ -1,197 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>$VER Token — Official Airdrop</title>
-  <link rel="stylesheet" href="css/style.css"/>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <meta name="description" content="$VER Token Official Airdrop - Earn rewards by completing tasks and referrals">
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ================= NAVBAR ================= -->
   <nav class="navbar">
     <a href="index.html" class="nav-logo">$VER</a>
+
     <div class="nav-actions">
       <a href="register.html" class="btn-nav">Join Airdrop</a>
+
       <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <!-- SIDE MENU -->
+  <!-- ================= SIDE MENU (FULL NAVIGATION) ================= -->
   <div class="menu-overlay" id="menu-overlay" onclick="toggleMenu()"></div>
-  <div class="side-menu" id="side-menu">
+
+  <aside class="side-menu" id="side-menu">
+
     <div class="side-menu-header">
       <div class="side-logo">$VER</div>
       <button class="close-menu" onclick="toggleMenu()">✕</button>
     </div>
-    <ul class="side-links">
-      <li><a href="dashboard.html" onclick="toggleMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5Z"/></svg>
-        Home
-      </a></li>
-      <li><a href="tokenomics.html" onclick="toggleMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        Tokenomics
-      </a></li>
-      <li><a href="roadmap.html" onclick="toggleMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h4l3-10 4 14 3-8h4"/></svg>
-        Roadmap
-      </a></li>
-      <li><a href="about.html" onclick="toggleMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
-        About Us
-      </a></li>
-      <li><a href="contact.html" onclick="toggleMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        Contact Us
-      </a></li>
-      <li><a href="whitepaper.html" onclick="toggleMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
-        Whitepaper
-      </a></li>
-      <li class="menu-divider"></li>
-      <li><a href="register.html" class="menu-cta" onclick="toggleMenu()">🚀 Join Airdrop</a></li>
-      <li><a href="login.html" onclick="toggleMenu()">🔑 Login</a></li>
-    </ul>
-  </div>
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
+    <ul class="side-links">
+
+      <!-- CORE PAGES -->
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="dashboard.html">📊 Dashboard</a></li>
+      <li><a href="about.html">ℹ️ About $VER</a></li>
+      <li><a href="roadmap.html">🗺️ Roadmap</a></li>
+      <li><a href="tokenomics.html">📈 Tokenomics</a></li>
+      <li><a href="whitepaper.html">📄 Whitepaper</a></li>
+
+      <li class="menu-divider"></li>
+
+      <!-- COMMUNITY PAGES -->
+      <li><a href="ambassadors.html">🤝 Ambassadors</a></li>
+      <li><a href="leaderboard.html">🏆 Leaderboard</a></li>
+      <li><a href="faq.html">❓ FAQ</a></li>
+
+      <li class="menu-divider"></li>
+
+      <!-- ACCOUNT -->
+      <li><a href="register.html">🚀 Register</a></li>
+      <li><a href="login.html">🔑 Login</a></li>
+      <li><a href="contact.html">📬 Contact</a></li>
+
+      <li class="menu-divider"></li>
+
+      <!-- CTA -->
+      <li><a href="register.html" class="menu-cta">🚀 Join Airdrop Now</a></li>
+
+    </ul>
+
+  </aside>
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+
     <div class="hero-badge">🚀 Airdrop Phase 1 — Live Now</div>
-    <h1>Earn <span class="highlight">$VER</span> Tokens<br/>Before Listing</h1>
-    <p class="hero-sub">Complete simple tasks, refer friends, and earn your share of <strong>200,000,000 $VER</strong> — plus a share of <strong>$50,000,000</strong> after listing.</p>
+
+    <h1>
+      Earn <span class="highlight">$VER</span> Tokens<br />
+      Before Listing
+    </h1>
+
+    <p class="hero-sub">
+      Complete tasks, invite friends, and earn from a pool of
+      <strong>200,000,000 $VER</strong>
+    </p>
+
     <div class="hero-stats">
+
       <div class="stat">
         <span class="stat-num">200M</span>
-        <span class="stat-label">$VER Pool</span>
+        <span class="stat-label">Airdrop Pool</span>
       </div>
+
       <div class="stat">
         <span class="stat-num">$50M</span>
-        <span class="stat-label">Post-Listing Fund</span>
+        <span class="stat-label">Reward Fund</span>
       </div>
+
       <div class="stat">
         <span class="stat-num">$0.001</span>
         <span class="stat-label">Target Price</span>
       </div>
+
     </div>
+
     <div class="hero-btns">
       <a href="register.html" class="btn-primary">Create Account →</a>
       <a href="login.html" class="btn-secondary">Login</a>
     </div>
+
+  </header>
+
+  <!-- ================= QUICK LINKS ================= -->
+  <section class="container quick-links">
+
+    <a href="tokenomics.html" class="token-card">
+      <div class="icon">📊</div>
+      <h3>Tokenomics</h3>
+      <p>Token distribution</p>
+    </a>
+
+    <a href="roadmap.html" class="token-card">
+      <div class="icon">🗺️</div>
+      <h3>Roadmap</h3>
+      <p>Our journey</p>
+    </a>
+
+    <a href="about.html" class="token-card">
+      <div class="icon">ℹ️</div>
+      <h3>About</h3>
+      <p>Our mission</p>
+    </a>
+
+    <a href="whitepaper.html" class="token-card">
+      <div class="icon">📄</div>
+      <h3>Whitepaper</h3>
+      <p>Full details</p>
+    </a>
+
+    <a href="contact.html" class="token-card">
+      <div class="icon">📬</div>
+      <h3>Contact</h3>
+      <p>Get in touch</p>
+    </a>
+
+    <a href="ambassadors.html" class="token-card">
+      <div class="icon">🤝</div>
+      <h3>Ambassadors</h3>
+      <p>Join program</p>
+    </a>
+
+    <a href="leaderboard.html" class="token-card">
+      <div class="icon">🏆</div>
+      <h3>Leaderboard</h3>
+      <p>Top users</p>
+    </a>
+
+    <a href="faq.html" class="token-card">
+      <div class="icon">❓</div>
+      <h3>FAQ</h3>
+      <p>Questions</p>
+    </a>
+
   </section>
 
-  <!-- QUICK LINKS -->
-  <section style="padding:40px 24px; background:var(--bg2);">
-    <div class="container">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
-        <a href="tokenomics.html" style="text-decoration:none;">
-          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-            <div style="font-size:1.8rem;margin-bottom:8px;">📊</div>
-            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Tokenomics</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Token distribution</div>
-          </div>
-        </a>
-        <a href="roadmap.html" style="text-decoration:none;">
-          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-            <div style="font-size:1.8rem;margin-bottom:8px;">🗺️</div>
-            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Roadmap</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Our journey</div>
-          </div>
-        </a>
-        <a href="about.html" style="text-decoration:none;">
-          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-            <div style="font-size:1.8rem;margin-bottom:8px;">ℹ️</div>
-            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">About Us</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Our mission</div>
-          </div>
-        </a>
-        <a href="whitepaper.html" style="text-decoration:none;">
-          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-            <div style="font-size:1.8rem;margin-bottom:8px;">📄</div>
-            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Whitepaper</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Full details</div>
-          </div>
-        </a>
-        <a href="contact.html" style="text-decoration:none;">
-          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
-            <div style="font-size:1.8rem;margin-bottom:8px;">📬</div>
-            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Contact</div>
-            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Get in touch</div>
-          </div>
-        </a>
-      </div>
+  <!-- ================= HOW IT WORKS ================= -->
+  <section class="container">
+
+    <div class="section-header">
+      <h2>⚡ How It Works</h2>
+      <p>Start earning $VER in 3 simple steps</p>
     </div>
-  </section>
 
-  <!-- HOW IT WORKS -->
-  <section style="padding:60px 24px;">
-    <div class="container">
-      <div class="section-tag">⚡ How It Works</div>
-      <h2 style="font-size:2rem;margin-bottom:12px;">Start Earning in 3 Steps</h2>
-      <p class="section-sub">Simple, fast, and completely free to join.</p>
-      <div class="about-cards">
-        <div class="card">
-          <div class="card-icon">1️⃣</div>
-          <h3>Create Account</h3>
-          <p>Sign up with Google or Twitter in seconds. No password needed.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">2️⃣</div>
-          <h3>Complete Tasks</h3>
-          <p>Follow, retweet, join Telegram and earn $VER for each task.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">3️⃣</div>
-          <h3>Refer Friends</h3>
-          <p>Share your unique referral link and earn bonus $VER for every signup.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">🏆</div>
-          <h3>Earn Rewards</h3>
-          <p>Tokens sent to your wallet after listing plus share of $50M fund.</p>
-        </div>
+    <div class="grid-4">
+
+      <div class="card">
+        <h3>1. Create Account</h3>
+        <p>Sign up in seconds using social login.</p>
       </div>
-    </div>
-  </section>
 
-  <!-- CTA -->
-  <section style="padding:60px 24px;background:var(--bg2);text-align:center;">
-    <div class="container">
-      <h2 style="font-size:2rem;margin-bottom:12px;">Ready to Start Earning?</h2>
-      <p style="color:var(--text-muted);margin-bottom:32px;">Join thousands of participants already earning $VER tokens.</p>
-      <div class="hero-btns">
-        <a href="register.html" class="btn-primary">Create Free Account →</a>
-        <a href="login.html" class="btn-secondary">Already have account</a>
+      <div class="card">
+        <h3>2. Complete Tasks</h3>
+        <p>Follow, join groups, and complete actions.</p>
       </div>
+
+      <div class="card">
+        <h3>3. Invite Friends</h3>
+        <p>Earn bonuses for every referral.</p>
+      </div>
+
+      <div class="card">
+        <h3>4. Earn Rewards</h3>
+        <p>Receive $VER after listing.</p>
+      </div>
+
     </div>
+
   </section>
 
-  <!-- FOOTER -->
+  <!-- ================= CTA ================= -->
+  <section class="cta">
+
+    <h2>Ready to Start Earning?</h2>
+    <p>Join thousands already farming $VER tokens</p>
+
+    <div class="hero-btns">
+      <a href="register.html" class="btn-primary">Create Free Account</a>
+      <a href="login.html" class="btn-secondary">Login</a>
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
   <footer class="footer">
+
     <div class="footer-logo">$VER</div>
-    <p>© 2025 VER Token. All rights reserved.</p>
+
+    <p>© 2026 VER Token. All rights reserved.</p>
+
     <div class="footer-links">
       <a href="tokenomics.html">Tokenomics</a>
       <a href="roadmap.html">Roadmap</a>
-      <a href="about.html">About</a>
       <a href="whitepaper.html">Whitepaper</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
+      <a href="faq.html">FAQ</a>
     </div>
-    <p class="disclaimer">This is not financial advice. Cryptocurrency investments carry risk. Always do your own research.</p>
+
+    <p class="disclaimer">
+      Not financial advice. Crypto investments carry risk. Do your own research.
+    </p>
+
   </footer>
 
+  <!-- ================= SCRIPT ================= -->
   <script>
     function toggleMenu() {
-      const menu = document.getElementById('side-menu');
-      const overlay = document.getElementById('menu-overlay');
-      menu.classList.toggle('open');
-      overlay.classList.toggle('open');
-      document.body.classList.toggle('no-scroll');
+      document.getElementById("side-menu").classList.toggle("open");
+      document.getElementById("menu-overlay").classList.toggle("open");
+      document.body.classList.toggle("no-scroll");
     }
   </script>
 
 </body>
-</html>
+      </html>
