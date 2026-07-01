@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>$VER — Whitepaper</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    .inner-page {
+      min-height: 100vh;
+      padding: 32px 24px 60px;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .inner-page h1 {
+      font-size: 2rem;
+      margin: 12px 0 8px;
+    }
+
+    .inner-page .lead {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    .wp-version {
+      display: inline-block;
+      background: rgba(0,245,160,0.1);
+      border: 1px solid var(--border);
+      color: var(--primary);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .wp-section {
+      margin-bottom: 40px;
+    }
+
+    .wp-section h2 {
+      font-size: 1.3rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .wp-section h3 {
+      font-size: 1rem;
+      margin: 16px 0 8px;
+      color: var(--text);
+    }
+
+    .wp-section p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.8;
+      margin-bottom: 12px;
+    }
+
+    .wp-highlight {
+      background: rgba(0,245,160,0.06);
+      border-left: 3px solid var(--primary);
+      border-radius: 0 10px 10px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+
+    .wp-highlight p {
+      margin: 0;
+      color: var(--text);
+      font-style: italic;
+    }
+
+    .wp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.85rem;
+    }
+
+    .wp-table th {
+      background: var(--bg3);
+      padding: 10px 14px;
+      text-align: left;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .wp-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .wp-table tr:last-child td { border-bottom: none; }
+
+    .wp-table-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .toc {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+
+    .toc h3 {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toc-list li a {
+      color: var(--primary);
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toc-list li a:hover { text-decoration: underline; }
+
+    .toc-num {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      min-width: 20px;
+    }
+
+    .disclaimer-box {
+      background: rgba(255,159,67,0.08);
+      border: 1px solid rgba(255,159,67,0.3);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-top: 40px;
+    }
+
+    .disclaimer-box h3 {
+      color: var(--warning);
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+    }
+
+    .disclaimer-box p {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">$VER</a>
+    <a href="index.html" class="btn-secondary" style="padding:8px 18px;font-size:0.88rem;">← Back</a>
+  </nav>
+
+  <div class="inner-page">
+
+    <div class="section-tag">📄 Whitepaper</div>
+    <h1>$VER Token Whitepaper</h1>
+    <span class="wp-version">Version 1.0 — 2025</span>
+    <p class="lead">This document outlines the vision, technology, tokenomics, and roadmap of the $VER token — a community-first cryptocurrency built on BNB Smart Chain.</p>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc">
+      <h3>Table of Contents</h3>
+      <ul class="toc-list">
+        <li><a href="#abstract"><span class="toc-num">01</span> Abstract</a></li>
+        <li><a href="#introduction"><span class="toc-num">02</span> Introduction</a></li>
+        <li><a href="#problem"><span class="toc-num">03</span> Problem Statement</a></li>
+        <li><a href="#solution"><span class="toc-num">04</span> Our Solution</a></li>
+        <li><a href="#tokenomics"><span class="toc-num">05</span> Tokenomics</a></li>
+        <li><a href="#airdrop"><span class="toc-num">06</span> Airdrop Mechanism</a></li>
+        <li><a href="#mining"><span class="toc-num">07</span> Mining System</a></li>
+        <li><a href="#roadmap"><span class="toc-num">08</span> Roadmap</a></li>
+        <li><a href="#security"><span class="toc-num">09</span> Security</a></li>
+        <li><a href="#legal"><span class="toc-num">10</span> Legal Disclaimer</a></li>
+      </ul>
+    </div>
+
+    <!-- 01 ABSTRACT -->
+    <div class="wp-section" id="abstract">
+      <h2>01 — Abstract</h2>
+      <p>$VER is a decentralized BEP-20 token on the BNB Smart Chain designed to reward early community members who help grow the ecosystem before its official exchange listing. With a total supply of 1,000,000,000 tokens and 20% allocated for community airdrop, $VER aims to create real value for participants through tasks, referrals, mining, and a post-listing fund of $50,000,000 USD.</p>
+      <div class="wp-highlight">
+        <p>"$VER exists to prove that a token's earliest supporters deserve the greatest rewards."</p>
+      </div>
+    </div>
+
+    <!-- 02 INTRODUCTION -->
+    <div class="wp-section" id="introduction">
+      <h2>02 — Introduction</h2>
+      <p>The cryptocurrency space has historically rewarded insiders and early investors over community members. $VER was created to change this dynamic by putting 20% of all tokens directly in the hands of the community before listing.</p>
+      <p>By completing simple tasks, referring friends, and participating in our mining phase, users can accumulate $VER tokens that will be distributed after our official exchange listing.</p>
+    </div>
+
+    <!-- 03 PROBLEM -->
+    <div class="wp-section" id="problem">
+      <h2>03 — Problem Statement</h2>
+      <h3>Unfair Token Distribution</h3>
+      <p>Most cryptocurrency projects allocate the majority of tokens to founders, venture capital, and private investors — leaving the community with little opportunity to participate early.</p>
+      <h3>Lack of Community Engagement</h3>
+      <p>Projects often fail to build genuine communities before listing, resulting in low trading volume and rapid price decline after launch.</p>
+      <h3>No Reward for Early Supporters</h3>
+      <p>People who spread the word about a project before listing typically receive no direct compensation for their efforts.</p>
+    </div>
+
+    <!-- 04 SOLUTION -->
+    <div class="wp-section" id="solution">
+      <h2>04 — Our Solution</h2>
+      <p>$VER solves these problems through a structured airdrop campaign that rewards community members for measurable contributions:</p>
+      <h3>Task-Based Earning</h3>
+      <p>Users earn $VER by completing social media tasks (following, retweeting, subscribing) that grow the $VER ecosystem organically.</p>
+      <h3>Referral Program</h3>
+      <p>A tiered referral system rewards users who bring new participants to the platform, with increasing bonuses as referral counts grow.</p>
+      <h3>Phase 2 Mining</h3>
+      <p>Daily mining allows registered users to earn additional $VER every 24 hours, creating ongoing engagement before the listing.</p>
+    </div>
+
+    <!-- 05 TOKENOMICS -->
+    <div class="wp-section" id="tokenomics">
+      <h2>05 — Tokenomics</h2>
+      <div class="wp-table-wrap">
+        <table class="wp-table">
+          <thead>
+            <tr>
+              <th>Allocation</th>
+              <th>Percentage</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Community Airdrop</td><td style="color:var(--primary)">20%</td><td>200,000,000</td></tr>
+            <tr><td>Liquidity Pool</td><td style="color:var(--primary)">25%</td><td>250,000,000</td></tr>
+            <tr><td>Reserve & Treasury</td><td style="color:var(--primary)">20%</td><td>200,000,000</td></tr>
+            <tr><td>Team & Founders</td><td style="color:var(--primary)">15%</td><td>150,000,000</td></tr>
+            <tr><td>Marketing</td><td style="color:var(--primary)">10%</td><td>100,000,000</td></tr>
+            <tr><td>Advisors & Partners</td><td style="color:var(--primary)">10%</td><td>100,000,000</td></tr>
+            <tr><td><strong>Total</strong></td><td><strong>100%</strong></td><td><strong>1,000,000,000</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Token: <strong>$VER</strong> | Standard: <strong>BEP-20</strong> | Chain: <strong>BNB Smart Chain</strong> | Target Price: <strong>$0.001</strong></p>
+    </div>
+
+    <!-- 06 AIRDROP -->
+    <div class="wp-section" id="airdrop">
+      <h2>06 — Airdrop Mechanism</h2>
+      <p>The airdrop allocates 200,000,000 $VER to community members through a structured task and referral system.</p>
+      <h3>Task System</h3>
+      <p>Users earn $VER by completing verified social media tasks including following official accounts, retweeting content, joining community groups, and connecting their social accounts.</p>
+      <h3>Referral Tiers</h3>
+      <div class="wp-table-wrap">
+        <table class="wp-table">
+          <thead>
+            <tr><th>Tier</th><th>Referrals</th><th>Reward per Referral</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>🥉 Bronze</td><td>0–2</td><td>200 $VER</td></tr>
+            <tr><td>🥈 Silver</td><td>3–9</td><td>300 $VER</td></tr>
+            <tr><td>🥇 Gold</td><td>10–19</td><td>400 $VER</td></tr>
+            <tr><td>💎 Diamond</td><td>20+</td><td>500 $VER</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Post-Listing Fund</h3>
+      <p>After the exchange listing, $50,000,000 USD will be distributed to top airdrop participants based on their tier and total $VER accumulated during the airdrop phase.</p>
+    </div>
+
+    <!-- 07 MINING -->
+    <div class="wp-section" id="mining">
+      <h2>07 — Mining System</h2>
+      <p>Phase 2 introduces a daily mining system that allows registered users to earn 50 $VER every 24 hours by actively engaging with the platform.</p>
+      <p>Mining is controlled by the admin and will be activated once the community reaches a critical mass of registered users. This ensures maximum impact when the mining phase begins.</p>
+      <div class="wp-highlight">
+        <p>Mining rewards are designed to maintain long-term engagement and ensure users stay active through to the listing date.</p>
+      </div>
+    </div>
+
+    <!-- 08 ROADMAP -->
+    <div class="wp-section" id="roadmap">
+      <h2>08 — Roadmap</h2>
+      <div class="wp-table-wrap">
+        <table class="wp-table">
+          <thead>
+            <tr><th>Phase</th><th>Timeline</th><th>Milestone</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Phase 1</td><td>Q2 2025</td><td>Airdrop Launch & Community Building</td></tr>
+            <tr><td>Phase 2</td><td>Q3 2025</td><td>Mining Phase Activation</td></tr>
+            <tr><td>Phase 3</td><td>Q4 2025</td><td>Smart Contract & Token Development</td></tr>
+            <tr><td>Phase 4</td><td>Q1 2026</td><td>Exchange Listing & Fund Distribution</td></tr>
+            <tr><td>Phase 5</td><td>Q2 2026</td><td>Ecosystem Expansion</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 09 SECURITY -->
+    <div class="wp-section" id="security">
+      <h2>09 — Security</h2>
+      <h3>Account Security</h3>
+      <p>All user accounts are protected using Firebase Authentication with Google and Twitter OAuth. No passwords are stored — all logins use secure OAuth flows or magic links.</p>
+      <h3>Anti-Bot Measures</h3>
+      <p>Our platform implements duplicate detection for emails, wallets, Twitter accounts, and Telegram accounts. Any account found using duplicate credentials will be flagged and disqualified from the airdrop.</p>
+      <h3>Smart Contract Audit</h3>
+      <p>Before token deployment, the $VER smart contract will undergo a full third-party security audit to ensure there are no vulnerabilities or backdoors.</p>
+      <h3>Data Storage</h3>
+      <p>All user data is stored securely in Google Firebase Firestore with row-level security rules ensuring users can only access their own data.</p>
+    </div>
+
+    <!-- 10 LEGAL -->
+    <div class="wp-section" id="legal">
+      <h2>10 — Legal Disclaimer</h2>
+      <div class="disclaimer-box">
+        <h3>⚠️ Important Disclaimer</h3>
+        <p>This whitepaper is for informational purposes only and does not constitute financial, investment, or legal advice. $VER tokens are not securities. Cryptocurrency investments carry significant risk. Past performance is not indicative of future results. Always conduct your own research before participating in any cryptocurrency project. The $VER team is not responsible for any losses incurred from participation in the airdrop or trading of $VER tokens.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-logo">$VER</div>
+    <p>© 2025 VER Token. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="register.html">Join Airdrop</a>
+      <a href="login.html">Login</a>
+    </div>
+  </footer>
+
+</body>
+</html>
