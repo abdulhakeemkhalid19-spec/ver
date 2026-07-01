@@ -1,126 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>$VER Ambassador Program</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/style.css">
+<title>$VER Ambassador Program</title>
 
-    <style>
-        body{
-            background:#07111d;
-            color:white;
-            font-family:Arial,Helvetica,sans-serif;
-            margin:0;
-        }
+<link rel="stylesheet" href="css/style.css">
 
-        .hero{
-            padding:90px 20px;
-            text-align:center;
-            background:linear-gradient(180deg,#07111d,#0b1d30);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 
-        .hero h1{
-            font-size:48px;
-            color:#19f7a5;
-            margin-bottom:15px;
-        }
+<style>
 
-        .hero p{
-            max-width:700px;
-            margin:auto;
-            color:#b9c7d5;
-            line-height:1.8;
-            font-size:18px;
-        }
+:root{
+--primary:#19f7a5;
+--bg:#07111d;
+--card:#10263d;
+--text:#ffffff;
+--muted:#b5c2cf;
+}
 
-        .btn{
-            display:inline-block;
-            margin-top:35px;
-            background:#19f7a5;
-            color:#07111d;
-            text-decoration:none;
-            padding:16px 38px;
-            border-radius:10px;
-            font-weight:bold;
-            transition:.3s;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-        .btn:hover{
-            transform:translateY(-3px);
-        }
+body{
+background:var(--bg);
+font-family:'Inter',sans-serif;
+color:var(--text);
+line-height:1.7;
+}
 
-        section{
-            max-width:1100px;
-            margin:auto;
-            padding:70px 20px;
-        }
+.hero{
+padding:90px 25px;
+text-align:center;
+background:linear-gradient(180deg,#07111d,#0d1d30);
+}
 
-        h2{
-            color:#19f7a5;
-            margin-bottom:20px;
-            text-align:center;
-        }
+.hero h1{
+font-size:3rem;
+font-family:'Space Grotesk',sans-serif;
+color:var(--primary);
+margin-bottom:20px;
+}
 
-        .cards{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:25px;
-        }
+.hero p{
+max-width:750px;
+margin:auto;
+color:var(--muted);
+font-size:18px;
+}
 
-        .card{
-            background:#0d2237;
-            border:1px solid rgba(25,247,165,.2);
-            border-radius:15px;
-            padding:25px;
-        }
+.apply-btn{
+display:inline-block;
+margin-top:40px;
+padding:16px 45px;
+background:var(--primary);
+color:#07111d;
+font-weight:700;
+border-radius:12px;
+text-decoration:none;
+transition:.3s;
+}
 
-        .card h3{
-            color:#19f7a5;
-        }
+.apply-btn:hover{
+transform:translateY(-4px);
+box-shadow:0 0 20px rgba(25,247,165,.4);
+}
 
-        ul{
-            line-height:2;
-        }
+section{
+max-width:1150px;
+margin:auto;
+padding:80px 25px;
+}
 
-        .tiers{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-            gap:20px;
-        }
+.title{
+text-align:center;
+font-size:2rem;
+margin-bottom:45px;
+color:var(--primary);
+font-family:'Space Grotesk',sans-serif;
+}
 
-        .tier{
-            background:#10263d;
-            border-radius:15px;
-            padding:25px;
-            text-align:center;
-            border:1px solid rgba(25,247,165,.2);
-        }
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
 
-        .tier h3{
-            color:#19f7a5;
-        }
+.card{
+background:var(--card);
+padding:28px;
+border-radius:15px;
+border:1px solid rgba(25,247,165,.15);
+transition:.3s;
+}
 
-        .faq{
-            background:#0d2237;
-            padding:20px;
-            border-radius:12px;
-            margin-bottom:15px;
-        }
+.card:hover{
+transform:translateY(-6px);
+border-color:var(--primary);
+}
 
-        footer{
-            text-align:center;
-            padding:35px;
-            color:#888;
-        }
+.card h3{
+margin-bottom:12px;
+color:var(--primary);
+}
 
-        @media(max-width:768px){
-            .hero h1{
-                font-size:34px;
-            }
-        }
-    </style>
+.card p{
+color:var(--muted);
+}
+
+.list{
+max-width:800px;
+margin:auto;
+}
+
+.list li{
+margin:15px 0;
+font-size:17px;
+}
+
+.tiers{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.tier{
+background:var(--card);
+padding:30px;
+border-radius:15px;
+text-align:center;
+}
+
+.tier h3{
+color:var(--primary);
+margin-bottom:15px;
+}
+
+.timeline{
+display:grid;
+gap:20px;
+max-width:700px;
+margin:auto;
+}
+
+.step{
+background:var(--card);
+padding:20px;
+border-left:4px solid var(--primary);
+border-radius:8px;
+}
+
+footer{
+padding:40px;
+text-align:center;
+color:#8d98a4;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:2.2rem;
+}
+
+.title{
+font-size:1.7rem;
+}
+
+}
+
+</style>
 
 </head>
 
@@ -132,43 +184,75 @@
 
 <p>
 
-Help grow one of the fastest-growing Web3 communities.
-Join our Ambassador Program to earn exclusive $VER rewards,
-higher referral bonuses, early access to campaigns,
-and become part of the team building the future of $VER.
+Help grow the $VER ecosystem and become one of our official ambassadors.
+Promote the project, invite new users, create amazing content and earn exclusive rewards before listing.
 
 </p>
 
-<a href="YOUR_GOOGLE_FORM_LINK" class="btn" target="_blank">
+<a href="PASTE_YOUR_GOOGLE_FORM_LINK_HERE" class="apply-btn" target="_blank">
+
 Apply Now
+
 </a>
 
 </section>
 
 <section>
 
-<h2>Why Join?</h2>
+<h2 class="title">
 
-<div class="cards">
+Why Become an Ambassador?
+
+</h2>
+
+<div class="grid">
 
 <div class="card">
-<h3>💰 Earn Rewards</h3>
-<p>Receive exclusive ambassador allocations and bonus commissions.</p>
+
+<h3>💰 Exclusive Rewards</h3>
+
+<p>
+
+Receive additional $VER allocations beyond the normal airdrop.
+
+</p>
+
 </div>
 
 <div class="card">
-<h3>🌍 Build Your Brand</h3>
-<p>Become a recognized member of the $VER community.</p>
-</div>
 
-<div class="card">
 <h3>🚀 Early Access</h3>
-<p>Get priority access to new campaigns and future products.</p>
+
+<p>
+
+Get access to future campaigns before everyone else.
+
+</p>
+
 </div>
 
 <div class="card">
-<h3>👑 Recognition</h3>
-<p>Top ambassadors receive special roles and community recognition.</p>
+
+<h3>🌍 Community Recognition</h3>
+
+<p>
+
+Become one of the leading members of the $VER community.
+
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>📈 Career Opportunity</h3>
+
+<p>
+
+Outstanding ambassadors may become Moderators or Community Managers.
+
+</p>
+
 </div>
 
 </div>
@@ -177,41 +261,27 @@ Apply Now
 
 <section>
 
-<h2>Who Can Apply?</h2>
+<h2 class="title">
 
-<ul>
+Who Can Apply?
 
-<li>Crypto enthusiasts</li>
+</h2>
 
-<li>Content creators</li>
+<ul class="list">
 
-<li>Community managers</li>
+<li>✅ Crypto Enthusiasts</li>
 
-<li>Students interested in Web3</li>
+<li>✅ Web3 Content Creators</li>
 
-<li>Anyone passionate about helping $VER grow</li>
+<li>✅ Telegram & Discord Moderators</li>
 
-</ul>
+<li>✅ Twitter (X) Influencers</li>
 
-</section>
+<li>✅ Graphic Designers</li>
 
-<section>
+<li>✅ Video Creators</li>
 
-<h2>Your Responsibilities</h2>
-
-<ul>
-
-<li>Create quality content about $VER.</li>
-
-<li>Invite new users.</li>
-
-<li>Support community discussions.</li>
-
-<li>Share updates on social media.</li>
-
-<li>Report bugs and provide feedback.</li>
-
-<li>Represent $VER professionally.</li>
+<li>✅ Anyone passionate about helping $VER grow</li>
 
 </ul>
 
@@ -219,7 +289,39 @@ Apply Now
 
 <section>
 
-<h2>Ambassador Levels</h2>
+<h2 class="title">
+
+Ambassador Responsibilities
+
+</h2>
+
+<ul class="list">
+
+<li>Promote $VER on social media.</li>
+
+<li>Create educational content.</li>
+
+<li>Invite new community members.</li>
+
+<li>Participate in campaigns.</li>
+
+<li>Answer community questions.</li>
+
+<li>Report bugs and improvements.</li>
+
+<li>Represent the $VER brand professionally.</li>
+
+</ul>
+
+</section>
+
+<section>
+
+<h2 class="title">
+
+Ambassador Levels
+
+</h2>
 
 <div class="tiers">
 
@@ -269,60 +371,88 @@ Apply Now
 
 <section>
 
-<h2>Frequently Asked Questions</h2>
+<h2 class="title">
 
-<div class="faq">
+Application Process
 
-<h3>Is joining free?</h3>
+</h2>
 
-<p>Yes. The Ambassador Program is completely free.</p>
+<div class="timeline">
 
-</div>
+<div class="step">
 
-<div class="faq">
+<strong>Step 1</strong>
 
-<h3>Do I need thousands of followers?</h3>
-
-<p>No. We value quality, consistency, and community engagement more than follower count.</p>
+<p>Submit the Ambassador Application.</p>
 
 </div>
 
-<div class="faq">
+<div class="step">
 
-<h3>How are ambassadors selected?</h3>
+<strong>Step 2</strong>
 
-<p>Applications are reviewed based on experience, motivation, and community involvement.</p>
+<p>Our team reviews your application.</p>
+
+</div>
+
+<div class="step">
+
+<strong>Step 3</strong>
+
+<p>Successful applicants receive an email or Telegram notification.</p>
+
+</div>
+
+<div class="step">
+
+<strong>Step 4</strong>
+
+<p>Start completing ambassador missions and earning rewards.</p>
+
+</div>
 
 </div>
 
 </section>
 
-<section style="text-align:center;">
+<section>
 
-<h2>Ready to Join?</h2>
+<h2 class="title">
 
-<p>
+Ready to Join?
+
+</h2>
+
+<div style="text-align:center;">
+
+<p style="margin-bottom:30px;color:#b5c2cf;">
 
 Applications are currently open.
 
-Take the first step toward becoming an official
-$VER Ambassador today.
+Become one of the first official ambassadors of the $VER ecosystem.
 
 </p>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSeSGJYg9HrJn3Af0Du_k8IYQsPHMRfthxfXnXQYYxQuB0BzLg/viewform" class="btn" target="_blank">
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSeSGJYg9HrJn3Af0Du_k8IYQsPHMRfthxfXnXQYYxQuB0BzLg/viewform"
+
+class="apply-btn"
+
+target="_blank">
 
 Apply Now
 
 </a>
 
+</div>
+
 </section>
 
 <footer>
 
-© 2026 $VER. All Rights Reserved.
+© 2025 $VER Token. All Rights Reserved.
 
 </footer>
 
 </body>
+
 </html>
