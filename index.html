@@ -11,7 +11,7 @@
 
   <!-- NAVBAR -->
   <nav class="navbar">
-    <div class="nav-logo">$VER</div>
+    <a href="index.html" class="nav-logo">$VER</a>
     <div class="nav-actions">
       <a href="register.html" class="btn-nav">Join Airdrop</a>
       <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
@@ -28,15 +28,33 @@
       <button class="close-menu" onclick="toggleMenu()">✕</button>
     </div>
     <ul class="side-links">
-      <li><a href="#hero" onclick="toggleMenu()">🏠 Home</a></li>
-      <li><a href="#tokenomics" onclick="toggleMenu()">📊 Tokenomics</a></li>
-      <li><a href="#roadmap" onclick="toggleMenu()">🗺️ Roadmap</a></li>
-      <li><a href="#about" onclick="toggleMenu()">ℹ️ About Us</a></li>
-      <li><a href="#contact" onclick="toggleMenu()">📬 Contact Us</a></li>
-      <li><a href="#whitepaper" onclick="toggleMenu()">📄 Whitepaper</a></li>
+      <li><a href="dashboard.html" onclick="toggleMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V9.5Z"/></svg>
+        Home
+      </a></li>
+      <li><a href="tokenomics.html" onclick="toggleMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Tokenomics
+      </a></li>
+      <li><a href="roadmap.html" onclick="toggleMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17h4l3-10 4 14 3-8h4"/></svg>
+        Roadmap
+      </a></li>
+      <li><a href="about.html" onclick="toggleMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4m0-4h.01"/></svg>
+        About Us
+      </a></li>
+      <li><a href="contact.html" onclick="toggleMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Contact Us
+      </a></li>
+      <li><a href="whitepaper.html" onclick="toggleMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        Whitepaper
+      </a></li>
       <li class="menu-divider"></li>
-      <li><a href="register.html" class="menu-cta">🚀 Join Airdrop</a></li>
-      <li><a href="login.html">🔑 Login</a></li>
+      <li><a href="register.html" class="menu-cta" onclick="toggleMenu()">🚀 Join Airdrop</a></li>
+      <li><a href="login.html" onclick="toggleMenu()">🔑 Login</a></li>
     </ul>
   </div>
 
@@ -44,7 +62,7 @@
   <section class="hero" id="hero">
     <div class="hero-badge">🚀 Airdrop Phase 1 — Live Now</div>
     <h1>Earn <span class="highlight">$VER</span> Tokens<br/>Before Listing</h1>
-    <p class="hero-sub">Complete simple tasks, refer friends, and earn your share of <strong>200,000,000 $VER</strong> — plus a share of <strong>₦50,000,000</strong> after listing.</p>
+    <p class="hero-sub">Complete simple tasks, refer friends, and earn your share of <strong>200,000,000 $VER</strong> — plus a share of <strong>$50,000,000</strong> after listing.</p>
     <div class="hero-stats">
       <div class="stat">
         <span class="stat-num">200M</span>
@@ -65,146 +83,88 @@
     </div>
   </section>
 
-  <!-- TOKENOMICS -->
-  <section class="section" id="tokenomics">
+  <!-- QUICK LINKS -->
+  <section style="padding:40px 24px; background:var(--bg2);">
     <div class="container">
-      <div class="section-tag">📊 Tokenomics</div>
-      <h2>$VER Token Distribution</h2>
-      <p class="section-sub">A fair and transparent token allocation designed for long-term growth.</p>
-      <div class="token-grid">
-        <div class="token-card">
-          <div class="token-percent" style="color:#00f5a0">20%</div>
-          <div class="token-label">Airdrop & Community</div>
-          <div class="token-amount">200,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#ffd700">25%</div>
-          <div class="token-label">Liquidity Pool</div>
-          <div class="token-amount">250,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#a8d8f0">20%</div>
-          <div class="token-label">Reserve & Treasury</div>
-          <div class="token-amount">200,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#ff9f43">15%</div>
-          <div class="token-label">Team & Founders</div>
-          <div class="token-amount">150,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#ee5a24">10%</div>
-          <div class="token-label">Marketing</div>
-          <div class="token-amount">100,000,000 $VER</div>
-        </div>
-        <div class="token-card">
-          <div class="token-percent" style="color:#c0c0c0">10%</div>
-          <div class="token-label">Advisors & Partners</div>
-          <div class="token-amount">100,000,000 $VER</div>
-        </div>
-      </div>
-      <div class="token-total">
-        Total Supply: <strong>1,000,000,000 $VER</strong> &nbsp;|&nbsp; Blockchain: <strong>BNB Smart Chain (BEP-20)</strong>
-      </div>
-    </div>
-  </section>
-
-  <!-- ROADMAP -->
-  <section class="section dark-section" id="roadmap">
-    <div class="container">
-      <div class="section-tag">🗺️ Roadmap</div>
-      <h2>$VER Project Roadmap</h2>
-      <p class="section-sub">Our journey from airdrop to full exchange listing.</p>
-      <div class="roadmap">
-        <div class="roadmap-item active">
-          <div class="roadmap-dot"></div>
-          <div class="roadmap-content">
-            <div class="roadmap-phase">Phase 1 — Now</div>
-            <h3>Community & Airdrop</h3>
-            <p>Launch airdrop campaign, social media tasks, referral system, community building on Telegram & Twitter.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;">
+        <a href="tokenomics.html" style="text-decoration:none;">
+          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size:1.8rem;margin-bottom:8px;">📊</div>
+            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Tokenomics</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Token distribution</div>
           </div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot"></div>
-          <div class="roadmap-content">
-            <div class="roadmap-phase">Phase 2 — Coming Soon</div>
-            <h3>Mining Launch</h3>
-            <p>Daily mining activated for all registered users. Earn additional $VER by mining every day.</p>
+        </a>
+        <a href="roadmap.html" style="text-decoration:none;">
+          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size:1.8rem;margin-bottom:8px;">🗺️</div>
+            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Roadmap</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Our journey</div>
           </div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot"></div>
-          <div class="roadmap-content">
-            <div class="roadmap-phase">Phase 3</div>
-            <h3>Token Development</h3>
-            <p>Smart contract deployment on BNB Smart Chain, token audit, and liquidity pool creation.</p>
+        </a>
+        <a href="about.html" style="text-decoration:none;">
+          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size:1.8rem;margin-bottom:8px;">ℹ️</div>
+            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">About Us</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Our mission</div>
           </div>
-        </div>
-        <div class="roadmap-item">
-          <div class="roadmap-dot"></div>
-          <div class="roadmap-content">
-            <div class="roadmap-phase">Phase 4</div>
-            <h3>Exchange Listing</h3>
-            <p>$VER listed on DEX and CEX exchanges. Airdrop tokens distributed. ₦50M fund dropped to top holders.</p>
+        </a>
+        <a href="whitepaper.html" style="text-decoration:none;">
+          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size:1.8rem;margin-bottom:8px;">📄</div>
+            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Whitepaper</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Full details</div>
           </div>
-        </div>
+        </a>
+        <a href="contact.html" style="text-decoration:none;">
+          <div class="token-card" style="cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='none'">
+            <div style="font-size:1.8rem;margin-bottom:8px;">📬</div>
+            <div style="font-weight:700;font-size:0.9rem;color:var(--text);">Contact</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Get in touch</div>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="section" id="about">
+  <!-- HOW IT WORKS -->
+  <section style="padding:60px 24px;">
     <div class="container">
-      <div class="section-tag">ℹ️ About Us</div>
-      <h2>What is <span class="highlight">$VER</span>?</h2>
-      <p class="section-sub">$VER is a community-first BEP-20 token built on BNB Smart Chain. Our mission is to reward early supporters who help grow the ecosystem before our official exchange listing.</p>
+      <div class="section-tag">⚡ How It Works</div>
+      <h2 style="font-size:2rem;margin-bottom:12px;">Start Earning in 3 Steps</h2>
+      <p class="section-sub">Simple, fast, and completely free to join.</p>
       <div class="about-cards">
         <div class="card">
-          <div class="card-icon">🔗</div>
-          <h3>BNB Smart Chain</h3>
-          <p>Fast, low-cost transactions on one of the most trusted blockchains in the world.</p>
+          <div class="card-icon">1️⃣</div>
+          <h3>Create Account</h3>
+          <p>Sign up with Google or Twitter in seconds. No password needed.</p>
         </div>
         <div class="card">
-          <div class="card-icon">🎯</div>
-          <h3>1 Billion Supply</h3>
-          <p>Fixed total supply of 1,000,000,000 $VER with 20% allocated for community airdrop.</p>
+          <div class="card-icon">2️⃣</div>
+          <h3>Complete Tasks</h3>
+          <p>Follow, retweet, join Telegram and earn $VER for each task.</p>
         </div>
         <div class="card">
-          <div class="card-icon">💎</div>
-          <h3>Real Value</h3>
-          <p>Post-listing fund of $50M distributed directly to top airdrop participants after listing.</p>
+          <div class="card-icon">3️⃣</div>
+          <h3>Refer Friends</h3>
+          <p>Share your unique referral link and earn bonus $VER for every signup.</p>
         </div>
         <div class="card">
-          <div class="card-icon">⛏️</div>
-          <h3>Mining Coming</h3>
-          <p>Phase 2 mining will allow users to earn additional $VER daily just by logging in.</p>
+          <div class="card-icon">🏆</div>
+          <h3>Earn Rewards</h3>
+          <p>Tokens sent to your wallet after listing plus share of $50M fund.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHITEPAPER -->
-  <section class="section dark-section" id="whitepaper">
-    <div class="container center-content">
-      <div class="section-tag">📄 Whitepaper</div>
-      <h2>Read the $VER Whitepaper</h2>
-      <p class="section-sub">Learn everything about the $VER token, its mission, technology, and long-term vision.</p>
-      <a href="#" class="btn-primary">Download Whitepaper (Coming Soon)</a>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section class="section" id="contact">
-    <div class="container center-content">
-      <div class="section-tag">📬 Contact Us</div>
-      <h2>Get In Touch</h2>
-      <p class="section-sub">Have questions about $VER? Reach us on any of our official channels.</p>
-      <div class="contact-links">
-        <a href="#" class="contact-btn">🐦 Twitter/X</a>
-        <a href="#" class="contact-btn">💬 Telegram</a>
-        <a href="#" class="contact-btn">📸 Instagram</a>
-        <a href="#" class="contact-btn">▶️ YouTube</a>
-        <a href="mailto:ver@gmail.com" class="contact-btn">📧 Email Us</a>
+  <!-- CTA -->
+  <section style="padding:60px 24px;background:var(--bg2);text-align:center;">
+    <div class="container">
+      <h2 style="font-size:2rem;margin-bottom:12px;">Ready to Start Earning?</h2>
+      <p style="color:var(--text-muted);margin-bottom:32px;">Join thousands of participants already earning $VER tokens.</p>
+      <div class="hero-btns">
+        <a href="register.html" class="btn-primary">Create Free Account →</a>
+        <a href="login.html" class="btn-secondary">Already have account</a>
       </div>
     </div>
   </section>
@@ -214,16 +174,16 @@
     <div class="footer-logo">$VER</div>
     <p>© 2025 VER Token. All rights reserved.</p>
     <div class="footer-links">
-      <a href="register.html">Join Airdrop</a>
-      <a href="login.html">Login</a>
-      <a href="#tokenomics">Tokenomics</a>
-      <a href="#roadmap">Roadmap</a>
+      <a href="tokenomics.html">Tokenomics</a>
+      <a href="roadmap.html">Roadmap</a>
+      <a href="about.html">About</a>
+      <a href="whitepaper.html">Whitepaper</a>
+      <a href="contact.html">Contact</a>
     </div>
     <p class="disclaimer">This is not financial advice. Cryptocurrency investments carry risk. Always do your own research.</p>
   </footer>
 
   <script>
-    // HAMBURGER MENU
     function toggleMenu() {
       const menu = document.getElementById('side-menu');
       const overlay = document.getElementById('menu-overlay');
@@ -234,4 +194,4 @@
   </script>
 
 </body>
-  </html>
+</html>
