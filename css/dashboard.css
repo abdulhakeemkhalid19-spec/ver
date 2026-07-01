@@ -960,3 +960,57 @@ svg.tab-icon {
   .profile-hero { flex-direction: column; align-items: flex-start; }
   .connect-card { flex-wrap: wrap; gap: 12px; }
   }
+/* ================================
+   FIX: HOME QUICK LINKS (DASHBOARD)
+================================== */
+
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-top: 10px;
+}
+
+/* Better card spacing so they don't squish */
+.token-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 14px;
+
+  min-height: 110px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.token-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 8px 20px rgba(0,245,160,0.08);
+}
+
+/* Icon spacing */
+.token-card div:first-child {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+/* Title */
+.token-card div:nth-child(2) {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+/* Subtitle */
+.token-card div:nth-child(3) {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
