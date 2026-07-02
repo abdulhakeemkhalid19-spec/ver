@@ -226,6 +226,7 @@ function renderDashboard() {
   document.getElementById('ref-code-display').textContent = refCode;
 
   renderTasks();
+  renderTaskHistory();
 }
 
 // ===== UPDATE CONNECT UI =====
