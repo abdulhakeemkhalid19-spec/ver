@@ -707,6 +707,48 @@ window.switchTab = function (tab) {
   if (btn) btn.classList.add('active');
 }
 
+// ===== TASK HISTORY =====
+function renderTaskHistory() {
+  const history = document.getElementById("task-history-list");
+  if (!history || !userData) return;
+
+  const completed = userData.tasks_completed || [];
+
+  if (completed.length === 0) {
+    history.innerHTML = `
+      <p class="task-loading">
+        No completed tasks yet.
+      </p>
+    `;
+    return;
+  }
+
+  history.innerHTML = "";
+
+  completed.forEach(taskId => {
+    const task = allTasks.find(t => t.taskId === taskId);
+
+    history.innerHTML += `
+      <div class="task-card completed">
+        <div class="task-card-icon">
+          ${task?.icon || "✅"}
+        </div>
+
+        <div class="task-card-info">
+          <strong>${task?.name || taskId}</strong>
+          <span class="task-reward">
+            +${task?.points || 0} $VER
+          </span>
+        </div>
+
+        <button class="task-btn done" disabled>
+          ✔ Completed
+        </button>
+      </div>
+    `;
+  });
+}
+
 // ===== HAMBURGER =====
 window.toggleDashMenu = function () {
   document.getElementById('dash-side-menu').classList.toggle('open');
